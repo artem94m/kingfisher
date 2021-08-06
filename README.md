@@ -43,19 +43,25 @@ You can run test scan (demo files in local folder: kingfisher-main\tests) like t
     ```
 
 If you want to scan just one file:
+
     ```
     python kingfisher.py -scan C:\tests\example.py
-    
     ```
+
 or
+
     ```
     python kingfisher.py -scan /var/www/example.py
     ```
+    
 Or a folder:
+
     ```    
     python kingfisher.py -scan C:\tests\project
     ```
+
 or
+
     ```
     python kingfisher.py -scan /var/www/project
     ```
