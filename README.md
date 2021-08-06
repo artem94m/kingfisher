@@ -204,7 +204,11 @@ Operator "contains" allows to find not complete match, like call of method of ob
 
 ### Tag `<function_call_without_arg>`
 
-Tag `<function_call_without_arg>` is used to find call of function WITHOUT specific argument. It contains only two tags added one by one: `<name>` and `<param>`. Tag `<name>` describes function name - it works exactly the same like in `<function_call>` tag (see above). Tag `<param>` has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. 
+Tag `<function_call_without_arg>` is used to find call of function WITHOUT specific argument. It contains only two tags added one by one: `<name>` and `<param>`. 
+
+Tag `<name>` describes function name - it works exactly the same like in `<function_call>` tag (see above). 
+
+Tag `<param>` has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. 
 
 Example below will trigger if method "set_cookie" was called without "httponly" argument (see https://docs.djangoproject.com/en/3.2/ref/request-response/#django.http.HttpResponse.set_cookie):
 ```    
@@ -241,10 +245,14 @@ In next example, name of the argument is not strict, so you have to search absen
 
 ### Tag `<function_call_with_arg>`
 Tag `<function_call_with_arg>` is used to find call of function WITH specific argument. It contains only two tags added one by one: `<name>` and `<param>`. 
-Tag `<name>` describes function name - it works exactly the same like in `<function_call>` tag (see above). 
-Tag `<param>` has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. Tag `<param>` has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>`.
 
-##### Tag `<str>`
+Tag `<name>` describes function name - it works exactly the same like in `<function_call>` tag (see above). 
+
+Tag `<param>` has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. 
+
+Tag `<param>` has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>`.
+
+#### Tag `<str>`
 Tag `<str>` has one attribute "operator" which can have next values:
  - eq (trigger if param value equals specific string)
  - neq (trigger if param value is not equal specific string)
@@ -262,7 +270,7 @@ Example:
 </pattern_simple>
 ```
 
-##### Tag `<int>`
+#### Tag `<int>`
 Tag `<int>` has one attribute "operator" which can have next values:
  - eq (trigger if param value equals specific integer)
  - neq (trigger if param value is not equal specific integer)
@@ -280,7 +288,7 @@ Example:
 </pattern_simple>
 ```
 
-##### Tag `<bool>`
+#### Tag `<bool>`
 Tag `<bool>` has one attribute "operator" which can have next values:
  - eq (trigger if param value equals specific boolean (can be only True or False))
  - neq (trigger if param value is not equal specific boolean)
@@ -296,7 +304,7 @@ Example:
 </pattern_simple>
 ```
 
-##### Tag `<none>`
+#### Tag `<none>`
 Tag `<none>` (must be empty) has one attribute "operator" which can have next values:
  - is (trigger if param value equals None)
  - not (trigger if param value is not equal None)
@@ -312,7 +320,7 @@ Example:
 </pattern_simple>
 ```
 
-##### Tag `<attr>`
+#### Tag `<attr>`
 Tag `<attr>` (you should specify full path to the attribute of the module - with module name and sub-packets) has one attribute "operator" which can have next values:
  - eq (trigger if param value equals specific attribute of the module or variable name)
  - neq (trigger if param value is not equal attribute of the module or variable name)
@@ -328,7 +336,7 @@ Example:
 </pattern_simple>
 ```
 
-##### Tag `<function_call>`
+#### Tag `<function_call>`
 Tag `<function_call>` has no attributes but must contain non-empty string which describes name of called function (you should specify full path to the function - with module name and sub-packets)
 Example:
 ```
@@ -342,7 +350,7 @@ Example:
 </pattern_simple>
 ```
 
-##### Tag `<constant>`
+#### Tag `<constant>`
 Tag `<constant>` (must be empty) has one attribute "operator" which can have next values:
  - is (trigger if param value is a constant)
  - not (trigger if param value is NOT a constant)
