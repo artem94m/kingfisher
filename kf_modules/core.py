@@ -985,6 +985,11 @@ class KfCore():
                     keys.append(slice_obj.value)
                     # append value
                     values.append(node.value)
+                elif (isinstance(slice_obj, ast.Constant)):
+                    # append "key"
+                    keys.append(slice_obj)
+                    # append value
+                    values.append(node.value)
 
             # if node is an Assign, contains one target (name of a dict) and a dict: a = {"key": value}
             elif (isinstance(node.targets[0], (ast.Name, ast.Attribute)) and isinstance(node.value, ast.Dict)):
