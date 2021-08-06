@@ -36,11 +36,10 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
     ```
 3. As you can see, there is only one required argument - SCAN_PATH. It can be a relative or an absolute path to a project folder or a project file. 
 
-You can run test scan (demo files in local folder: kingfisher-main\tests) like this: 
-    
-    ```  
-    python kingfisher.py -scan tests    
-    ```
+   You can run test scan (demo files in local folder: kingfisher-main\tests) like this: 
+     
+```python kingfisher.py -scan tests```
+
 
 If you want to scan just one file:
 
@@ -53,7 +52,7 @@ or
     ```
     python kingfisher.py -scan /var/www/example.py
     ```
-    
+
 Or a folder:
 
     ```    
@@ -64,7 +63,7 @@ or
 
     ```
     python kingfisher.py -scan /var/www/project
-    ```
+    ``` 
 
 4. If REPORT_PATH is not specified, the results of the scan will be saved in local report folder: kingfisher-main\reports. Reports are generated in PDF format. Example of report file with results of scanning of local "tests" folder is placed in kingfisher-main\reports folder.
 
