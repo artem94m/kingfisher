@@ -39,13 +39,13 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
 
    You can run test scan (demo files in local folder: kingfisher-main\tests) like this: 
 
-    ```sh
+    ```
     python kingfisher.py -scan tests
     ```
 
    If you want to scan just one file:
 
-    ```sh
+    ```
     python kingfisher.py -scan C:\tests\example.py
     ```
 
@@ -74,17 +74,17 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
 6. Information about scanning will be printed in the console and also saved in local logs folder (kingfisher-main\logs). Log files are created for every day separately.
 
 ## Checks
-    All available checks are stored in XML-format in a local folder: kingfisher-main\checks. Their content partly was taken from the website https://vulncat.fortify.com/en/weakness.
+All available checks are stored in XML-format in a local folder: kingfisher-main\checks. Their content partly was taken from the website https://vulncat.fortify.com/en/weakness.
 
-    Before every scanning all the checks from the folder go through validation against a schema (kingfisher-main\resources\check_schema.xsd). If check did not pass the validation process - it will be ignored during scanning.
+Before every scanning all the checks from the folder go through validation against a schema (kingfisher-main\resources\check_schema.xsd). If check did not pass the validation process - it will be ignored during scanning.
 
-    You can add new checks or edit existing ones according to the schema.
+You can add new checks or edit existing ones according to the schema.
 
-    Every check contains main tag <check> with an attribute "status". "Status" can have only two values: "enabled" and "disabled". This status enables/disables check for scanning.
+Every check contains main tag <check> with an attribute "status". "Status" can have only two values: "enabled" and "disabled". This status enables/disables check for scanning.
 
-    In <check> tag there are next tags: <name>, <description>, <explanation>, <severity>, <recommendations>, <links>, <patterns>.
+In <check> tag there are next tags: <name>, <description>, <explanation>, <severity>, <recommendations>, <links>, <patterns>.
 
-    Tag <name> and <description> are self-descriptive and contains just one paragraph of text.
+Tag <name> and <description> are self-descriptive and contains just one paragraph of text.
 
     Tag <explanation> contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports paragraphs inside <explanation> should be separated by double new line (\n\n):
         Command injection vulnerabilities take two forms:
