@@ -34,13 +34,16 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
         -project PROJECT_NAME
                               name of the scanned project (default: will be extracted from a file or folder name)
     ```
-    
+
 3. As you can see, there is only one required argument - SCAN_PATH. It can be a relative or an absolute path to a project folder or a project file. 
+
+```
+    python kingfisher.py -scan C:\tests\example.py
+    ```
 
    You can run test scan (demo files in local folder: kingfisher-main\tests) like this: 
      
-```python kingfisher.py -scan tests```
-
+    python kingfisher.py -scan tests
 
    If you want to scan just one file:
 
@@ -72,7 +75,7 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
 
 6. Information about scanning will be printed in the console and also saved in local logs folder (kingfisher-main\logs). Log files are created for every day separately.
 
-CHECKS
+## Checks
     All available checks are stored in XML-format in a local folder: kingfisher-main\checks. Their content partly was taken from the website https://vulncat.fortify.com/en/weakness.
 
     Before every scanning all the checks from the folder go through validation against a schema (kingfisher-main\resources\check_schema.xsd). If check did not pass the validation process - it will be ignored during scanning.
