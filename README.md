@@ -39,7 +39,7 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
 
    You can run test scan (demo files in local folder: kingfisher-main\tests) like this: 
 
-    ```
+    ```shell
     python kingfisher.py -scan tests
     ```
 
