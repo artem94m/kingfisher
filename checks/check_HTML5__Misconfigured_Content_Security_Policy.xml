@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[HTML5: Misconfigured Content Security Policy]]></name>
+    <description><![CDATA[Incorrectly configured Content Security Policy (CSP) could expose an application against client-side threats including cross-site scripting, cross-frame scripting and cross-site request forgery.]]></description>
+    <explanation><![CDATA[Content Security Policy (CSP) is a declarative security header that allows developers to dictate which domains the site is allowed to load content from or initiate connections to when rendered in the web browser. It provides an additional layer of security from critical vulnerabilities such as cross-site scripting, clickjacking, cross-origin access and the like, on top of input validation and checking an allow list in code. An improperly configured header, however, fails to provide this additional layer of security. The policy is defined with the help of fifteen directives including eight that control resource access, namely: script-src, img-src, object-src, style_src, font-src, media-src, frame-src, connect-src.
+
+Each of these takes a source list as a value specifying domains the site is allowed to access for a feature covered by that directive. Developers may use wildcard * to indicate all or part of the source. None of the directives are mandatory. Browsers will either allow all sources for an unlisted directive or will derive its value from the optional default-src directive. Furthermore, the specification for this header has evolved over time. It was implemented as X-Content-Security-Policy in Firefox until version 23 and in IE until version 10, and was implemented as X-Webkit-CSP in Chrome until version 25. Both of the names are deprecated in favor of the now standard name Content Security Policy. Given the number of directives, two deprecated alternate names, and the way multiple occurrences of the same header and repeated directives in a single header are treated, there is a high probability that a developer might misconfigure this header.
+
+Consider the following misconfiguration scenarios:
+
+- Directives with unsafe-inline or unsafe-eval defeats the purpose of CSP.
+- script-src directive is set but no script nonce is configured.
+- frame-src is set but no sandbox is configured.
+- Multiple instances of this header are allowed in same response. A development team and security team might both set a header but one may use one of the deprecated names. While deprecated headers are honored if a header with the latest name (that is, Content Security Policy) is not present, they are ignored if a policy with content-security-header name is present. Older versions only understand deprecated names, hence, in order to achieve desired support it is essential that the response include an identical policy with all three names.
+- If a directive is repeated within the same instance of the header, all subsequent occurrences are ignored.
+
+Example 1: The following django-csp configuration uses unsafe-inline and unsafe-eval insecure directives to allow inline scripts and code evaluation:
+
+KF_CODE_EXAMPLE
+...
+MIDDLEWARE_CLASSES = (
+...
+'csp.middleware.CSPMiddleware',
+...
+)
+...
+CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'cdn.example.net')
+...]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>If possible, do not use 'unsafe-inline' and 'unsafe-eval' in Content Security Policy</recommendations>
+    <links><![CDATA[[1] OWASP Content Security Policy (https://www.owasp.org/index.php/Content_Security_Policy)
+[2] W3C Content Security Policy 1.1 (http://www.w3.org/TR/2014/WD-CSP11-20140211/)
+[3] Mozilla django-csp (http://django-csp.readthedocs.org/en/latest/index.html)
+[4] Standards Mapping - Common Weakness Enumeration CWE ID 942, CWE ID 1173
+[5] Standards Mapping - Common Weakness Enumeration Top 25 2019 [3] CWE ID 020
+[6] Standards Mapping - Common Weakness Enumeration Top 25 2020 [3] CWE ID 020
+[7] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-001368, CCI-001414
+[8] Standards Mapping - General Data Protection Regulation (GDPR) Indirect Access to Sensitive Data
+[9] Standards Mapping - NIST Special Publication 800-53 Revision 4 AC-4 Information Flow Enforcement (P1)
+[10] Standards Mapping - NIST Special Publication 800-53 Revision 5 AC-4 Information Flow Enforcement
+[11] Standards Mapping - OWASP Top 10 2010 A6 Security Misconfiguration
+[12] Standards Mapping - OWASP Top 10 2013 A5 Security Misconfiguration
+[13] Standards Mapping - OWASP Top 10 2017 A6 Security Misconfiguration
+[14] Standards Mapping - OWASP Mobile 2014 M1 Weak Server Side Controls
+[15] Standards Mapping - OWASP Application Security Verification Standard 4.0 5.1.3 Input Validation Requirements, 5.1.4 Input Validation Requirements, 14.4.6 HTTP Security Headers Requirements, 14.5.3 Validate HTTP Request Header Requirements
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.10
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.6
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.6
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.6
+[20] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 4.2 - Critical Asset Protection
+[21] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 4.2 - Critical Asset Protection
+[22] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[23] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[24] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[25] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[26] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[34] Standards Mapping - Web Application Security Consortium Version 2.00 Application Misconfiguration (WASC-15)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <unique_assignment_to_set_tuple_list>
+                <name operator="contains">csp_</name>
+                <values operator="contains">
+                    <value type="str">'unsafe-inline'</value>
+                </values>
+            </unique_assignment_to_set_tuple_list>
+        </pattern_simple>
+        <pattern_simple>
+            <unique_assignment_to_set_tuple_list>
+                <name operator="contains">csp_</name>
+                <values operator="contains">
+                    <value type="str">'unsafe-eval'</value>
+                </values>
+            </unique_assignment_to_set_tuple_list>
+        </pattern_simple>
+    </patterns>
+</check>

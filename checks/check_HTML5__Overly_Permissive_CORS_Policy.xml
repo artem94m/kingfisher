@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[HTML5: Overly Permissive CORS Policy]]></name>
+    <description><![CDATA[The program defines an overly permissive Cross-Origin Resource Sharing (CORS) policy.]]></description>
+    <explanation><![CDATA[Prior to HTML5, Web browsers enforced the Same Origin Policy which ensures that in order for JavaScript to access the contents of a Web page, both the JavaScript and the Web page must originate from the same domain. Without the Same Origin Policy, a malicious website could serve up JavaScript that loads sensitive information from other websites using a client's credentials, cull through it, and communicate it back to the attacker. HTML5 makes it possible for JavaScript to access data across domains if a new HTTP header called Access-Control-Allow-Origin is defined. With this header, a Web server defines which other domains are allowed to access its domain using cross-origin requests. However, exercise caution when defining the header because an overly permissive CORS policy can enable a malicious application to inappropriately communicate with the victim application, which can lead to spoofing, data theft, relay, and other attacks.
+
+Example 1: The following is an example of using a wildcard to programmatically specify to which domains the application is allowed to communicate.
+
+KF_CODE_EXAMPLE
+response.addHeader("Access-Control-Allow-Origin", "*")
+
+Using * as the value of the Access-Control-Allow-Origin header indicates that the application's data is accessible to JavaScript running on any domain.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Do not use "*" value - set all domain names explicitly</recommendations>
+    <links><![CDATA[[1] W3C Cross-Origin Resource Sharing (http://www.w3.org/TR/cors/)
+[2] Enable Cross-Origin Resource Sharing (http://enable-cors.org/)
+[3] Michael Schmidt HTML5 Web Security
+[4] Philippe De Ryck, Lieven Desmet, Pieter Philippaerts, and Frank Piessens A Security Analysis of Next Generation Web Standards
+[5] Standards Mapping - Common Weakness Enumeration CWE ID 942
+[6] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-001368, CCI-001414
+[7] Standards Mapping - General Data Protection Regulation (GDPR) Access Violation
+[8] Standards Mapping - NIST Special Publication 800-53 Revision 4 AC-4 Information Flow Enforcement (P1)
+[9] Standards Mapping - NIST Special Publication 800-53 Revision 5 AC-4 Information Flow Enforcement
+[10] Standards Mapping - OWASP Top 10 2013 A5 Security Misconfiguration
+[11] Standards Mapping - OWASP Top 10 2017 A6 Security Misconfiguration
+[12] Standards Mapping - OWASP Mobile 2014 M5 Poor Authorization and Authentication
+[13] Standards Mapping - OWASP Application Security Verification Standard 4.0 14.4.6 HTTP Security Headers Requirements, 14.5.3 Validate HTTP Request Header Requirements
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.10
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.8
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.8
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.8
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.8
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.8
+[20] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 5.4 - Authentication and Access Control
+[21] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 5.4 - Authentication and Access Control
+[22] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[23] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[24] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[25] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[26] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[34] Standards Mapping - Web Application Security Consortium Version 2.00 Application Misconfiguration (WASC-15)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <assignment_var>
+                <name operator="eq">CORS_ALLOW_ALL_ORIGINS</name>
+                <value>
+                    <bool operator="eq">True</bool>
+                </value>
+            </assignment_var>
+        </pattern_simple>
+        <pattern_simple>
+            <unique_assignment_to_set_tuple_list>
+                <name operator="contains">cors_allowed_origins</name>
+                <values operator="contains">
+                    <value type="str">*</value>
+                </values>
+            </unique_assignment_to_set_tuple_list>
+        </pattern_simple>
+    </patterns>
+</check>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Cross-Frame Scripting]]></name>
+    <description><![CDATA[Failure to restrict inclusion of an application within an iframe can lead to cross-site request forgery or phishing attacks.]]></description>
+    <explanation><![CDATA[Cross-frame scripting vulnerabilities occur when an application:
+
+1. Allows itself to be included inside an iframe.
+2. Fails to specify framing policy via the X-Frame-Options header.
+3. Uses poor protection, such as JavaScript-based frame busting logic.
+
+Cross-frame scripting vulnerabilities often form the basis of clickjacking exploits that attackers may use to conduct cross-site request Forgery or phishing attacks.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Django: set X-Frame-Options for all responses - add 'django.middleware.clickjacking.XFrameOptionsMiddleware' to MIDDLEWARE</recommendations>
+    <links><![CDATA[[1] OWASP Cross Frame Scripting (https://www.owasp.org/index.php/Cross_Frame_Scripting)
+[2] OWASP Clickjacking (https://www.owasp.org/index.php/Clickjacking)
+[3] OWASP Clickjacking Defense Cheat Sheet (https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html)
+[4] Clickjacking Protection (https://docs.djangoproject.com/en/dev/ref/clickjacking/)
+[5] Standards Mapping - Common Weakness Enumeration CWE ID 1021
+[6] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-001310, CCI-001941, CCI-001942
+[7] Standards Mapping - FIPS200 SI
+[8] Standards Mapping - General Data Protection Regulation (GDPR) Indirect Access to Sensitive Data
+[9] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-23 Session Authenticity (P1)
+[10] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-23 Session Authenticity
+[11] Standards Mapping - OWASP Top 10 2004 A10 Insecure Configuration Management
+[12] Standards Mapping - OWASP Application Security Verification Standard 4.0 14.4.3 HTTP Security Headers Requirements, 14.4.7 HTTP Security Headers Requirements
+[13] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.6
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.6
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.6
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.6
+[17] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 4.2 - Critical Asset Protection
+[18] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 4.2 - Critical Asset Protection
+[19] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[20] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[21] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[22] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[23] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[24] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[25] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[26] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-002500 CAT II
+[31] Standards Mapping - Web Application Security Consortium Version 2.00 Server Misconfiguration (WASC-14)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <unique_assignment_to_set_tuple_list>
+                <name operator="contains">middleware</name>
+                <values operator="missing">
+                    <value type="str">django.middleware.clickjacking.XFrameOptionsMiddleware</value>
+                </values>
+            </unique_assignment_to_set_tuple_list>
+        </pattern_simple>
+    </patterns>
+</check>

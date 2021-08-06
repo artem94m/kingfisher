@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Poor Logging Practice: Use of a System Output Stream]]></name>
+    <description><![CDATA[Using standard output or standard error rather than a dedicated logging facility makes it difficult to monitor the behavior of the program.]]></description>
+    <explanation><![CDATA[Example 1: The first Python program that a developer learns to write is the following:
+
+KF_CODE_EXAMPLE
+print("hello world")
+
+While most programmers go on to learn many nuances and subtleties about Python, a surprising number hang on to this first lesson and never give up on writing messages to standard output using print() or sys.stdout.write().
+
+The problem is that writing directly to standard output or standard error is often used as an unstructured form of logging. Structured logging facilities provide features like logging levels, uniform formatting, a logger identifier, timestamps, and, perhaps most critically, the ability to direct the log messages to the right place. When the use of system output streams is jumbled together with the code that uses loggers properly, the result is often a well-kept log that is missing critical information.
+
+Developers widely accept the need for structured logging, but many continue to use system output streams in their "pre-production" development. If the code you are reviewing is past the initial phases of development, use of sys.stdout or sys.stderr may indicate an oversight in the move to a structured logging system.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Use a centralized logging mechanism that supports multiple levels of detail. Ensure that all security-related successes and failures can be logged. 
+Be sure to set the level of logging appropriately in a production environment. Sufficient data should be logged to enable system administrators to detect attacks, diagnose errors, and recover from attacks. At the same time, logging too much data (CWE-779) can cause the same problems. 
+</recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 398
+[2] Standards Mapping - FIPS200 AU
+[3] Standards Mapping - NIST Special Publication 800-53 Revision 4 SI-11 Error Handling (P2)
+[4] Standards Mapping - NIST Special Publication 800-53 Revision 5 SI-11 Error Handling
+[5] Standards Mapping - OWASP Top 10 2004 A7 Improper Error Handling
+[6] Standards Mapping - OWASP Top 10 2007 A6 Information Leakage and Improper Error Handling
+[7] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.7
+[8] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.2, Requirement 6.5.6
+[9] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.5
+[10] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.5
+[11] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.5
+[12] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.5
+[13] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.5
+[14] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 3.6 - Sensitive Data Retention
+[15] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 3.6 - Sensitive Data Retention
+[16] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3620 CAT II
+[17] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3620 CAT II
+[18] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3620 CAT II
+[19] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3620 CAT II
+[20] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3620 CAT II
+[21] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3620 CAT II
+[22] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3620 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">sys.stderr.write</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">sys.stdout.write</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="eq">print</name>
+                <param name="file" pos="-1">
+                    <attr operator="eq">sys.stdout</attr>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="eq">print</name>
+                <param name="file" pos="-1">
+                    <attr operator="eq">sys.stderr</attr>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_without_arg>
+                <name operator="eq">print</name>
+                <param name="file" pos="-1" />
+            </function_call_without_arg>
+        </pattern_simple>
+    </patterns>
+</check>

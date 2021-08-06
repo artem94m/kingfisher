@@ -1,0 +1,358 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="NonEmptyString">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:whiteSpace value="collapse"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SeverityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="High" />
+      <xs:enumeration value="Medium" />
+      <xs:enumeration value="Low" />
+      <xs:enumeration value="Info" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="BoolType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="True" />
+      <xs:enumeration value="False" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CheckStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="enabled" />
+      <xs:enumeration value="disabled" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="StringOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="eq" />
+      <xs:enumeration value="contains" />
+      <xs:enumeration value="starts" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="BlockOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="empty" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NameOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="eq" />
+      <xs:enumeration value="contains" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ValuesOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="contains" />
+      <xs:enumeration value="missing" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ValuesValueType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="str" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ValueType">
+    <xs:choice>
+      <xs:element name="str" nillable="false">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute type="StrOperator" name="operator" use="required"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="int" nillable="false">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute type="IntOperator" name="operator" use="required"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="bool" nillable="false">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="BoolType">
+              <xs:attribute type="BoolOperator" name="operator" use="required"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="none" nillable="false" fixed="">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute type="NoneOperator" name="operator" use="required"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="attr" nillable="false">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="NonEmptyString">
+              <xs:attribute type="AttrOperator" name="operator" use="required"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element type="NonEmptyString" nillable="false" name="function_call"/>
+
+      <xs:element name="constant" nillable="false" fixed="">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute type="ConstantOperator" name="operator"  use="required"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:simpleType name="StrOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="eq" />
+      <xs:enumeration value="neq" />
+      <xs:enumeration value="contains" />
+      <xs:enumeration value="starts" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="IntOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="eq" />
+      <xs:enumeration value="neq" />
+      <xs:enumeration value="gt" />
+      <xs:enumeration value="lt" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="BoolOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="eq" />
+      <xs:enumeration value="neq" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NoneOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="is" />
+      <xs:enumeration value="not" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AttrOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="eq" />
+      <xs:enumeration value="neq" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ConstantOperator">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="is" />
+      <xs:enumeration value="not" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ParamType">
+    <xs:complexContent>
+      <xs:extension base="ValueType">
+        <xs:attribute type="NonEmptyString" name="name" use="required"/>
+        <xs:attribute type="xs:byte" name="pos" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:element name="check">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="NonEmptyString" name="name"/>
+        <xs:element type="NonEmptyString" name="description"/>
+        <xs:element type="NonEmptyString" name="explanation"/>
+        <xs:element type="SeverityType" name="severity"/>
+        <xs:element type="NonEmptyString" name="recommendations"/>
+        <xs:element type="NonEmptyString" name="links"/>
+        <xs:element name="patterns">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="pattern_simple" maxOccurs="unbounded" minOccurs="1">
+                <xs:complexType>
+                  <xs:choice>
+
+                    <xs:element name="comment" type="NonEmptyString" nillable="false"/>
+
+                    <xs:element name="string" nillable="false">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="NonEmptyString">
+                            <xs:attribute type="StringOperator" name="operator" use="required"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+
+                    <xs:element name="block" nillable="false">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="NonEmptyString">
+                            <xs:attribute type="BlockOperator" name="operator" use="required"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+
+                    <xs:element name="attribute" type="NonEmptyString" nillable="false"/>
+
+                    <xs:element name="function_call" nillable="false">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="name">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="NameOperator" name="operator" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+
+                    <xs:element name="function_call_with_arg" nillable="false">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="name">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="NameOperator" name="operator" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="param" type="ParamType"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+
+                    <xs:element name="function_call_without_arg" nillable="false">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="name">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="NameOperator" name="operator" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="param">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="NonEmptyString" name="name" use="required"/>
+                                  <xs:attribute type="xs:byte" name="pos" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+
+                    <xs:element name="assignment_var" nillable="false">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="name">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="NameOperator" name="operator" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="value" type="ValueType"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+
+                    <xs:element name="assignment_in_dict" nillable="false">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="name">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="NameOperator" name="operator" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="key">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="NameOperator" name="operator" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="value" type="ValueType"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+
+                    <xs:element name="unique_assignment_to_set_tuple_list" nillable="false">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="name">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="NameOperator" name="operator" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="values">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="value" maxOccurs="unbounded" minOccurs="1">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="NonEmptyString">
+                                        <xs:attribute type="ValuesValueType" name="type" use="required"/>
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute type="ValuesOperator" name="operator" use="required"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="status" type="CheckStatus" use="required"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

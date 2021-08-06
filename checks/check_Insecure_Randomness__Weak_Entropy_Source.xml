@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Insecure Randomness: Weak Entropy Source]]></name>
+    <description><![CDATA[The random or pseudorandom number generator relies on a weak entropy source.]]></description>
+    <explanation><![CDATA[The lack of a proper source of entropy for use by the random or pseudorandom number generator may lead to denial of service or generation of predictable sequences of numbers. If the random or pseudorandom number generator uses the source of entropy that runs out, the program may pause or even crash, leading to denial of service. Alternatively, the random or pseudorandom number generator may produce predictable numbers. A weak source of random numbers may lead to vulnerabilities such as easy-to-guess temporary passwords, predictable cryptographic keys, session hijacking, and DNS spoofing.
+
+Example 1: The following code uses the system clock as the entropy source:
+
+KF_CODE_EXAMPLE
+...
+import time
+import random
+...
+random.seed(time.time())
+...
+
+Since system clock generates predictable values, it is not a good source of entropy. Same goes for other non-hardware-based sources of randomness, including system/input/output buffers, user/system/hardware/network serial numbers or addresses, as well as user input.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Determine the necessary entropy to adequately provide for randomness and predictability. This can be achieved by increasing the number of bits of objects such as keys and seeds. </recommendations>
+    <links><![CDATA[[1] Elaine Barker and John Kelsey NIST DRAFT Special Publication 800-90B: Recommendation for the Entropy Sources Used for Random Bit Generation NIST (http://csrc.nist.gov/publications/drafts/800-90/draft-sp800-90b.pdf)
+[2] Standards Mapping - Common Weakness Enumeration CWE ID 331
+[3] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[4] Standards Mapping - FIPS200 MP
+[5] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[6] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-13 Cryptographic Protection (P1)
+[7] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-13 Cryptographic Protection
+[8] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[9] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[10] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[11] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[12] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.3.1 Authenticator Lifecycle Requirements, 2.6.2 Look-up Secret Verifier Requirements, 3.2.2 Session Binding Requirements, 3.2.4 Session Binding Requirements, 6.3.3 Random Values
+[13] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.3
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.3
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.3
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.3
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.3
+[20] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.3 - Use of Cryptography
+[21] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.3 - Use of Cryptography, Control Objective B.2.4 - Terminal Software Design
+[22] Standards Mapping - SANS Top 25 2009 Porous Defenses - CWE ID 330
+[23] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3150.2 CAT II
+[24] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3150.2 CAT II
+[25] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3150.2 CAT II
+[26] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3150.2 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3150.2 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3150.2 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3150.2 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="eq">random.seed</name>
+                <param name="a" pos="1">
+                    <function_call>time.time</function_call>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+    </patterns>
+</check>

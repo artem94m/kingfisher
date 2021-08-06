@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Insecure Transport: Weak SSL Protocol]]></name>
+    <description><![CDATA[The SSLv2, SSLv23, and SSLv3 protocols contain several flaws that make them insecure, so they should not be used to transmit sensitive data.]]></description>
+    <explanation><![CDATA[The Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols provide a protection mechanism to ensure the authenticity, confidentiality, and integrity of data transmitted between a client and web server. Both TLS and SSL have undergone revisions resulting in periodic version updates. Each new revision was designed to address the security weaknesses discovered in the previous versions. Use of an insecure version of TLS/SSL will weaken the strength of the data protection and could allow an attacker to compromise, steal, or modify sensitive information.
+
+Weak versions of TLS/SSL may exhibit one or more of the following properties:
+
+- No protection against man-in-the-middle attacks
+
+- Same key used for authentication and encryption
+
+- Weak message authentication control
+
+- No protection against TCP connection closing
+
+The presence of these properties may allow an attacker to intercept, modify, or tamper with sensitive data.]]></explanation>
+    <severity>High</severity>
+    <recommendations>Use secure versions of SSL protocols</recommendations>
+    <links><![CDATA[[1] David Wagner and Bruce Schneier Analysis of the SSL 3.0 protocol (https://www.schneier.com/paper-ssl.pdf)
+[2] CVE 2014-3566 (http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3566)
+[3] Standards Mapping - Common Weakness Enumeration CWE ID 327
+[4] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-000068, CCI-000382, CCI-001453, CCI-001941, CCI-001942, CCI-002418, CCI-002420, CCI-002421, CCI-002422, CCI-002890, CCI-003123
+[5] Standards Mapping - FIPS200 CM, SC
+[6] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[7] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-8 Transmission Confidentiality and Integrity (P1)
+[8] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-8 Transmission Confidentiality and Integrity
+[9] Standards Mapping - OWASP Top 10 2004 A10 Insecure Configuration Management
+[10] Standards Mapping - OWASP Top 10 2007 A9 Insecure Communications
+[11] Standards Mapping - OWASP Top 10 2010 A9 Insufficient Transport Layer Protection
+[12] Standards Mapping - OWASP Top 10 2013 A5 Security Misconfiguration
+[13] Standards Mapping - OWASP Top 10 2017 A6 Security Misconfiguration
+[14] Standards Mapping - OWASP Mobile 2014 M3 Insufficient Transport Layer Protection
+[15] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.6.3 Look-up Secret Verifier Requirements, 2.9.3 Cryptographic Software and Devices Verifier Requirements, 6.2.1 Algorithms, 6.2.2 Algorithms, 8.3.7 Sensitive Private Data, 9.1.2 Communications Security Requirements, 9.1.3 Communications Security Requirements
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 4.1, Requirement 6.5.10
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 4.1, Requirement 6.3.1.4, Requirement 6.5.9
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 4.1, Requirement 6.5.4
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 4.1, Requirement 6.5.4
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 4.1, Requirement 6.5.4
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 4.1, Requirement 6.5.4
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 4.1, Requirement 6.5.4
+[23] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 3.3 - Sensitive Data Retention, Control Objective 6.2 - Sensitive Data Protection, Control Objective 7.1 - Use of Cryptography
+[24] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 3.3 - Sensitive Data Retention, Control Objective 6.2 - Sensitive Data Protection, Control Objective 7.1 - Use of Cryptography, Control Objective B.2.3 - Terminal Software Design
+[25] Standards Mapping - SANS Top 25 2009 Porous Defenses - CWE ID 327
+[26] Standards Mapping - SANS Top 25 2010 Porous Defenses - CWE ID 327
+[27] Standards Mapping - SANS Top 25 2011 Porous Defenses - CWE ID 327
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3250.1 CAT I, APP3260.1 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3250.1 CAT I, APP3260 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3250.1 CAT I, APP3260 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3250.1 CAT I, APP3260 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3250.1 CAT I, APP3260 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3250.1 CAT I, APP3260 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3250.1 CAT I, APP3260 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[44] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[45] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[46] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-000160 CAT II, APSC-DV-000170 CAT II, APSC-DV-001510 CAT II, APSC-DV-001620 CAT II, APSC-DV-001630 CAT II, APSC-DV-001940 CAT II, APSC-DV-001950 CAT II, APSC-DV-002440 CAT I, APSC-DV-002450 CAT II, APSC-DV-002460 CAT II, APSC-DV-002470 CAT II
+[47] Standards Mapping - Web Application Security Consortium Version 2.00 Insufficient Transport Layer Protection (WASC-04)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <attribute>ssl.PROTOCOL_SSLv23</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>ssl.PROTOCOL_SSLv2</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>ssl.PROTOCOL_SSLv3</attribute>
+        </pattern_simple>
+    </patterns>
+</check>

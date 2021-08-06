@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Weak Encryption: Stream Cipher]]></name>
+    <description><![CDATA[Stream ciphers are dangerous to use when encrypted data is going to be stored on disk, or if the key is used more than once.]]></description>
+    <explanation><![CDATA[Stream ciphers are vulnerable to "key re-use" attacks, also called "two-time pad" attacks. This means that if the same key is used more than once, it is trivial to XOR the two strings of ciphertext and nullify the key, leaving only the XOR'ed plain text. Due to the way human language is formatted, it is usually trivial to get back to the original two messages.
+
+As there is a requirement of using a fresh initialization vector (IV) in order to stop the aforementioned attacks, it means that stream ciphers are not suitable for storing encrypted data, as it would mean either:
+
+1) using the disk sector as the IV: This is insecure as it would require re-using the same IV every time the stored data needs to be modified.
+
+2) have a complicated system that maps fresh IVs to disk sectors: This would be difficult to maintain, since it would require being continuously updated, would need to not be user-readable, and it would require the ciphertext to consume much more disk space than the unencrypted plain text alone.
+
+These two points make it disadvantageous to use stream ciphers instead of block ciphers for the purpose of storing encrypted data. Another problem with stream ciphers is that they provide no authentication and thus are vulnerable to "bit-flipping" attacks. Some block ciphers such as "CTR" are vulnerable to these same attacks since they act similarly to stream ciphers.
+
+Example 1: The following piece of code creates a stream cipher which is then used to encrypt data with a constant IV and store it on disk:
+
+KF_CODE_EXAMPLE
+from Crypto.Cipher import AES
+from Crypto import Random
+...
+key = Random.new().read(AES.block_size)
+iv = b'1234567890123456'
+cipher = AES.new(key, AES.MODE_CTR, iv, counter)
+...
+encrypted = cipher.encrypt(data)
+f = open("data.enc", "wb")
+f.write(encrypted)
+f.close()
+...
+
+In Example 1, since iv is set as a constant initialization vector, this will be susceptible to re-use attacks.]]></explanation>
+    <severity>High</severity>
+    <recommendations>Do not use stream ciphers for the purpose of storing encrypted data</recommendations>
+    <links><![CDATA[[1] Disk Encryption Theory Wikipedia (http://en.wikipedia.org/wiki/Disk_encryption_theory#Problem_definition)
+[2] Clemens Fruhwirth New Methods in Hard Disk Encryption (http://clemens.endorphin.org/nmihde/nmihde-A4-os.pdf)
+[3] Standards Mapping - Common Weakness Enumeration CWE ID 327
+[4] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[5] Standards Mapping - FIPS200 MP
+[6] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[7] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-13 Cryptographic Protection (P1)
+[8] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-13 Cryptographic Protection
+[9] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[10] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[11] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[12] Standards Mapping - OWASP Top 10 2013 A6 Sensitive Data Exposure
+[13] Standards Mapping - OWASP Top 10 2017 A3 Sensitive Data Exposure
+[14] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[15] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.6.3 Look-up Secret Verifier Requirements, 2.9.3 Cryptographic Software and Devices Verifier Requirements, 6.2.1 Algorithms, 6.2.2 Algorithms, 8.3.7 Sensitive Private Data, 9.1.2 Communications Security Requirements, 9.1.3 Communications Security Requirements
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.3
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.3
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.3
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.3
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.3
+[23] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.1 - Use of Cryptography
+[24] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.1 - Use of Cryptography, Control Objective B.2.3 - Terminal Software Design
+[25] Standards Mapping - SANS Top 25 2009 Porous Defenses - CWE ID 327
+[26] Standards Mapping - SANS Top 25 2010 Porous Defenses - CWE ID 327
+[27] Standards Mapping - SANS Top 25 2011 Porous Defenses - CWE ID 327
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3150.1 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3150.1 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3150.1 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3150.1 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3150.1 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3150.1 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3150.1 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[44] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[45] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[46] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.AES.MODE_CTR</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.DES3.MODE_CTR</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.ARC2.MODE_CTR</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.DES.MODE_CTR</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.Blowfish.MODE_CTR</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.CAST.MODE_CTR</attribute>
+        </pattern_simple>
+    </patterns>
+</check>

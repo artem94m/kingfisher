@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Key Management: Empty Encryption Key]]></name>
+    <description><![CDATA[Empty encryption keys can compromise security in a way that cannot be easily remedied.]]></description>
+    <explanation><![CDATA[It is never a good idea to use an empty encryption key. Not only does using an empty encryption key significantly reduce the protection afforded by a good encryption algorithm, but it also makes fixing the problem extremely difficult. After the offending code is in production, the empty encryption key cannot be changed without patching the software. If an account protected by the empty encryption key is compromised, the owners of the system must choose between security and availability.
+
+Example: The following code initializes an encryption key variable to an empty string.
+
+KF_CODE_EXAMPLE
+...
+from Crypto.Ciphers import AES
+cipher = AES.new("", AES.MODE_CFB, iv)
+msg = iv + cipher.encrypt(b'Attack at dawn')
+...
+
+Not only will anyone who has access to the code be able to determine that it uses an empty encryption key, but anyone with even basic cracking techniques is much more likely to successfully decrypt any encrypted data. After the program ships, a software patch is required to change the empty encryption key. An employee with access to this information can use it to break into the system. Even if attackers only had access to the application's executable, they could extract evidence of the use of an empty encryption key.]]></explanation>
+    <severity>High</severity>
+    <recommendations>Prevention schemes mirror that of hard-coded password storage. </recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 321
+[2] Standards Mapping - Common Weakness Enumeration Top 25 2019 [13] CWE ID 287, [19] CWE ID 798
+[3] Standards Mapping - Common Weakness Enumeration Top 25 2020 [14] CWE ID 287, [20] CWE ID 798
+[4] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[5] Standards Mapping - FIPS200 IA
+[6] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[7] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-12 Cryptographic Key Establishment and Management (P1)
+[8] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-12 Cryptographic Key Establishment and Management
+[9] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[10] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[11] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[12] Standards Mapping - OWASP Top 10 2013 A6 Sensitive Data Exposure
+[13] Standards Mapping - OWASP Top 10 2017 A3 Sensitive Data Exposure
+[14] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[15] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.6.3 Look-up Secret Verifier Requirements, 2.7.1 Out of Band Verifier Requirements, 2.7.2 Out of Band Verifier Requirements, 2.7.3 Out of Band Verifier Requirements, 2.8.4 Single or Multi Factor One Time Verifier Requirements, 2.8.5 Single or Multi Factor One Time Verifier Requirements, 2.9.1 Cryptographic Software and Devices Verifier Requirements, 2.10.2 Service Authentication Requirements, 2.10.4 Service Authentication Requirements, 3.5.2 Token-based Session Management, 3.7.1 Defenses Against Session Management Exploits, 6.2.1 Algorithms, 6.4.1 Secret Management, 6.4.2 Secret Management, 9.2.3 Server Communications Security Requirements, 10.2.3 Malicious Code Search
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8, Requirement 8.4
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8, Requirement 8.4
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.4
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.2.1
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.2.1
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.2.1
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.2.1
+[23] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.2 - Use of Cryptography
+[24] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.2 - Use of Cryptography, Control Objective B.2.3 - Terminal Software Design
+[25] Standards Mapping - SANS Top 25 2009 Porous Defenses - CWE ID 259
+[26] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3210.1 CAT II, APP3350 CAT I
+[27] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3210.1 CAT II, APP3350 CAT I
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3210.1 CAT II, APP3350 CAT I
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3210.1 CAT II, APP3350 CAT I
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3210.1 CAT II, APP3350 CAT I
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3210.1 CAT II, APP3350 CAT I
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3210.1 CAT II, APP3350 CAT I
+[33] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II
+[44] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II
+[45] Standards Mapping - Web Application Security Consortium Version 2.00 Information Leakage (WASC-13)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="eq">Crypto.Ciphers.AES.new</name>
+                <param name="key" pos="1">
+                    <str operator="eq"></str>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+        <pattern_simple>
+            <assignment_var>
+                <name operator="contains">key</name>
+                <value>
+                    <str operator="eq"></str>
+                </value>
+            </assignment_var>
+        </pattern_simple>
+    </patterns>
+</check>

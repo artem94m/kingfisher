@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Django Bad Practices: Overly Broad Host Header Verification]]></name>
+    <description><![CDATA[Not validating the Host header can allow an attacker to send a fake Host value that can be used for Cross-Site Request Forgery, cache poisoning attacks, and poisoning links in emails.]]></description>
+    <explanation><![CDATA[The Django applications settings specifies "*" as an entry in the ALLOWED_HOSTS setting. This setting is used by django.http.HttpRequest.get_host() to validate the Host header. A value of "*" will allow any host in the Host header. An attacker may use this in cache poisoning attacks or for poisoning links in emails.
+
+Example 1: An application offers a reset password feature where users can submit some kind of unique value to identify themselves (eg: email address) and then a password reset email will be sent with a link to a page to set up a new password. The link sent to the user can be constructed using the Host value to reference the site that serves the reset password feature in order to avoid hardcoded URLs. For example:
+
+KF_CODE_EXAMPLE
+...
+def reset_password(request):
+    url = "http://%s/new_password/?token=%s" % (request.get_host(), generate_token())
+    send_email(reset_link=url)
+    redirect("home")
+...
+
+An attacker may try to reset a victim's password by submitting the victim's email and a fake Host header value pointing to a server he controls. The victim will receive an email with a link to the reset password system and if he decides to visit the link, she will be visiting the attacker-controlled site which will serve a fake form to collect the victim's credentials.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Do not use "*" value for the list of allowed hosts - explicitly specify list of domain names</recommendations>
+    <links><![CDATA[[1] Django Foundation Host header validation (https://docs.djangoproject.com/en/dev/topics/security/#host-header-validation)
+[2] Django Foundation ALLOWED_HOSTS (https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts)
+[3] Standards Mapping - General Data Protection Regulation (GDPR) Access Violation
+[4] Standards Mapping - Web Application Security Consortium Version 2.00 Application Misconfiguration (WASC-15)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <unique_assignment_to_set_tuple_list>
+                <name operator="eq">ALLOWED_HOSTS</name>
+                <values operator="contains">
+                    <value type="str">*</value>
+                </values>
+            </unique_assignment_to_set_tuple_list>
+        </pattern_simple>
+    </patterns>
+</check>

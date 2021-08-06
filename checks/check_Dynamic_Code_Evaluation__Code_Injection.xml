@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Dynamic Code Evaluation: Code Injection]]></name>
+    <description><![CDATA[Interpreting user-controlled instructions at run-time can allow attackers to execute malicious code.]]></description>
+    <explanation><![CDATA[Many modern programming languages allow dynamic interpretation of source instructions. This capability allows programmers to perform dynamic instructions based on input received from the user. Code injection vulnerabilities occur when the programmer incorrectly assumes that instructions supplied directly from the user will perform only innocent operations, such as performing simple calculations on active user objects or otherwise modifying the user's state. However, without proper validation, a user might specify operations the programmer does not intend.
+
+Example: In this classic code injection example, the application implements a basic calculator that allows the user to specify commands for execution.
+
+KF_CODE_EXAMPLE
+...
+userOps = request.GET['operation']
+result = eval(userOps)
+...
+
+The program behaves correctly when the operation parameter is a benign value, such as "8 + 7 * 2", in which case the result variable is assigned a value of 22. However, if an attacker specifies operations that are both valid and malicious, those operations would be executed with the full privilege of the parent process. Such attacks are even more dangerous when the underlying language provides access to system resources or allows execution of system commands. For example, if an attacker were to specify " os.system('shutdown -h now')" as the value of operation, a shutdown command would be executed on the host system.]]></explanation>
+    <severity>High</severity>
+    <recommendations>If possible, refactor your code so that it does not need to use eval() at all. 
+Assume all input is malicious. Use an "accept known good" input validation strategy, i.e., use a list of acceptable inputs that strictly conform to specifications. Reject any input that does not strictly conform to specifications, or transform it into something that does. 
+When performing input validation, consider all potentially relevant properties, including length, type of input, the full range of acceptable values, missing or extra inputs, syntax, consistency across related fields, and conformance to business rules. As an example of business rule logic, "boat" may be syntactically valid because it only contains alphanumeric characters, but it is not valid if the input is only expected to contain colors such as "red" or "blue."
+Do not rely exclusively on looking for malicious or malformed inputs. This is likely to miss at least one undesirable input, especially if the code's environment changes. This can give attackers enough room to bypass the intended validation. However, denylists can be useful for detecting potential attacks or determining which inputs are so malformed that they should be rejected outright. </recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 95, CWE ID 494
+[2] Standards Mapping - Common Weakness Enumeration Top 25 2019 [18] CWE ID 094
+[3] Standards Mapping - Common Weakness Enumeration Top 25 2020 [17] CWE ID 094
+[4] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-001764, CCI-001774, CCI-002754
+[5] Standards Mapping - FIPS200 SI
+[6] Standards Mapping - General Data Protection Regulation (GDPR) Indirect Access to Sensitive Data
+[7] Standards Mapping - NIST Special Publication 800-53 Revision 4 SI-10 Information Input Validation (P1)
+[8] Standards Mapping - NIST Special Publication 800-53 Revision 5 SI-10 Information Input Validation
+[9] Standards Mapping - OWASP Top 10 2004 A6 Injection Flaws
+[10] Standards Mapping - OWASP Top 10 2007 A2 Injection Flaws
+[11] Standards Mapping - OWASP Top 10 2010 A1 Injection
+[12] Standards Mapping - OWASP Top 10 2013 A1 Injection
+[13] Standards Mapping - OWASP Top 10 2017 A1 Injection
+[14] Standards Mapping - OWASP Mobile 2014 M7 Client Side Injection
+[15] Standards Mapping - OWASP Application Security Verification Standard 4.0 1.14.2 Configuration Architectural Requirements, 5.2.4 Sanitization and Sandboxing Requirements, 5.2.5 Sanitization and Sandboxing Requirements, 5.2.8 Sanitization and Sandboxing Requirements, 5.3.6 Output Encoding and Injection Prevention Requirements, 5.5.4 Deserialization Prevention Requirements, 10.3.2 Deployed Application Integrity Controls, 12.3.3 File Execution Requirements, 14.2.3 Dependency
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.6
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.1, Requirement 6.5.2
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.1
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.1
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.1
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.1
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.1
+[23] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 4.2 - Critical Asset Protection
+[24] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 4.2 - Critical Asset Protection, Control Objective B.3.1 - Terminal Software Attack Mitigation, Control Objective B.3.1.1 - Terminal Software Attack Mitigation
+[25] Standards Mapping - SANS Top 25 2009 Insecure Interaction - CWE ID 116, Risky Resource Management - CWE ID 094
+[26] Standards Mapping - SANS Top 25 2010 Risky Resource Management - CWE ID 494
+[27] Standards Mapping - SANS Top 25 2011 Risky Resource Management - CWE ID 494
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3510 CAT I, APP3570 CAT I
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3510 CAT I, APP3570 CAT I
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3510 CAT I, APP3570 CAT I
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3510 CAT I, APP3570 CAT I
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3510 CAT I, APP3570 CAT I
+[33] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3510 CAT I, APP3570 CAT I
+[34] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3510 CAT I, APP3570 CAT I
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[44] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[45] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[46] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-001480 CAT II, APSC-DV-001490 CAT II, APSC-DV-002560 CAT I
+[47] Standards Mapping - Web Application Security Consortium Version 2.00 Improper Input Handling (WASC-20)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">eval</name>
+            </function_call>
+        </pattern_simple>
+    </patterns>
+</check>

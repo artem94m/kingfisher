@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Portability Flaw: File Separator]]></name>
+    <description><![CDATA[The use of hardcoded file separators causes portability problems.]]></description>
+    <explanation><![CDATA[Different operating systems use different characters as file separators. For example, Microsoft Windows systems use "\", while UNIX systems use "/". When applications have to run on different platforms, the use of hardcoded file separators can lead to incorrect execution of application logic and potentially a denial of service.
+
+Example 1: The following code uses a hardcoded file separator to open a file:
+
+KF_CODE_EXAMPLE
+...
+os.open(directoryName + "\\" + fileName);
+...]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Always test your code on any platform on which it is targeted to run on. 
+Use os.sep as a separator in a path or os.path.join to join parts of the path</recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 474
+[2] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-001310
+[3] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.6
+[4] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.6
+[5] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.6
+[6] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.6
+[7] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 4.2 - Critical Asset Protection
+[8] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 4.2 - Critical Asset Protection
+[9] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002520 CAT II
+[10] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002520 CAT II
+[11] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002520 CAT II
+[12] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002520 CAT II
+[13] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002520 CAT II
+[14] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002520 CAT II
+[15] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002520 CAT II
+[16] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002520 CAT II
+[17] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002520 CAT II
+[18] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002520 CAT II
+[19] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002520 CAT II
+[20] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002520 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <string operator="eq">\</string>
+        </pattern_simple>
+    </patterns>
+</check>

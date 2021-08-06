@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Weak Encryption]]></name>
+    <description><![CDATA[The program uses a weak encryption algorithm that cannot guarantee the confidentiality of sensitive data.]]></description>
+    <explanation><![CDATA[Antiquated encryption algorithms such as DES no longer provide sufficient protection for use with sensitive data. Encryption algorithms rely on key size as one of the primary mechanisms to ensure cryptographic strength. Cryptographic strength is often measured by the time and computational power needed to generate a valid key. Advances in computing power have made it possible to obtain small encryption keys in a reasonable amount of time. For example, the 56-bit key used in DES posed a significant computational hurdle in the 1970s when the algorithm was first developed, but today DES can be cracked in less than a day using commonly available equipment.]]></explanation>
+    <severity>High</severity>
+    <recommendations>Design the software so that one cryptographic algorithm can be replaced with another. This will make it easier to upgrade to stronger algorithms. 
+When there is a need to store or transmit sensitive data, use strong, up-to-date cryptographic algorithms to encrypt that data. Select a well-vetted algorithm that is currently considered to be strong by experts in the field, and use well-tested implementations. As with all cryptographic mechanisms, the source code should be available for analysis. 
+</recommendations>
+    <links><![CDATA[[1] distributed.net DES (http://www.distributed.net/des/)
+[2] FAQ About the Electronic Frontier Foundation's "DES Cracker" Machine Electronic Frontier Foundation (http://w2.eff.org/Privacy/Crypto/Crypto_misc/DESCracker/HTML/19980716_eff_des_faq.html)
+[3] SDL Development Practices Microsoft (https://download.microsoft.com/download/8/1/6/816C597A-5592-4867-A0A6-A0181703CD59/Microsoft_Press_eBook_TheSecurityDevelopmentLifecycle_PDF.pdf)
+[4] Microsoft Security Fundamentals Microsoft (http://eusecwest.com/esw06/esw06-cushman.ppt)
+[5] John Kelsey, Bruce Schneier, and David Wagner Related-key cryptanalysis of 3-WAY, Biham-DES, CAST, DES-X, NewDES, RC2, and TEA
+[6] Standards Mapping - Common Weakness Enumeration CWE ID 327
+[7] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[8] Standards Mapping - FIPS200 MP
+[9] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[10] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-13 Cryptographic Protection (P1)
+[11] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-13 Cryptographic Protection
+[12] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[13] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[14] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[15] Standards Mapping - OWASP Top 10 2013 A6 Sensitive Data Exposure
+[16] Standards Mapping - OWASP Top 10 2017 A3 Sensitive Data Exposure
+[17] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[18] Standards Mapping - OWASP Application Security Verification Standard 4.0 1.6.2 Cryptographic Architectural Requirements, 2.8.2 Single or Multi Factor One Time Verifier Requirements, 2.8.3 Single or Multi Factor One Time Verifier Requirements, 2.9.1 Cryptographic Software and Devices Verifier Requirements, 2.9.3 Cryptographic Software and Devices Verifier Requirements, 2.6.3 Look-up Secret Verifier Requirements, 2.9.3 Cryptographic Software and Devices Verifier Requirements, 6.2.2 Algorithms, 6.2.3 Algorithms, 6.2.4 Algorithms, 6.2.5 Algorithms, 6.2.6 Algorithms, 6.4.2 Secret Management, 6.2.1 Algorithms, 6.2.2 Algorithms, 8.3.7 Sensitive Private Data, 8.3.7 Sensitive Private Data, 9.1.2 Communications Security Requirements, 9.1.3 Communications Security Requirements, 9.1.2 Communications Security Requirements, 9.1.3 Communications Security Requirements
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.3
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.3
+[23] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.3
+[24] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.3
+[25] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.3
+[26] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.1 - Use of Cryptography
+[27] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.1 - Use of Cryptography, Control Objective B.2.3 - Terminal Software Design
+[28] Standards Mapping - SANS Top 25 2009 Porous Defenses - CWE ID 327
+[29] Standards Mapping - SANS Top 25 2010 Porous Defenses - CWE ID 327
+[30] Standards Mapping - SANS Top 25 2011 Porous Defenses - CWE ID 327
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3150.1 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3150.1 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3150.1 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3150.1 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3150.1 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3150.1 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3150.1 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[44] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[45] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[46] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[47] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[48] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[49] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Cipher.DES.new</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Cipher.ARC2.new</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Cipher.ARC4.new</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Cipher.Blowfish.new</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Cipher.CAST.new</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Cipher.DES3.new</name>
+            </function_call>
+        </pattern_simple>
+    </patterns>
+</check>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Weak Cryptographic Hash: Insecure PBE Iteration Count]]></name>
+    <description><![CDATA[The iteration count used by a password-based key derivation function is too low.]]></description>
+    <explanation><![CDATA[A key derivation function is used to derive a key from a base key and other parameters. In a password-based key derivation function, the base key is a password and the other parameters are a salt value and an iteration count. An iteration count has traditionally served the purpose of increasing the cost of generating keys from a password. If the iteration count is too low, the feasibility of an attack increases as an attacker may compute "rainbow tables" for the application and more easily reverse hashed password values.
+
+Example 1: The following code uses an iteration count of 50:
+
+KF_CODE_EXAMPLE
+...
+from hashlib import pbkdf2_hmac
+dk = pbkdf2_hmac('sha256', password, salt, 50)
+...
+
+Applications that use a low iteration count for password-based encryption are exposed to trivial dictionary-based attacks, exactly the type of attack that password-based encryption schemes were designed to protect against.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Set the iteration counter to at least 100000 </recommendations>
+    <links><![CDATA[[1] B. Kaliski PKCS #5: Password-Based Cryptography Specification Version 2.0. Network Working Group (https://www.ietf.org/rfc/rfc2898.txt)
+[2] Martin Abadi and Bogdan Warinschi Password-Based Encryption Analyzed. (https://users.soe.ucsc.edu/~abadi/Papers/wp.pdf)
+[3] Mihir Bellare, Thomas Ristenpart, and Stefano Tessaro Multi-Instance Security and its Application to Password-Based Cryptography. (https://eprint.iacr.org/2012/196.pdf)
+[4] M. Egele, D. Brumley, Y. Fratantonio, and C. Kruegel An Empirical Study of Cryptographic Misuse in Android Applications. (http://www.cs.ucsb.edu/~chris/research/doc/ccs13_cryptolint.pdf)
+[5] Meltem SonmezTuran, Elaine Barker, William Burr, and Lily Chen NIST Special Publication 800-132: Recommendation for Password-Based Key Derivation. NIST (http://csrc.nist.gov/publications/nistpubs/800-132/nist-sp800-132.pdf)
+[6] Standards Mapping - Common Weakness Enumeration CWE ID 916
+[7] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[8] Standards Mapping - FIPS200 MP
+[9] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[10] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-13 Cryptographic Protection (P1)
+[11] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-13 Cryptographic Protection
+[12] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[13] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[14] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[15] Standards Mapping - OWASP Top 10 2013 A6 Sensitive Data Exposure
+[16] Standards Mapping - OWASP Top 10 2017 A3 Sensitive Data Exposure
+[17] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[18] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.4.1 Credential Storage Requirements, 2.4.2 Credential Storage Requirements, 2.4.3 Credential Storage Requirements, 2.4.4 Credential Storage Requirements, 2.4.5 Credential Storage Requirements, 2.6.3 Look-up Secret Verifier Requirements, 2.9.3 Cryptographic Software and Devices Verifier Requirements, 6.2.1 Algorithms, 6.2.2 Algorithms, 8.3.7 Sensitive Private Data, 9.1.2 Communications Security Requirements, 9.1.3 Communications Security Requirements
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.3
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.3
+[23] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.3
+[24] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.3
+[25] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.3
+[26] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.1 - Use of Cryptography, Control Objective 7.4 - Use of Cryptography
+[27] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.1 - Use of Cryptography, Control Objective 7.4 - Use of Cryptography, Control Objective B.2.3 - Terminal Software Design
+[28] Standards Mapping - SANS Top 25 2011 Porous Defenses - CWE ID 759
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3150.1 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3150.1 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3150.1 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3150.1 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3150.1 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3150.1 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3150.1 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[44] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[45] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[46] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[47] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="eq">hashlib.pbkdf2_hmac</name>
+                <param name="iterations" pos="4">
+                    <int operator="lt">100000</int>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+    </patterns>
+</check>

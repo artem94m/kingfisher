@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Weak Cryptographic Hash]]></name>
+    <description><![CDATA[Weak cryptographic hashes cannot guarantee data integrity and should not be used in security-critical contexts.]]></description>
+    <explanation><![CDATA[MD2, MD4, MD5, RIPEMD-160, and SHA-1 are popular cryptographic hash algorithms often used to verify the integrity of messages and other data. However, as recent cryptanalysis research has revealed fundamental weaknesses in these algorithms, they should no longer be used within security-critical contexts.
+
+Effective techniques for breaking MD and RIPEMD hashes are widely available, so those algorithms should not be relied upon for security. In the case of SHA-1, current techniques still require a significant amount of computational power and are more difficult to implement. However, attackers have found the Achilles' heel for the algorithm, and techniques for breaking it will likely lead to the discovery of even faster attacks.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Use an adaptive hash function that can be configured to change the amount of computational effort needed to compute the hash, such as the number of iterations ("stretching") or the amount of memory required. Some hash functions perform salting automatically. These functions can significantly increase the overhead for a brute force attack compared to intentionally-fast functions such as MD5. For example, rainbow table attacks can become infeasible due to the high computing overhead. Finally, since computing power gets faster and cheaper over time, the technique can be reconfigured to increase the workload without forcing an entire replacement of the algorithm in use. Some hash functions that have one or more of these desired properties include bcrypt, scrypt, and PBKDF2. While there is active debate about which of these is the most effective, they are all stronger than using salts with hash functions with very little computing overhead. Note that using these functions can have an impact on performance, so they require special consideration to avoid denial-of-service attacks. However, their configurability provides finer control over how much CPU and memory is used, so it could be adjusted to suit the environment's needs. </recommendations>
+    <links><![CDATA[[1] Xiaoyun Wang MD5 and MD4 Collision Generators (https://resources.bishopfox.com/resources/tools/other-free-tools/md4md5-collision-code/)
+[2] Xiaoyun Wang, Yiqun Lisa Yin, and Hongbo Yu Finding Collisions in the Full SHA-1 (http://people.csail.mit.edu/yiqun/SHA1AttackProceedingVersion.pdf)
+[3] Xiaoyun Wang and Hongbo Yu How to Break MD5 and Other Hash Functions (https://link.springer.com/content/pdf/10.1007%2F11426639_2.pdf)
+[4] SDL Development Practices Microsoft (https://download.microsoft.com/download/8/1/6/816C597A-5592-4867-A0A6-A0181703CD59/Microsoft_Press_eBook_TheSecurityDevelopmentLifecycle_PDF.pdf)
+[5] Standards Mapping - Common Weakness Enumeration CWE ID 328
+[6] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[7] Standards Mapping - FIPS200 MP
+[8] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[9] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-13 Cryptographic Protection (P1)
+[10] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-13 Cryptographic Protection
+[11] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[12] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[13] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[14] Standards Mapping - OWASP Top 10 2013 A6 Sensitive Data Exposure
+[15] Standards Mapping - OWASP Top 10 2017 A3 Sensitive Data Exposure
+[16] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[17] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.4.1 Credential Storage Requirements, 2.4.2 Credential Storage Requirements, 2.4.5 Credential Storage Requirements, 2.6.3 Look-up Secret Verifier Requirements, 2.8.3 Single or Multi Factor One Time Verifier Requirements, 2.9.3 Cryptographic Software and Devices Verifier Requirements, 6.2.1 Algorithms, 6.2.2 Algorithms, 6.2.3 Algorithms, 6.2.4 Algorithms, 6.2.5 Algorithms, 6.2.6 Algorithms, 6.2.7 Algorithms, 8.3.7 Sensitive Private Data, 9.1.2 Communications Security Requirements, 9.1.3 Communications Security Requirements
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.3
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.3
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.3, Requirement 4.1
+[23] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.3, Requirement 4.1
+[24] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.3, Requirement 4.1
+[25] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.1 - Use of Cryptography, Control Objective 7.4 - Use of Cryptography
+[26] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.1 - Use of Cryptography, Control Objective 7.4 - Use of Cryptography, Control Objective B.2.3 - Terminal Software Design
+[27] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3150.1 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3150.1 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3150.1 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3150.1 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3150.1 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3150.1 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3150.1 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[44] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[45] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">hashlib.md4</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">hashlib.md5</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">hashlib.sha1</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">hashlib.ripemd160</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">cryptography.hazmat.primitives.hashes.MD5</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">cryptography.hazmat.primitives.hashes.SHA1</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Hash.MD4.new</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Hash.MD5.new</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Hash.RIPEMD.new</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">Crypto.Hash.SHA.new</name>
+            </function_call>
+        </pattern_simple>
+    </patterns>
+</check>

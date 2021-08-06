@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Python Bad Practices: Leftover Debug Code]]></name>
+    <description><![CDATA[Debug code can create unintended entry points in a deployed web application.]]></description>
+    <explanation><![CDATA[It is common practice to output the values of variables for debugging or testing purposes with code that is not intended to be shipped or remain active in the deployed application. When this sort of debug code is accidentally left in the application, the application might provide information to an attacker in unintended ways. Not all debug statements leak sensitive or private information. However, the presence of a debug statement often indicates that the surrounding code has been neglected and might be in a state of disrepair.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Remove debug code before deploying the application. </recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 489
+[2] Standards Mapping - General Data Protection Regulation (GDPR) Indirect Access to Sensitive Data
+[3] Standards Mapping - OWASP Top 10 2007 A6 Information Leakage and Improper Error Handling
+[4] Standards Mapping - OWASP Application Security Verification Standard 4.0 14.3.2 Unintended Security Disclosure Requirements, 14.2.2 Dependency
+[5] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.10
+[6] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.5.6
+[7] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.5
+[8] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.5
+[9] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.5
+[10] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.5
+[11] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.5
+[12] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 3.6 - Sensitive Data Retention
+[13] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 3.6 - Sensitive Data Retention
+[14] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3620 CAT II
+[15] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3620 CAT II
+[16] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3620 CAT II
+[17] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3620 CAT II
+[18] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3620 CAT II
+[19] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3620 CAT II
+[20] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3620 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call>
+                <name operator="contains">debug</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <assignment_var>
+                <name operator="contains">debug</name>
+                <value>
+                    <bool operator="eq">True</bool>
+                </value>
+            </assignment_var>
+        </pattern_simple>
+        <pattern_simple>
+            <assignment_var>
+                <name operator="contains">debug</name>
+                <value>
+                    <int operator="eq">1</int>
+                </value>
+            </assignment_var>
+        </pattern_simple>
+    </patterns>
+</check>

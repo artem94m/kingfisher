@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[XSLT Injection]]></name>
+    <description><![CDATA[Processing an unvalidated XSL stylesheet can allow an attacker to change the structure and contents of the resultant XML, include arbitrary files from the file system, or execute arbitrary code.]]></description>
+    <explanation><![CDATA[XSLT injection occurs when:
+
+1. Data enters a program from an untrusted source.
+
+2. The data is written to an XSL stylesheet.
+
+Applications typically use XSL stylesheet to transform XML documents from one format to another. XSL stylesheets include special functions which enhance the transformation process but introduce additional vulnerabilities if used incorrectly.
+
+The semantics of XSL stylesheets and processing can be altered if an attacker has the ability to write XSL elements in a stylesheet. An attacker could alter the output of a stylesheet such that an XSS (cross-site scripting) attack was enabled, expose the contents of local file system resources, or execute arbitrary code.
+
+Example 1: Here is some code that is vulnerable to XSLT Injection:
+
+KF_CODE_EXAMPLE
+...
+xml = StringIO.StringIO(request.POST['xml'])
+xslt = StringIO.StringIO(request.POST['xslt'])
+...
+xslt_root = etree.XML(xslt)
+transform = etree.XSLT(xslt_root)
+result_tree = transform(xml)
+return render_to_response(template_name, {'result': etree.tostring(result_tree)})
+...
+
+The code in Example 1 results in three different exploits when the attacker passes the identified XSL to the XSLT processor:
+
+1. XSS:
+
+KF_CODE_EXAMPLE
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:template match="/">
+<script>alert(123)</script>
+</xsl:template>
+</xsl:stylesheet>
+
+When the XSL stylesheet is processed, the <script> tag is rendered to the victim's browser allowing a cross-site scripting attack to be performed.
+
+2. Reading of arbitrary files on the server's file system:
+
+KF_CODE_EXAMPLE
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:template match="/">
+<xsl:copy-of select="document('/etc/passwd')"/>
+</xsl:template>
+</xsl:stylesheet>
+
+The preceding XSL stylesheet will return the contents of the /etc/passwd file.]]></explanation>
+    <severity>High</severity>
+    <recommendations>Specify "access_control" argument for lxml.etree.XSLT call</recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 494
+[2] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002754
+[3] Standards Mapping - FIPS200 SI
+[4] Standards Mapping - General Data Protection Regulation (GDPR) Indirect Access to Sensitive Data
+[5] Standards Mapping - NIST Special Publication 800-53 Revision 4 SI-10 Information Input Validation (P1)
+[6] Standards Mapping - NIST Special Publication 800-53 Revision 5 SI-10 Information Input Validation
+[7] Standards Mapping - OWASP Top 10 2004 A6 Injection Flaws
+[8] Standards Mapping - OWASP Top 10 2007 A2 Injection Flaws
+[9] Standards Mapping - OWASP Top 10 2010 A1 Injection
+[10] Standards Mapping - OWASP Top 10 2013 A1 Injection
+[11] Standards Mapping - OWASP Top 10 2017 A1 Injection
+[12] Standards Mapping - OWASP Mobile 2014 M7 Client Side Injection
+[13] Standards Mapping - OWASP Application Security Verification Standard 4.0 1.14.2 Configuration Architectural Requirements, 10.3.2 Deployed Application Integrity Controls, 12.3.3 File Execution Requirements, 14.2.3 Dependency
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.6
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.1, Requirement 6.5.2
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.1
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.1
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.1
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.1
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.1
+[21] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 4.2 - Critical Asset Protection
+[22] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 4.2 - Critical Asset Protection, Control Objective B.3.1 - Terminal Software Attack Mitigation, Control Objective B.3.1.1 - Terminal Software Attack Mitigation
+[23] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3510 CAT I
+[24] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3510 CAT I
+[25] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3510 CAT I
+[26] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3510 CAT I
+[27] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3510 CAT I
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3510 CAT I
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3510 CAT I
+[30] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002560 CAT I
+[31] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002560 CAT I
+[32] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002560 CAT I
+[33] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002560 CAT I
+[34] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002560 CAT I
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002560 CAT I
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002560 CAT I
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002560 CAT I
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002560 CAT I
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002560 CAT I
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002560 CAT I
+[41] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002560 CAT I
+[42] Standards Mapping - Web Application Security Consortium Version 2.00 Improper Input Handling (WASC-20)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call_without_arg>
+                <name operator="eq">lxml.etree.XSLT</name>
+                <param name="access_control" pos="4" />
+            </function_call_without_arg>
+        </pattern_simple>
+    </patterns>
+</check>

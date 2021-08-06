@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Insecure Randomness: Hardcoded Seed]]></name>
+    <description><![CDATA[Functions that generate random or pseudorandom values, which are passed a seed, should not be called with a constant integer argument.]]></description>
+    <explanation><![CDATA[Functions that generate pseudorandom values, which are passed a seed, should not be called with a constant integer argument. If a pseudorandom number generator is seeded with a specific value, the values returned are predictable.
+
+Example 1: The values produced by the pseudorandom number generator are predictable in the first two blocks because both start with the same seed.
+
+KF_CODE_EXAMPLE
+...
+import random
+random.seed(123456)
+print "Random: %d" % random.randint(1,100)
+print "Random: %d" % random.randint(1,100)
+print "Random: %d" % random.randint(1,100)
+
+KF_CODE_EXAMPLE
+random.seed(123456)
+print "Random: %d" % random.randint(1,100)
+print "Random: %d" % random.randint(1,100)
+print "Random: %d" % random.randint(1,100)
+...
+
+In this example the PRNGs were identically seeded, so each call to randint() after the call that seeded the pseudorandom number generator (random.seed(123456)), will result in the same outputs in the same output in the same order. For example, the output might resemble the following:
+
+KF_CODE_EXAMPLE
+Random: 81
+Random: 80
+Random: 3
+Random: 81
+Random: 80
+Random: 3
+
+These results are far from random.]]></explanation>
+    <severity>Low</severity>
+    <recommendations>Do not reuse PRNG seeds. Consider a PRNG that periodically re-seeds itself as needed from a high quality pseudo-random output, such as hardware devices. </recommendations>
+    <links><![CDATA[[1] J. Viega, G. McGraw Building Secure Software Addison-Wesley
+[2] Elaine Barker and John Kelsey NIST Special Publication 800-90A: Recommendation for Random Number Generation Using Deterministic Random Bit Generators NIST (http://csrc.nist.gov/publications/nistpubs/800-90A/SP800-90A.pdf)
+[3] Elaine Barker and John Kelsey NIST DRAFT Special Publication 800-90B: Recommendation for the Entropy Sources Used for Random Bit Generation NIST (http://csrc.nist.gov/publications/drafts/800-90/draft-sp800-90b.pdf)
+[4] Elaine Barker and John Kelsey DRAFT NIST Special Publication 800-90C: Recommendation for Random Bit Generator (RBG) Constructions NIST (http://csrc.nist.gov/publications/drafts/800-90/draft-sp800-90c.pdf)
+[5] Standards Mapping - Common Weakness Enumeration CWE ID 336
+[6] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[7] Standards Mapping - FIPS200 MP
+[8] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[9] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-13 Cryptographic Protection (P1)
+[10] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-13 Cryptographic Protection
+[11] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[12] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[13] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[14] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[15] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.3.1 Authenticator Lifecycle Requirements, 2.6.2 Look-up Secret Verifier Requirements, 6.3.3 Random Values
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.3
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.3
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.3
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.3
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.3
+[23] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.3 - Use of Cryptography
+[24] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.3 - Use of Cryptography, Control Objective B.2.4 - Terminal Software Design
+[25] Standards Mapping - SANS Top 25 2009 Porous Defenses - CWE ID 330
+[26] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3150.2 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3150.2 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3150.2 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3150.2 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3150.2 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3150.2 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3150.2 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[44] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="eq">random.seed</name>
+                <param name="a" pos="1">
+                    <constant operator="is"/>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+    </patterns>
+</check>

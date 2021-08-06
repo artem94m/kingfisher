@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Weak Encryption: Insecure Mode of Operation]]></name>
+    <description><![CDATA[Do not use cryptographic encryption algorithms with an insecure mode of operation.]]></description>
+    <explanation><![CDATA[The mode of operation of a block cipher is an algorithm that describes how to repeatedly apply a cipher's single-block operation to securely transform amounts of data larger than a block. Some modes of operation include Electronic Codebook (ECB), Cipher Block Chaining (CBC), Cipher Feedback (CFB), and Counter (CTR).
+
+ECB mode is inherently weak, as it produces the same ciphertext for identical blocks of plain text. CBC mode is vulnerable to padding oracle attacks. CTR mode is the superior choice because it does not have these weaknesses.
+
+Example 1: The following code uses the AES cipher with ECB mode:
+
+KF_CODE_EXAMPLE
+from Crypto.Cipher import AES
+from Crypto import Random
+...
+key = Random.new().read(AES.block_size)
+random_iv = Random.new().read(AES.block_size)
+cipher = AES.new(key, AES.MODE_ECB, random_iv)]]></explanation>
+    <severity>High</severity>
+    <recommendations>Use other modes like CFB or CTR instead. </recommendations>
+    <links><![CDATA[[1] CVE 2014-3566 (Common Weakness Enumeration CWE ID 327)
+[2] Friends Don't Let Friends Use ECB-Mode Encryption (https://bobnalice.wordpress.com/2009/01/28/friends-don%E2%80%99t-let-friends-use-ecb-mode-encryption/)
+[3] Standards Mapping - Common Weakness Enumeration CWE ID 327
+[4] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[5] Standards Mapping - FIPS200 MP
+[6] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[7] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-13 Cryptographic Protection (P1)
+[8] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-13 Cryptographic Protection
+[9] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[10] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[11] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[12] Standards Mapping - OWASP Top 10 2013 A6 Sensitive Data Exposure
+[13] Standards Mapping - OWASP Top 10 2017 A3 Sensitive Data Exposure
+[14] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[15] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.6.3 Look-up Secret Verifier Requirements, 2.9.3 Cryptographic Software and Devices Verifier Requirements, 6.2.1 Algorithms, 6.2.2 Algorithms, 8.3.7 Sensitive Private Data, 9.1.2 Communications Security Requirements, 9.1.3 Communications Security Requirements
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.3
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.3
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.3
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.3
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.3
+[23] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.4 - Use of Cryptography
+[24] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.4 - Use of Cryptography
+[25] Standards Mapping - SANS Top 25 2009 Porous Defenses - CWE ID 327
+[26] Standards Mapping - SANS Top 25 2010 Porous Defenses - CWE ID 327
+[27] Standards Mapping - SANS Top 25 2011 Porous Defenses - CWE ID 327
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3150.1 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3150.1 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3150.1 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3150.1 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3150.1 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3150.1 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3150.1 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[44] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[45] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+[46] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II, APSC-DV-002040 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.AES.MODE_ECB</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.AES.MODE_CBC</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.DES3.MODE_ECB</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.DES3.MODE_CBC</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.ARC2.MODE_ECB</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.ARC2.MODE_CBC</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.DES.MODE_ECB</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.DES.MODE_CBC</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.Blowfish.MODE_ECB</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.Blowfish.MODE_CBC</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.CAST.MODE_ECB</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <attribute>Crypto.Cipher.CAST.MODE_CBC</attribute>
+        </pattern_simple>
+    </patterns>
+</check>

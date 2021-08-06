@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Path Manipulation: Zip Entry Overwrite]]></name>
+    <description><![CDATA[Allowing user input to control paths used in file system operations could enable an attacker to arbitrarily overwrite files on the system.]]></description>
+    <explanation><![CDATA[Path Manipulation: ZIP Entry Overwrite errors occur when a ZIP file is opened and expanded without checking the file path of the ZIP entry.
+
+Example: The following example extracts files from a ZIP file and insecurely writes them to disk.
+
+KF_CODE_EXAMPLE
+import zipfile
+import tarfile
+
+KF_CODE_EXAMPLE
+def unzip(archive_name):
+    zf = zipfile.ZipFile(archive_name)
+    zf.extractall(".")
+    zf.close()
+
+KF_CODE_EXAMPLE
+def untar(archive_name):
+    tf = tarfile.TarFile(archive_name)
+    tf.extractall(".")
+    tf.close()
+]]></explanation>
+    <severity>High</severity>
+    <recommendations>Check the path for extracted files
+    Use a built-in path canonicalization function that produces the canonical version of the pathname, which effectively removes ".." sequences and symbolic links from every extracted file</recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 22, CWE ID 73
+[2] Standards Mapping - Common Weakness Enumeration Top 25 2019 [10] CWE ID 022
+[3] Standards Mapping - Common Weakness Enumeration Top 25 2020 [12] CWE ID 022
+[4] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002754
+[5] Standards Mapping - FIPS200 SI
+[6] Standards Mapping - General Data Protection Regulation (GDPR) Access Violation
+[7] Standards Mapping - NIST Special Publication 800-53 Revision 4 SI-10 Information Input Validation (P1)
+[8] Standards Mapping - NIST Special Publication 800-53 Revision 5 SI-10 Information Input Validation
+[9] Standards Mapping - OWASP Top 10 2004 A1 Unvalidated Input
+[10] Standards Mapping - OWASP Top 10 2007 A4 Insecure Direct Object Reference
+[11] Standards Mapping - OWASP Top 10 2010 A4 Insecure Direct Object References
+[12] Standards Mapping - OWASP Top 10 2013 A4 Insecure Direct Object References
+[13] Standards Mapping - OWASP Top 10 2017 A5 Broken Access Control
+[14] Standards Mapping - OWASP Mobile 2014 M8 Security Decisions Via Untrusted Inputs
+[15] Standards Mapping - OWASP Application Security Verification Standard 4.0 12.3.1 File Execution Requirements, 12.3.2 File Execution Requirements
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.1
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.1, Requirement 6.5.4
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.8
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.8
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.8
+[21] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.8
+[22] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.8
+[23] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 4.2 - Critical Asset Protection, Control Objective 5.4 - Authentication and Access Control
+[24] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 4.2 - Critical Asset Protection, Control Objective 5.4 - Authentication and Access Control, Control Objective B.3.1 - Terminal Software Attack Mitigation, Control Objective B.3.1.1 - Terminal Software Attack Mitigation
+[25] Standards Mapping - SANS Top 25 2009 Risky Resource Management - CWE ID 426
+[26] Standards Mapping - SANS Top 25 2010 Risky Resource Management - CWE ID 022
+[27] Standards Mapping - SANS Top 25 2011 Risky Resource Management - CWE ID 022
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3510 CAT I, APP3600 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3510 CAT I, APP3600 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3510 CAT I, APP3600 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3510 CAT I, APP3600 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3510 CAT I, APP3600 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3510 CAT I, APP3600 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3510 CAT I, APP3600 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002560 CAT I
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002560 CAT I
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002560 CAT I
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002560 CAT I
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002560 CAT I
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002560 CAT I
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002560 CAT I
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002560 CAT I
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002560 CAT I
+[44] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002560 CAT I
+[45] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002560 CAT I
+[46] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002560 CAT I
+[47] Standards Mapping - Web Application Security Consortium 24 + 2 Path Traversal
+[48] Standards Mapping - Web Application Security Consortium Version 2.00 Path Traversal (WASC-33)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="contains">.extractall</name>
+                <param name="path" pos="1">
+                    <constant operator="is"/>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_without_arg>
+                <name operator="contains">.extractall</name>
+                <param name="path" pos="1" />
+            </function_call_without_arg>
+        </pattern_simple>
+    </patterns>
+</check>

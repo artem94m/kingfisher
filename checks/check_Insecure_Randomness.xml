@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Insecure Randomness]]></name>
+    <description><![CDATA[Standard pseudorandom number generators cannot withstand cryptographic attacks.]]></description>
+    <explanation><![CDATA[Insecure randomness errors occur when a function that can produce predictable values is used as a source of randomness in a security-sensitive context.
+
+Computers are deterministic machines, and as such are unable to produce true randomness. Pseudorandom Number Generators (PRNGs) approximate randomness algorithmically, starting with a seed from which subsequent values are calculated.
+
+There are two types of PRNGs: statistical and cryptographic. Statistical PRNGs provide useful statistical properties, but their output is highly predictable and form an easy to reproduce numeric stream that is unsuitable for use in cases where security depends on generated values being unpredictable. Cryptographic PRNGs address this problem by generating output that is more difficult to predict. For a value to be cryptographically secure, it must be impossible or highly improbable for an attacker to distinguish between the generated random value and a truly random value. In general, if a PRNG algorithm is not advertised as being cryptographically secure, then it is probably a statistical PRNG and should not be used in security-sensitive contexts, where its use can lead to serious vulnerabilities such as easy-to-guess temporary passwords, predictable cryptographic keys, session hijacking, and DNS spoofing.
+
+Example: The following code uses a statistical PRNG to create a URL for a receipt that remains active for some period of time after a purchase.
+
+KF_CODE_EXAMPLE
+def genReceiptURL(self,baseURL):
+    randNum = random.random()
+    receiptURL = baseURL + randNum + ".html"
+    return receiptURL
+
+This code uses the rand() function to generate "unique" identifiers for the receipt pages it generates. Since rand() is a statistical PRNG, it is easy for an attacker to guess the strings it generates. Although the underlying design of the receipt system is also faulty, it would be more secure if it used a random number generator that did not produce predictable receipt identifiers, such as a cryptographic PRNG.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Use functions or hardware which use a hardware-based random number generation for all crypto.
+Use an appropriate module for geneneration of random data</recommendations>
+    <links><![CDATA[[1] J. Viega, G. McGraw Building Secure Software Addison-Wesley
+[2] Standards Mapping - Common Weakness Enumeration CWE ID 338
+[3] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[4] Standards Mapping - FIPS200 MP
+[5] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[6] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-13 Cryptographic Protection (P1)
+[7] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-13 Cryptographic Protection
+[8] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[9] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[10] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[11] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[12] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.3.1 Authenticator Lifecycle Requirements, 2.6.2 Look-up Secret Verifier Requirements, 3.2.2 Session Binding Requirements, 3.2.4 Session Binding Requirements, 6.3.1 Random Values, 6.3.2 Random Values, 6.3.3 Random Values
+[13] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.3
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.3
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.3
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.3
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.3
+[20] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.3 - Use of Cryptography
+[21] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.3 - Use of Cryptography, Control Objective B.2.4 - Terminal Software Design
+[22] Standards Mapping - SANS Top 25 2009 Porous Defenses - CWE ID 330
+[23] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3150.2 CAT II
+[24] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3150.2 CAT II
+[25] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3150.2 CAT II
+[26] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3150.2 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3150.2 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3150.2 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3150.2 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II, APSC-DV-002050 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">random.random</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">random.randbytes</name>
+            </function_call>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">random.getrandbits</name>
+            </function_call>
+        </pattern_simple>
+    </patterns>
+</check>

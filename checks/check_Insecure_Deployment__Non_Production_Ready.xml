@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Insecure Deployment: Non Production Ready]]></name>
+    <description><![CDATA[The application contains a component that is not designed to be deployed on a production environment.]]></description>
+    <explanation><![CDATA[The Django application exposes the serve view of the static files application which is not designed to be deployed in a production environment. According to Django documentation:
+
+"The static files tools are mostly designed to help with getting static files successfully deployed into production. This usually means a separate, dedicated static file server, which is a lot of overhead to mess with when developing locally. Thus, the staticfiles app ships with a quick and dirty helper view that you can use to serve files locally in development.
+
+This view will only work if DEBUG is True.
+
+That's because this view is grossly inefficient and probably insecure. This is only intended for local development, and should never be used in production."]]></explanation>
+    <severity>Low</severity>
+    <recommendations>Remove a non-production code from the application before deployment</recommendations>
+    <links><![CDATA[[1] Django Foundation The staticfiles app (https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/)
+[2] Django Foundation Managing static files (https://docs.djangoproject.com/en/dev/howto/static-files/)
+[3] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-000381
+[4] Standards Mapping - General Data Protection Regulation (GDPR) Indirect Access to Sensitive Data
+[5] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 10.2 - Threat and Vulnerability Management
+[6] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 10.2 - Threat and Vulnerability Management
+[7] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-001500 CAT II
+[8] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-001500 CAT II
+[9] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-001500 CAT II
+[10] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-001500 CAT II
+[11] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-001500 CAT II
+[12] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-001500 CAT II
+[13] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-001500 CAT II
+[14] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-001500 CAT II
+[15] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-001500 CAT II
+[16] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-001500 CAT II
+[17] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-001500 CAT II
+[18] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-001500 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <attribute>django.contrib.staticfiles.views.serve</attribute>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">django.contrib.staticfiles.views.serve</name>
+            </function_call>
+        </pattern_simple>
+    </patterns>
+</check>

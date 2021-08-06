@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Poor Error Handling: Empty Catch Block]]></name>
+    <description><![CDATA[Ignoring an exception can cause the program to overlook unexpected states and conditions.]]></description>
+    <explanation><![CDATA[Just about every serious attack on a software system begins with the violation of a programmer's assumptions. After the attack, the programmer's assumptions seem flimsy and poorly founded, but before an attack many programmers would defend their assumptions well past the end of their lunch break.
+
+Two dubious assumptions that are easy to spot in code are "this method call can never fail" and "it doesn't matter if this call fails". When a programmer ignores an exception, they implicitly state that they are operating under one of these assumptions.
+
+Example 1: The following code excerpt ignores a rarely-thrown exception from open().
+
+KF_CODE_EXAMPLE
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+    i = int(s.strip())
+except:
+    # This will never happen
+    pass
+
+If a RareException were to ever be thrown, the program would continue to execute as though nothing unusual had occurred. The program records no evidence indicating the special situation, potentially frustrating any later attempt to explain the program's behavior.]]></explanation>
+    <severity>Low</severity>
+    <recommendations>If you can do nothing with an exception - at least log the information about it.</recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 1069
+[2] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-001312, CCI-001314, CCI-003272
+[3] Standards Mapping - FIPS200 AU
+[4] Standards Mapping - General Data Protection Regulation (GDPR) Indirect Access to Sensitive Data
+[5] Standards Mapping - NIST Special Publication 800-53 Revision 4 SI-11 Error Handling (P2)
+[6] Standards Mapping - NIST Special Publication 800-53 Revision 5 SI-11 Error Handling
+[7] Standards Mapping - OWASP Top 10 2004 A7 Improper Error Handling
+[8] Standards Mapping - OWASP Top 10 2007 A6 Information Leakage and Improper Error Handling
+[9] Standards Mapping - OWASP Application Security Verification Standard 4.0 7.4.1 Error Handling
+[10] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.7
+[11] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.2, Requirement 6.5.6
+[12] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.5
+[13] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.5
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.5
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.5
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.5
+[17] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 3.6 - Sensitive Data Retention
+[18] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 3.6 - Sensitive Data Retention, Control Objective B.3.2 - Terminal Software Attack Mitigation
+[19] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3120 CAT II
+[20] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3120 CAT II
+[21] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3120 CAT II
+[22] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3120 CAT II
+[23] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3120 CAT II
+[24] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3120 CAT II
+[25] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3120 CAT II
+[26] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002570 CAT II, APSC-DV-002580 CAT II, APSC-DV-003235 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <block operator="empty">except</block>
+        </pattern_simple>
+    </patterns>
+</check>

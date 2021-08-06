@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Key Management: Unencrypted Private Key]]></name>
+    <description><![CDATA[Cryptographic encryption or signing private keys should not be stored in plain text.]]></description>
+    <explanation><![CDATA[Private keys used for encryption or signing should be considered sensitive data and should be encrypted with a strong passphrase prior to storage. This prevents unauthorized access by both attackers in the event of theft or a leak, as well as by users with insufficient permissions.
+
+Example 1: The following code exports an RSA private key using an unencrypted PEM format:
+
+KF_CODE_EXAMPLE
+from Crypto.PublicKey import RSA
+key = RSA.generate(2048)
+f = open('mykey.pem','w')
+f.write(key.exportKey(format='PEM'))
+f.close()]]></explanation>
+    <severity>High</severity>
+    <recommendations>Prevention schemes mirror that of hard-coded password storage. </recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 311
+[2] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[3] Standards Mapping - FIPS200 IA
+[4] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[5] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-12 Cryptographic Key Establishment and Management (P1)
+[6] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-12 Cryptographic Key Establishment and Management
+[7] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[8] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[9] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[10] Standards Mapping - OWASP Top 10 2013 A6 Sensitive Data Exposure
+[11] Standards Mapping - OWASP Top 10 2017 A3 Sensitive Data Exposure
+[12] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[13] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.6.3 Look-up Secret Verifier Requirements, 6.2.1 Algorithms, 8.1.6 General Data Protection
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8, Requirement 8.4
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8, Requirement 8.4
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.4
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.2.1
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.2.1
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.2.1
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.3.1, Requirement 6.5.3, Requirement 8.2.1
+[21] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.2 - Use of Cryptography
+[22] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.2 - Use of Cryptography, Control Objective B.2.3 - Terminal Software Design
+[23] Standards Mapping - SANS Top 25 2009 Porous Defenses - CWE ID 259
+[24] Standards Mapping - SANS Top 25 2010 Porous Defenses - CWE ID 311
+[25] Standards Mapping - SANS Top 25 2011 Porous Defenses - CWE ID 311
+[26] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3210.1 CAT II, APP3350 CAT I
+[27] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3210.1 CAT II, APP3350 CAT I
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3210.1 CAT II, APP3350 CAT I
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3210.1 CAT II, APP3350 CAT I
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3210.1 CAT II, APP3350 CAT I
+[31] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3210.1 CAT II, APP3350 CAT I
+[32] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3210.1 CAT II, APP3350 CAT I
+[33] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II
+[43] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II
+[44] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II
+[45] Standards Mapping - Web Application Security Consortium Version 2.00 Information Leakage (WASC-13)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="contains">.exportKey</name>
+                <param name="format" pos="1">
+                    <str operator="eq">PEM</str>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_without_arg>
+                <name operator="contains">.exportKey</name>
+                <param name="format" pos="1" />
+            </function_call_without_arg>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="contains">.export_key</name>
+                <param name="format" pos="1">
+                    <str operator="eq">PEM</str>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_without_arg>
+                <name operator="contains">.export_key</name>
+                <param name="format" pos="1" />
+            </function_call_without_arg>
+        </pattern_simple>
+    </patterns>
+</check>

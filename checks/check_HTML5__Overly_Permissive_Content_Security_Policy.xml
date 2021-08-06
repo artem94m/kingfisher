@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[HTML5: Overly Permissive Content Security Policy]]></name>
+    <description><![CDATA[Content Security Policy (CSP) is configured with an overly permissive policy which can pose security risks.]]></description>
+    <explanation><![CDATA[Content Security Policy (CSP) is a declarative security header that enables developers to specify allowed security-related behavior within the browser, including an allow list of locations from which content can be retrieved. It provides an additional layer of security from critical vulnerabilities such as cross-site scripting, clickjacking, cross-origin access and the like, on top of input validation and checking an allow list in code. An improperly configured header, however, fails to provide this additional layer of security. The policy is defined with the help of 15 directives including 8 that control resource access: script-src, img-src, object-src, style_src, font-src, media-src, frame-src, connect-src. These 8 directives take a source list as a value that specifies domains the site is allowed to access for a feature covered by that directive. Developers can use a wildcard * to indicate all or part of the source. Additional source list keywords such as 'unsafe-inline' and 'unsafe-eval' provide more granular control over script execution but are potentially harmful. None of the directives are mandatory. Browsers either allow all sources for an unlisted directive or derive its value from the optional default-src directive. Furthermore, the specification for this header has evolved over time. It was implemented as X-Content-Security-Policy in Firefox until version 23 and in IE until version 10, and was implemented as X-Webkit-CSP in Chrome until version 25. Both of these names are deprecated in favor of the now standard name Content Security Policy. Given the number of directives, two deprecated alternate names, and the way multiple occurrences of the same header and repeated directives in a single header are treated, there is a high probability that a developer can misconfigure this header.
+
+In this case, a *-src directive has been configured with an overly permissive policy such as *Example 1: The following django-csp setting sets an overly permissive and insecure default-src directive:
+
+KF_CODE_EXAMPLE
+...
+MIDDLEWARE_CLASSES = (
+...
+'csp.middleware.CSPMiddleware',
+...
+)
+...
+CSP_DEFAULT_SRC = ("'self'", '*')
+...]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Do not use overly permissive '*' value for CSP - set all possible sources explicitly</recommendations>
+    <links><![CDATA[[1] OWASP Content Security Policy (https://www.owasp.org/index.php/Content_Security_Policy)
+[2] W3C Content Security Policy 1.1 (http://www.w3.org/TR/2014/WD-CSP11-20140211/)
+[3] Mozilla django-csp (http://django-csp.readthedocs.org/en/latest/index.html)
+[4] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-001368, CCI-001414
+[5] Standards Mapping - General Data Protection Regulation (GDPR) Indirect Access to Sensitive Data
+[6] Standards Mapping - NIST Special Publication 800-53 Revision 4 AC-4 Information Flow Enforcement (P1)
+[7] Standards Mapping - NIST Special Publication 800-53 Revision 5 AC-4 Information Flow Enforcement
+[8] Standards Mapping - OWASP Top 10 2010 A6 Security Misconfiguration
+[9] Standards Mapping - OWASP Top 10 2013 A5 Security Misconfiguration
+[10] Standards Mapping - OWASP Top 10 2017 A6 Security Misconfiguration
+[11] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.10
+[12] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.8
+[13] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.8
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.8
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.8
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.8
+[17] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 5.4 - Authentication and Access Control
+[18] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 5.4 - Authentication and Access Control
+[19] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[20] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[21] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[22] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[23] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[24] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[25] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[26] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[31] Standards Mapping - Web Application Security Consortium Version 2.00 Application Misconfiguration (WASC-15)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <unique_assignment_to_set_tuple_list>
+                <name operator="contains">csp_</name>
+                <values operator="contains">
+                    <value type="str">*</value>
+                </values>
+            </unique_assignment_to_set_tuple_list>
+        </pattern_simple>
+    </patterns>
+</check>

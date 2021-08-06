@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Weak Cryptographic Hash: Hardcoded Salt]]></name>
+    <description><![CDATA[A hardcoded salt may compromise system security in a way that cannot be easily remedied.]]></description>
+    <explanation><![CDATA[It is never a good idea to hardcode a salt. Not only does a hardcoded salt allow all of the project's developers to view the salt, it also makes fixing the problem extremely difficult. After the code is in production, the salt cannot be easily changed. If attackers know the value of the salt, they can compute "rainbow tables" for the application and more easily determine the hashed values.
+
+Example 1: The following code uses a hardcoded salt:
+
+KF_CODE_EXAMPLE
+...
+from django.contrib.auth.hashers import make_password
+make_password(password, salt="2!@$(5#@532@%#$253l5#@$")
+...
+
+This code will run successfully, but anyone who has access to it will have access to the salt. After the program ships, there is likely no way to change the salt "2!@$(5#@532@%#$253l5#@$". An employee with access to this information can use it to break into the system.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>When using industry-approved techniques, use them correctly. Don't cut corners by skipping resource-intensive steps (CWE-325). These steps are often essential for preventing common attacks. 
+    If a technique that requires extra computational effort can not be implemented, then for each password that is processed, generate a new random salt using a strong random number generator with unpredictable seeds. Add the salt to the plaintext password before hashing it. When storing the hash, also store the salt. Do not use the same salt for every password.</recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 760
+[2] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-002450
+[3] Standards Mapping - FIPS200 MP
+[4] Standards Mapping - General Data Protection Regulation (GDPR) Insufficient Data Protection
+[5] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-13 Cryptographic Protection (P1)
+[6] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-13 Cryptographic Protection
+[7] Standards Mapping - OWASP Top 10 2004 A8 Insecure Storage
+[8] Standards Mapping - OWASP Top 10 2007 A8 Insecure Cryptographic Storage
+[9] Standards Mapping - OWASP Top 10 2010 A7 Insecure Cryptographic Storage
+[10] Standards Mapping - OWASP Top 10 2013 A6 Sensitive Data Exposure
+[11] Standards Mapping - OWASP Top 10 2017 A3 Sensitive Data Exposure
+[12] Standards Mapping - OWASP Mobile 2014 M6 Broken Cryptography
+[13] Standards Mapping - OWASP Application Security Verification Standard 4.0 2.4.1 Credential Storage Requirements, 2.4.2 Credential Storage Requirements, 2.4.5 Credential Storage Requirements, 2.6.3 Look-up Secret Verifier Requirements, 2.9.3 Cryptographic Software and Devices Verifier Requirements, 6.2.1 Algorithms, 6.2.2 Algorithms, 8.3.7 Sensitive Private Data, 9.1.2 Communications Security Requirements, 9.1.3 Communications Security Requirements
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.8
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.3, Requirement 6.5.8
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.3
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.3
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.3
+[19] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.3
+[20] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.3
+[21] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 7.1 - Use of Cryptography, Control Objective 7.4 - Use of Cryptography
+[22] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 7.1 - Use of Cryptography, Control Objective 7.4 - Use of Cryptography, Control Objective B.2.3 - Terminal Software Design
+[23] Standards Mapping - SANS Top 25 2011 Porous Defenses - CWE ID 759
+[24] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3150.1 CAT II
+[25] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3150.1 CAT II
+[26] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3150.1 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3150.1 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3150.1 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3150.1 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3150.1 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[33] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[34] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[35] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[36] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[37] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[38] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[39] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[40] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[41] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+[42] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002010 CAT II, APSC-DV-002020 CAT II, APSC-DV-002030 CAT II
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <assignment_var>
+                <name operator="contains">salt</name>
+                <value>
+                    <str operator="neq"></str>
+                </value>
+            </assignment_var>
+        </pattern_simple>
+        <pattern_simple>
+            <assignment_in_dict>
+                <name operator="contains"></name>
+                <key operator="contains">salt</key>
+                <value>
+                    <str operator="neq"></str>
+                </value>
+            </assignment_in_dict>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="eq">django.contrib.auth.hashers.make_password</name>
+                <param name="salt" pos="2">
+                    <str operator="neq"></str>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="eq">django.utils.crypto.salted_hmac</name>
+                <param name="salt" pos="2">
+                    <str operator="neq"></str>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+    </patterns>
+</check>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Often Misused: File System]]></name>
+    <description><![CDATA[The mask specified by the argument umask() is often confused with the argument to chmod().]]></description>
+    <explanation><![CDATA[The umask() man page begins with the false statement:
+
+"umask sets the umask to mask & 0777"
+
+Although this behavior would better align with the usage of chmod(), where the user provided argument specifies the bits to enable on the specified file, the behavior of umask() is in fact opposite: umask() sets the umask to ~mask & 0777.
+
+The umask() man page goes on to describe the correct usage of umask():
+
+"The umask is used to set initial file permissions on a newly-created file. Specifically, permissions in the umask are turned off from the mode argument (so, for example, the common umask default value of 022 results in new files being created with permissions 0666 & ~022 = 0644 = rw-r--r-- in the usual case where the mode is specified as 0666)."]]></explanation>
+    <severity>Low</severity>
+    <recommendations>Use umask() with the correct argument. 
+If you suspect misuse of umask(), you can use grep to spot call instances of umask(). 
+    </recommendations>
+    <links><![CDATA[[1] Standards Mapping - Common Weakness Enumeration CWE ID 249, CWE ID 560
+[2] Standards Mapping - General Data Protection Regulation (GDPR) Access Violation
+[3] Standards Mapping - OWASP Top 10 2004 A5 Buffer Overflow
+[4] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.5
+[5] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.3.1.1
+[6] Standards Mapping - Payment Card Industry Data Security Standard Version 2.0 Requirement 6.5.2
+[7] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.2
+[8] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.2
+[9] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.2
+[10] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.2
+[11] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 4.2 - Critical Asset Protection
+[12] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 4.2 - Critical Asset Protection
+[13] Standards Mapping - Security Technical Implementation Guide Version 3.1 APP3590.1 CAT I
+[14] Standards Mapping - Security Technical Implementation Guide Version 3.4 APP3590.1 CAT I
+[15] Standards Mapping - Security Technical Implementation Guide Version 3.5 APP3590.1 CAT I
+[16] Standards Mapping - Security Technical Implementation Guide Version 3.6 APP3590.1 CAT I
+[17] Standards Mapping - Security Technical Implementation Guide Version 3.7 APP3590.1 CAT I
+[18] Standards Mapping - Security Technical Implementation Guide Version 3.9 APP3590.1 CAT I
+[19] Standards Mapping - Security Technical Implementation Guide Version 3.10 APP3590.1 CAT I
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call>
+                <name operator="eq">os.umask</name>
+            </function_call>
+        </pattern_simple>
+    </patterns>
+</check>

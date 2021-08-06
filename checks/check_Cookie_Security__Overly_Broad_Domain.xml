@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Cookie Security: Overly Broad Domain]]></name>
+    <description><![CDATA[A cookie with an overly broad domain opens an application to attack through other applications.]]></description>
+    <explanation><![CDATA[Developers often set cookies to be active across a base domain such as ".example.com". This exposes the cookie to all web applications on the base domain and any sub-domains. Because cookies often carry sensitive information such as session identifiers, sharing cookies across applications can cause a vulnerability in one application to compromise another application.
+
+Example 1: Imagine you have a secure application deployed at http://secure.example.com/ and the application sets a session ID cookie with domain ".example.com" when a user logs in.
+
+For example:
+
+KF_CODE_EXAMPLE
+from django.http.response import HttpResponse
+...
+def view_method(request):
+    res = HttpResponse()
+    res.set_cookie("mySessionId", getSessionID(), domain=".example.com")
+    return res
+...
+
+Suppose you have another, less secure, application at http://insecure.example.com/, and it contains a cross-site scripting vulnerability. Any user authenticated to http://secure.example.com that browses to http://insecure.example.com risks exposing their session cookie from http://secure.example.com.
+
+In addition to reading a cookie, it might be possible for attackers to perform a "Cookie poisoning attack" by using insecure.example.com to create its own overly broad cookie that overwrites the cookie from secure.example.com.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Set domain for the cookie as strict as possible</recommendations>
+    <links><![CDATA[[1] Request and Response documentation The Django Foundation Group (https://docs.djangoproject.com/en/1.8/ref/request-response/)
+[2] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-001368, CCI-001414
+[3] Standards Mapping - FIPS200 CM
+[4] Standards Mapping - General Data Protection Regulation (GDPR) Access Violation
+[5] Standards Mapping - NIST Special Publication 800-53 Revision 4 AC-4 Information Flow Enforcement (P1)
+[6] Standards Mapping - NIST Special Publication 800-53 Revision 5 AC-4 Information Flow Enforcement
+[7] Standards Mapping - OWASP Top 10 2004 A10 Insecure Configuration Management
+[8] Standards Mapping - OWASP Top 10 2007 A6 Information Leakage and Improper Error Handling
+[9] Standards Mapping - OWASP Top 10 2010 A6 Security Misconfiguration
+[10] Standards Mapping - OWASP Top 10 2013 A6 Sensitive Data Exposure
+[11] Standards Mapping - OWASP Top 10 2017 A3 Sensitive Data Exposure
+[12] Standards Mapping - OWASP Mobile 2014 M4 Unintended Data Leakage
+[13] Standards Mapping - Payment Card Industry Data Security Standard Version 1.1 Requirement 6.5.3
+[14] Standards Mapping - Payment Card Industry Data Security Standard Version 1.2 Requirement 6.5.7
+[15] Standards Mapping - Payment Card Industry Data Security Standard Version 3.0 Requirement 6.5.10
+[16] Standards Mapping - Payment Card Industry Data Security Standard Version 3.1 Requirement 6.5.10
+[17] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2 Requirement 6.5.10
+[18] Standards Mapping - Payment Card Industry Data Security Standard Version 3.2.1 Requirement 6.5.10
+[19] Standards Mapping - Payment Card Industry Software Security Framework 1.0 Control Objective 4.2 - Critical Asset Protection
+[20] Standards Mapping - Payment Card Industry Software Security Framework 1.1 Control Objective 4.2 - Critical Asset Protection
+[21] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[22] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[23] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[24] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[25] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[26] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[27] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[28] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[29] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[30] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[31] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[32] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-000480 CAT II, APSC-DV-000490 CAT II
+[33] Standards Mapping - Web Application Security Consortium 24 + 2 Information Leakage
+[34] Standards Mapping - Web Application Security Consortium Version 2.00 Information Leakage (WASC-13)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="contains">.set_cookie</name>
+                <param name="domain" pos="6">
+                    <str operator="starts">.</str>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+    </patterns>
+</check>

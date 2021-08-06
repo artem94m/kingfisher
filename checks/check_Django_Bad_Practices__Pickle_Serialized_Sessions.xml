@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Django Bad Practices: Pickle Serialized Sessions]]></name>
+    <description><![CDATA[Pickle-serialized sessions can lead to remote code execution if attackers can control session data.]]></description>
+    <explanation><![CDATA[If cookie-based sessions are used and SECRET_KEY is leaked, an attacker will be able to store arbitrary data in the session cookie which will be deserialized in the server leading to arbitrary code execution.
+
+If cookie-based sessions are used, take extra care to make sure that the secret key is always kept completely secret, for any system which might be remotely accessible.
+
+Example 1: The following view method allows an attacker to steal the SECRET_KEY if it is hardcoded in settings.py configuration file:
+
+KF_CODE_EXAMPLE
+...
+def some_view_method(request):
+    url = request.GET['url']
+    if "http://" in url:
+    content = urllib.urlopen(url)
+    return HttpResponse(content)
+...
+
+Example 1 method checks that the url parameter is a valid URL by checking that "http://" is present in the URL. A malicious attacker may send the following URL to leak the settings.py configuration file that may contain the SECRET_KEY:
+
+KF_CODE_EXAMPLE
+file://proc/self/cwd/app/settings.py#http://
+
+Note: "/proc/self/cwd" in UNIX systems points to the process working directory. This allow attackers to reference files without knowing the exact location.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Use django.contrib.sessions.serializers.JSONSerializer instead</recommendations>
+    <links><![CDATA[[1] Django Foundation Session serialization (https://docs.djangoproject.com/en/1.8/topics/http/sessions/#session-serialization)
+[2] Erik Romijn Proof of concept: arbitrary remote code execution through pickle-backed cookie-based sessions (http://erik.io/blog/2013/04/26/proof-of-concept-arbitrary-remote-code-execution-pickle-sessions/)
+[3] Balda Python web frameworks and pickles (http://www.balda.ch/posts/2013/Jun/23/python-web-frameworks-pickle/)
+[4] Standards Mapping - General Data Protection Regulation (GDPR) Access Violation
+[5] Standards Mapping - Web Application Security Consortium Version 2.00 Application Misconfiguration (WASC-15)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <assignment_var>
+                <name operator="eq">SESSION_SERIALIZER</name>
+                <value>
+                    <str operator="eq">django.contrib.sessions.serializers.PickleSerializer</str>
+                </value>
+            </assignment_var>
+        </pattern_simple>
+        <pattern_simple>
+            <function_call_with_arg>
+                <name operator="eq">django.core.signing.loads</name>
+                <param name="serializer" pos="4">
+                    <attr operator="eq">django.contrib.sessions.serializers.PickleSerializer</attr>
+                </param>
+            </function_call_with_arg>
+        </pattern_simple>
+    </patterns>
+</check>

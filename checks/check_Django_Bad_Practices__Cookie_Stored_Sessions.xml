@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<check status="enabled">
+    <name><![CDATA[Django Bad Practices: Cookie Stored Sessions]]></name>
+    <description><![CDATA[Cookie-based sessions are not invalidated when a user logs out. If an attacker were to find, steal, or intercept a user's cookie they could impersonate the user even if that user had logged out.]]></description>
+    <explanation><![CDATA[Storing session data in Cookies presents several problems:
+
+1. Cookie-based sessions are not invalidated when a user logs out. If an attacker were to find, steal, or intercept a user's cookie they could impersonate the user even if that user had logged out.
+
+2. Session cookies are signed to avoid tampering and guarantee the authenticity of the data, but it will not prevent replay attacks.
+
+3. The session data will be stored using Django's tools for cryptographic signing and the SECRET_KEY setting. If the SECRET_KEY is leaked, an attacker cannot only falsify session data, but if application uses Pickle to serialize session data into cookies, an attacker will be able to craft malicious pickled data that will execute arbitrary code upon deserialization.
+
+4. The session data is signed but not encrypted. This means that attackers will be able to read the session data but not modify it.
+
+5. The cookie size and serialization process can pose a performace problem depending on site load.]]></explanation>
+    <severity>Medium</severity>
+    <recommendations>Set reasonable max age for the cookie - less than 2 weeks (default)
+Set HttpOnly flag for the cookie</recommendations>
+    <links><![CDATA[[1] Django Foundation Using cookie-based sessions (https://docs.djangoproject.com/en/dev/topics/http/sessions/#using-cookie-based-sessions)
+[2] Standards Mapping - DISA Control Correlation Identifier Version 2 CCI-001185
+[3] Standards Mapping - General Data Protection Regulation (GDPR) Access Violation
+[4] Standards Mapping - NIST Special Publication 800-53 Revision 4 SC-23 Session Authenticity (P1)
+[5] Standards Mapping - NIST Special Publication 800-53 Revision 5 SC-23 Session Authenticity
+[6] Standards Mapping - Security Technical Implementation Guide Version 4.1 APSC-DV-002240 CAT I
+[7] Standards Mapping - Security Technical Implementation Guide Version 4.2 APSC-DV-002240 CAT I
+[8] Standards Mapping - Security Technical Implementation Guide Version 4.3 APSC-DV-002240 CAT I
+[9] Standards Mapping - Security Technical Implementation Guide Version 4.4 APSC-DV-002240 CAT I
+[10] Standards Mapping - Security Technical Implementation Guide Version 4.5 APSC-DV-002240 CAT I
+[11] Standards Mapping - Security Technical Implementation Guide Version 4.6 APSC-DV-002240 CAT I
+[12] Standards Mapping - Security Technical Implementation Guide Version 4.7 APSC-DV-002240 CAT I
+[13] Standards Mapping - Security Technical Implementation Guide Version 4.8 APSC-DV-002240 CAT I
+[14] Standards Mapping - Security Technical Implementation Guide Version 4.9 APSC-DV-002240 CAT I
+[15] Standards Mapping - Security Technical Implementation Guide Version 4.10 APSC-DV-002240 CAT I
+[16] Standards Mapping - Security Technical Implementation Guide Version 4.11 APSC-DV-002240 CAT I
+[17] Standards Mapping - Security Technical Implementation Guide Version 5.1 APSC-DV-002240 CAT I
+[18] Standards Mapping - Web Application Security Consortium Version 2.00 Application Misconfiguration (WASC-15)
+]]></links>
+    <patterns>
+        <pattern_simple>
+            <assignment_var>
+                <name operator="eq">SESSION_ENGINE</name>
+                <value>
+                    <str operator="eq">django.contrib.sessions.backends.signed_cookies</str>
+                </value>
+            </assignment_var>
+        </pattern_simple>
+    </patterns>
+</check>
