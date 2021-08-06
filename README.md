@@ -89,24 +89,24 @@ Tag `<name>` and `<description>` are self-descriptive and contains just one para
 Tag `<explanation>` contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports paragraphs inside `<explanation>` should be separated by double new line (\n\n):
 
 ```
-    Command injection vulnerabilities take two forms:
+Command injection vulnerabilities take two forms:
 
-    - An attacker can change the command that the program executes: the attacker explicitly controls what the command is.
+- An attacker can change the command that the program executes: the attacker explicitly controls what the command is.
 
-    - An attacker can change the environment in which the command executes: the attacker implicitly controls what the command means.
+- An attacker can change the environment in which the command executes: the attacker implicitly controls what the command means.
 ```
 
 Examples of code also should be separated other paragraphs by double new line (\n\n) and prepended by keyword KF_CODE_EXAMPLE:
 
-    ```
-    KF_CODE_EXAMPLE
-    ...
-    home = os.getenv('APPHOME')
-    cmd = home.join(INITCMD)
-    os.system(cmd)
-    ...
-    do_something()
-    ```
+```
+KF_CODE_EXAMPLE
+...
+home = os.getenv('APPHOME')
+cmd = home.join(INITCMD)
+os.system(cmd)
+...
+do_something()
+```
 
 You can use "..." to fill the gaps in the code.
 
@@ -119,9 +119,9 @@ Tag `<links>` contains links to the different standarts. Links should be separat
 Tag `<patterns>` contains patterns for recognition of the vulnerability. More details about this tag are placed below.
 
 ## Patterns
-    Tag <patterns> is the most interesting one. It supports only one tag <pattern_simple> (yet) and must contain at least one. This tag is used for description of simple checks.
+Tag `<patterns>` is the most interesting one. It supports only one tag `<pattern_simple>` (yet) and must contain at least one. This tag is used for description of simple checks.
 
-    Tag <pattern_simple> must contain only one of next tags: <comment>, <string>, <block>, <attribute>, <function_call>, <function_call_without_arg>, <function_call_with_arg>, <assignment_var>, <assignment_in_dict>, <unique_assignment_to_set_tuple_list>.
+Tag `<pattern_simple>` must contain only one of next tags: `<comment>`, `<string>`, `<block>`, `<attribute>`, `<function_call>`, `<function_call_without_arg>`, `<function_call_with_arg>`, `<assignment_var>`, `<assignment_in_dict>`, `<unique_assignment_to_set_tuple_list>`.
 
     Tag <comment> is used to find specific text (case-insensitive) in the comments. The tag must contain non empty string. Pattern below will trigger if there is "password" phrase (case-insensitive) in the comments in source code (probably password in comments):
         <pattern_simple>
