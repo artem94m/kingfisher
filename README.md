@@ -57,7 +57,7 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
 
    Or a folder:
 
-    ```    
+    ```
     python kingfisher.py -scan C:\tests\project
     ```
 
@@ -65,7 +65,7 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
 
     ```
     python kingfisher.py -scan /var/www/project
-    ``` 
+    ```
 
 4. If REPORT_PATH is not specified, the results of the scan will be saved in local report folder: kingfisher-main\reports. Reports are generated in PDF format. Example of report file with results of scanning of local "tests" folder is placed in kingfisher-main\reports folder.
 
@@ -110,13 +110,13 @@ Examples of code also should be separated other paragraphs by double new line (\
 
 You can use "..." to fill the gaps in the code.
 
-    Tag <severity> is also self-descriptive and can contain only one of four values: High, Medium, Low, Info. This value is set according to CWE (from <links>), if possible.
+Tag `<severity>` is also self-descriptive and can contain only one of four values: High, Medium, Low, Info. This value is set according to CWE (from `<links>`), if possible.
 
-    Tag <recommendations> is also self-descriptive and for correct generation of report recommendations in it should be separated by one new line (\n).
+Tag `<recommendations>` is also self-descriptive and for correct generation of report recommendations in it should be separated by one new line (\n).
 
-    Tag <links> contains links to the different standarts. Links should be separated by one new line (\n).
+Tag `<links>` contains links to the different standarts. Links should be separated by one new line (\n).
 
-    Tag <patterns> contains patterns for recognition of the vulnerability. More details about this tag are placed below.
+Tag `<patterns>` contains patterns for recognition of the vulnerability. More details about this tag are placed below.
 
 PATTERNS
     Tag <patterns> is the most interesting one. It supports only one tag <pattern_simple> (yet) and must contain at least one. This tag is used for description of simple checks.
