@@ -183,7 +183,7 @@ Tag `<function_call>` is used to find call of specific function. Is has to conta
  - eq (trigger if a function name equals to specific text)
  - contains (trigger if a function name contains specific text)
 
-NOTE: You should specify full path to the function - with module name and sub-packets.
+**NOTE**: You should specify full path to the function - with module name and sub-packets.
 
 Example below trigger if os.system function is used in the code (probably command injection):
 ```
@@ -236,7 +236,7 @@ In next example, name of the argument is not strict, so you have to search absen
 </pattern_simple>
 ```
 
-NOTE: scanner does not support (yet) check against usage of `**kwargs` and `*args` as arguments.
+**NOTE**: scanner does not support (yet) check against usage of `**kwargs` and `*args` as arguments.
 
 
 ### Tag `<function_call_with_arg>`
@@ -245,125 +245,130 @@ Tag `<name>` describes function name - it works exactly the same like in `<funct
 Tag `<param>` has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. Tag `<param>` has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>`.
 
 ##### Tag `<str>`
+Tag `<str>` has one attribute "operator" which can have next values:
+ - eq (trigger if param value equals specific string)
+ - neq (trigger if param value is not equal specific string)
+ - contains (trigger if param value contains specific string)
+ - starts (trigger if param value start from specific string)
+Example:
+```
+<pattern_simple>
+    <function_call_with_arg>
+        <name operator="eq">some_func</name>
+        <param name="param1" pos="1">
+            <str operator="eq">test</str>
+        </param>
+    </function_call_with_arg>
+</pattern_simple>
+```
 
-    Tag <str> has one attribute "operator" which can have next values:
-     - eq (trigger if param value equals specific string)
-     - neq (trigger if param value is not equal specific string)
-     - contains (trigger if param value contains specific string)
-     - starts (trigger if param value start from specific string)
-    Example:
-        <pattern_simple>
-            <function_call_with_arg>
-                <name operator="eq">some_func</name>
-                <param name="param1" pos="1">
-                    <str operator="eq">test</str>
-                </param>
-            </function_call_with_arg>
-        </pattern_simple>
-    Tag <int> has one attribute "operator" which can have next values:
-     - eq (trigger if param value equals specific integer)
-     - neq (trigger if param value is not equal specific integer)
-     - gt (trigger if param value greater than specific integer)
-     - lt (trigger if param value less than specific integer)
-    Example:
-        <pattern_simple>
-            <function_call_with_arg>
-                <name operator="eq">some_func</name>
-                <param name="param1" pos="1">
-                    <int operator="gt">123</int>
-                </param>
-            </function_call_with_arg>
-        </pattern_simple>
-    Tag <bool> has one attribute "operator" which can have next values:
-     - eq (trigger if param value equals specific boolean (can be only True or False))
-     - neq (trigger if param value is not equal specific boolean)
-    Example:
-        <pattern_simple>
-            <function_call_with_arg>
-                <name operator="eq">some_func</name>
-                <param name="param1" pos="1">
-                    <bool operator="eq">False</bool>
-                </param>
-            </function_call_with_arg>
-        </pattern_simple>
-    Tag <none> (must be empty) has one attribute "operator" which can have next values:
-     - is (trigger if param value equals None)
-     - not (trigger if param value is not equal None)
-    Example:
-        <pattern_simple>
-            <function_call_with_arg>
-                <name operator="eq">some_func</name>
-                <param name="param1" pos="1">
-                    <none operator="is"/>
-                </param>
-            </function_call_with_arg>
-        </pattern_simple>
-    Tag <attr> (you should specify full path to the attribute of the module - with module name and sub-packets) has one attribute "operator" which can have next values:
-     - eq (trigger if param value equals specific attribute of the module or variable name)
-     - neq (trigger if param value is not equal attribute of the module or variable name)
-    Example:
-        <pattern_simple>
-            <function_call_with_arg>
-                <name operator="eq">some_func</name>
-                <param name="param1" pos="1">
-                    <attr operator="eq">module.attr</attr>
-                </param>
-            </function_call_with_arg>
-        </pattern_simple>
-    Tag <function_call> has no attributes but must contain non-empty string which describes name of called function (you should specify full path to the function - with module name and sub-packets)
-    Example:
-        <pattern_simple>
-            <function_call_with_arg>
-                <name operator="eq">some_func</name>
-                <param name="param1" pos="1">
-                    <function_call>eval</function>
-                </param>
-            </function_call_with_arg>
-        </pattern_simple>
-    Tag <constant> (must be empty) has one attribute "operator" which can have next values:
-     - is (trigger if param value is a constant)
-     - not (trigger if param value is NOT a constant)
-    Constant can be simple types such as a number, string or None, but also immutable container types (tuples and frozensets) if all of their elements are constant.
-    Example:
-        <pattern_simple>
-            <function_call_with_arg>
-                <name operator="eq">some_func</name>
-                <param name="param1" pos="1">
-                    <constant operator="is"/>
-                </param>
-            </function_call_with_arg>
-        </pattern_simple>
+##### Tag `<int>`
+Tag `<int>` has one attribute "operator" which can have next values:
+ - eq (trigger if param value equals specific integer)
+ - neq (trigger if param value is not equal specific integer)
+ - gt (trigger if param value greater than specific integer)
+ - lt (trigger if param value less than specific integer)
+Example:
+```
+<pattern_simple>
+    <function_call_with_arg>
+        <name operator="eq">some_func</name>
+        <param name="param1" pos="1">
+            <int operator="gt">123</int>
+        </param>
+    </function_call_with_arg>
+</pattern_simple>
+```
 
-    NOTE: scanner does not support (yet) check against usage of chain of assignment.
-        This code will NOT trigger first pattern:
-            var = "'unsafe-eval'"
-            CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", var, 'cdn.example.net')
-        This code WILL trigger first pattern:
-            CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'cdn.example.net')
+##### Tag `<bool>`
+Tag `<bool>` has one attribute "operator" which can have next values:
+ - eq (trigger if param value equals specific boolean (can be only True or False))
+ - neq (trigger if param value is not equal specific boolean)
+Example:
+```
+<pattern_simple>
+    <function_call_with_arg>
+        <name operator="eq">some_func</name>
+        <param name="param1" pos="1">
+            <bool operator="eq">False</bool>
+        </param>
+    </function_call_with_arg>
+</pattern_simple>
+```
 
+##### Tag `<none>`
+Tag `<none>` (must be empty) has one attribute "operator" which can have next values:
+ - is (trigger if param value equals None)
+ - not (trigger if param value is not equal None)
+Example:
+```
+<pattern_simple>
+    <function_call_with_arg>
+        <name operator="eq">some_func</name>
+        <param name="param1" pos="1">
+            <none operator="is"/>
+        </param>
+    </function_call_with_arg>
+</pattern_simple>
+```
 
+##### Tag `<attr>`
+Tag `<attr>` (you should specify full path to the attribute of the module - with module name and sub-packets) has one attribute "operator" which can have next values:
+ - eq (trigger if param value equals specific attribute of the module or variable name)
+ - neq (trigger if param value is not equal attribute of the module or variable name)
+Example:
+```
+<pattern_simple>
+    <function_call_with_arg>
+        <name operator="eq">some_func</name>
+        <param name="param1" pos="1">
+            <attr operator="eq">module.attr</attr>
+        </param>
+    </function_call_with_arg>
+</pattern_simple>
+```
 
+##### Tag `<function_call>`
+Tag `<function_call>` has no attributes but must contain non-empty string which describes name of called function (you should specify full path to the function - with module name and sub-packets)
+Example:
+```
+<pattern_simple>
+    <function_call_with_arg>
+        <name operator="eq">some_func</name>
+        <param name="param1" pos="1">
+            <function_call>eval</function>
+        </param>
+    </function_call_with_arg>
+</pattern_simple>
+```
 
+##### Tag `<constant>`
+Tag `<constant>` (must be empty) has one attribute "operator" which can have next values:
+ - is (trigger if param value is a constant)
+ - not (trigger if param value is NOT a constant)
+Constant can be simple types such as a number, string or None, but also immutable container types (tuples and frozensets) if all of their elements are constant.
+Example:
+```
+<pattern_simple>
+    <function_call_with_arg>
+        <name operator="eq">some_func</name>
+        <param name="param1" pos="1">
+            <constant operator="is"/>
+        </param>
+    </function_call_with_arg>
+</pattern_simple>
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+**NOTE**: scanner does not support (yet) check against usage of chain of assignment.
+This code will NOT trigger first pattern:
+```
+var = "'unsafe-eval'"
+CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", var, 'cdn.example.net')
+``` 
+This code WILL trigger first pattern:
+```
+CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'cdn.example.net')
+```
 
 ### Tag `<assignment_var>`
 
