@@ -139,7 +139,7 @@ Tag `<string>` is used to find specific text in string literals in the code. It 
  - contains (trigger if a string literal contains specific text)
  - starts (trigger if a string literal starts from specific text)
 
-Pattern below will trigger if in code there is string literal which is equal to "\" (probably hardcoded file separator):
+Pattern below will trigger if in code there is string literal which is equal to "\\" (probably hardcoded file separator):
 ```
 <pattern_simple>
     <string operator="eq">\</string>
