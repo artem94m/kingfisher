@@ -160,59 +160,100 @@ Pattern below will trigger if in code there is string literal which contains "pw
 </pattern_simple>
 ```
 
+### Tag `<block>`
+
+Tag `<block>` is used to find specific block in the source code. It has one required attribute "operator" which must be equal "empty" (for now). This tag must contain non-empty string which is a name of the block. For now, it supports only two values: except and def. Example below will trigger if there is an empty except block in the source code (definitely empty except block):
+```
+<pattern_simple>
+    <block operator="empty">except</block>
+</pattern_simple>
+```
+
+### Tag `<attribute>`
+Tag `<attribute>` is used to find usage of specific attribute of the module, not the attribute of just created object. You should specify full path to the attribute - with module name and sub-packets. Example below will trigger if Crypto.Cipher.AES.MODE_ECB is used in the code (definitely not safe mode of encryption):
+```
+<pattern_simple>
+    <attribute>Crypto.Cipher.AES.MODE_ECB</attribute>
+</pattern_simple>
+```
+
+### Tag `<function_call>`
+
+Tag `<function_call>` is used to find call of specific function. Is has to contain only one `<name>` tag which has one required attribute "operator" which determines type of search: 
+ - eq (trigger if a function name equals to specific text)
+ - contains (trigger if a function name contains specific text)
+
+NOTE: You should specify full path to the function - with module name and sub-packets.
+
+Example below trigger if os.system function is used in the code (probably command injection):
+```
+<pattern_simple>
+    <function_call>
+        <name operator="eq">os.system</name>
+    </function_call>
+</pattern_simple>
+```
+Operator "contains" allows to find not complete match, like call of method of object. Example below will trigger if function name contains "unsafe" substring (probably usage of unsafe method):
+```
+<pattern_simple>
+    <function_call>
+        <name operator="contains">unsafe</name>
+    </function_call>
+</pattern_simple>
+```
+
+### Tag `<function_call_without_arg>`
+
+Tag `<function_call_without_arg>` is used to find call of function WITHOUT specific argument. It contains only two tags added one by one: `<name>` and `<param>`. Tag `<name>` describes function name - it works exactly the same like in `<function_call>` tag (see above). Tag `<param>` has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. 
+
+Example below will trigger if method "set_cookie" was called without "httponly" argument (see https://docs.djangoproject.com/en/3.2/ref/request-response/#django.http.HttpResponse.set_cookie):
+```    
+<pattern_simple>
+    <function_call_without_arg>
+        <name operator="contains">.set_cookie</name>
+        <param name="httponly" pos="8"/>
+    </function_call_without_arg>
+</pattern_simple>
+```
+
+In next example, position of the argument is not strict, so you have to search absence of an argument by its name:
+```
+<pattern_simple>
+    <function_call_without_arg>
+        <name operator="eq">some_function</name>
+        <param name="paramname" pos="-1"/>
+    </function_call_without_arg>
+</pattern_simple>
+```
+
+In next example, name of the argument is not strict, so you have to search absence of an argument by its position:
+```
+<pattern_simple>
+    <function_call_without_arg>
+        <name operator="eq">some_function</name>
+        <param name="-1" pos="2"/>
+    </function_call_without_arg>
+</pattern_simple>
+```
+
+NOTE: scanner does not support (yet) check against usage of `**kwargs` and `*args` as arguments.
 
 
-    Tag <block> is used to find specific block in the source code. It has one required attribute "operator" which must be equal "empty" (for now). This tag must contain non-empty string which is a name of the block. For now, it supports only two values: except and def. Example below will trigger if there is an empty except block in the source code (definitely empty except block):
-        <pattern_simple>
-            <block operator="empty">except</block>
-        </pattern_simple>
-
-    Tag <attribute> is used to find usage of specific attribute of the module, not the attribute of just created object. You should specify full path to the attribute - with module name and sub-packets. Example below will trigger if Crypto.Cipher.AES.MODE_ECB is used in the code (definitely not safe mode of encryption):
-        <pattern_simple>
-            <attribute>Crypto.Cipher.AES.MODE_ECB</attribute>
-        </pattern_simple>
 
 
-    Tag <function_call> is used to find call of specific function. Is has to contain only one <name> tag which has one required attribute "operator" which determines type of search: 
-     - eq (trigger if a function name equals to specific text)
-     - contains (trigger if a function name contains specific text)
-    You should specify full path to the function - with module name and sub-packets.
-    Example below trigger if os.system function is used in the code (probably command injection):
-        <pattern_simple>
-            <function_call>
-                <name operator="eq">os.system</name>
-            </function_call>
-        </pattern_simple>
-    Operator "contains" allows to find not complete match, like call of method of object. Example below will trigger if function name contains "unsafe" substring (probably usage of unsafe method):
-        <pattern_simple>
-            <function_call>
-                <name operator="contains">unsafe</name>
-            </function_call>
-        </pattern_simple>
 
-    Tag <function_call_without_arg> is used to find call of function WITHOUT specific argument. It contains only two tags added one by one: <name> and <param>. Tag <name> describes function name - it works exactly the same like in <function_call> tag (see above). Tag <param> has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. 
-    Example below will trigger if method "set_cookie" was called without "httponly" argument (see https://docs.djangoproject.com/en/3.2/ref/request-response/#django.http.HttpResponse.set_cookie):
-        <pattern_simple>
-            <function_call_without_arg>
-                <name operator="contains">.set_cookie</name>
-                <param name="httponly" pos="8"/>
-            </function_call_without_arg>
-        </pattern_simple>
-    In next example, position of the argument is not strict, so you have to search absence of an argument by its name:
-        <pattern_simple>
-            <function_call_without_arg>
-                <name operator="eq">some_function</name>
-                <param name="paramname" pos="-1"/>
-            </function_call_without_arg>
-        </pattern_simple>
-    In next example, name of the argument is not strict, so you have to search absence of an argument by its position:
-        <pattern_simple>
-            <function_call_without_arg>
-                <name operator="eq">some_function</name>
-                <param name="-1" pos="2"/>
-            </function_call_without_arg>
-        </pattern_simple>
-    NOTE: scanner does not support (yet) check against usage of **kwargs and *args as arguments.
+
+
+
+
+
+
+
+
+
+
+
+
 
     Tag <function_call_with_arg> is used to find call of function WITH specific argument. It contains only two tags added one by one: <name> and <param>. Tag <name> describes function name - it works exactly the same like in <function_call> tag (see above). Tag <param> has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. 
     Tag <param> has to contain one of the next tags: <str>, <int>, <bool>, <none>, <attr>, <function_call>, <constant>.
