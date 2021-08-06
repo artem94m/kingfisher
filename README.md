@@ -123,7 +123,7 @@ Tag `<patterns>` is the most interesting one. It supports only one tag `<pattern
 
 Tag `<pattern_simple>` must contain only one of next tags: `<comment>`, `<string>`, `<block>`, `<attribute>`, `<function_call>`, `<function_call_without_arg>`, `<function_call_with_arg>`, `<assignment_var>`, `<assignment_in_dict>`, `<unique_assignment_to_set_tuple_list>`.
 
-### <comment>
+### `<comment>`
 Tag `<comment>` is used to find specific text (case-insensitive) in the comments. The tag must contain non empty string. Pattern below will trigger if there is "password" phrase (case-insensitive) in the comments in source code (probably password in comments):
 
 ```
@@ -132,7 +132,7 @@ Tag `<comment>` is used to find specific text (case-insensitive) in the comments
 </pattern_simple>
 ```
 
-### <string>
+### `<string>`
     Tag <string> is used to find specific text in string literals in the code. It also has one required attribute "operator" which determines type of search: 
      - eq (trigger if a string literal equals to specific text)
      - contains (trigger if a string literal contains specific text)
