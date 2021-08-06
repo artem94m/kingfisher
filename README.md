@@ -352,52 +352,90 @@ NOTE: scanner does not support (yet) check against usage of `**kwargs` and `*arg
         This code WILL trigger first pattern:
             CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'cdn.example.net')
 
-    Tag <assignment_var> is used to find assignment of specific value to a specific variable. It contains only two tags added one by one: <name> and <value>. Tag <name> describes variable name - it works exactly the same like in <function_call> tag (see above). Tag <value> has to contain one of the next tags: <str>, <int>, <bool>, <none>, <attr>, <function_call>, <constant> (see details above at <function_call_with_arg> tag's description).
-    Example below will trigger if there is a variable whose name contains substring "password" (case-insensitive) and it was assigned with empty string:
-        <pattern_simple>
-            <assignment_var>
-                <name operator="contains">password</name>
-                <value>
-                    <str operator="eq"></str>
-                </value>
-            </assignment_var>
-        </pattern_simple>
-        
-    Tag <assignment_in_dict> is used to find assignment of specific value to a specific key of a specific dict. It contains three tags added one by one: <name>, <key> and <value>. 
-    Tag <name> describes dict name - it works exactly the same like in <function_call> tag (see above). Tag <key> describes key in dict. It has one required attribute "operator" which works like the same operator for the <name> tag.
-    Tag <value> has to contain one of the next tags: <str>, <int>, <bool>, <none>, <attr>, <function_call>, <constant> (see details above at <function_call_with_arg> tag's description).
-    Example below will trigger if there is a dict with any name (every name contains "") which has a key whose name contains substring "password" (case-insensitive) and it was assigned with empty string:
-        <pattern_simple>
-            <assignment_in_dict>
-                <name operator="contains"></name>
-                <key operator="contains">password</key>
-                <value>
-                    <str operator="eq"></str>
-                </value>
-            </assignment_in_dict>
-        </pattern_simple>
 
-    Tag <unique_assignment_to_set_tuple_list> is used to check if specific unique string values were assigned/missed in a set, tuple or list. This tag contains only two tags added one by one: <name> and <values>. Tag <name> describes name - it works exactly the same like in <function_call> tag (see above). Tag <values> has one required attribute "operator", which determines type of search: 
-     - contains (trigger if a set, tuple or list contains specific string values)
-     - missing (trigger if a set, tuple or list missing specific string values)
-    Tag <values> has to contain at least one tag <value> with specified attribute "type" which must be equal "str" (for now).
-    Example below will trigger if CSP contains "'unsafe-eval'" string (probably misconfigured Django Content Security Policy):
-        <pattern_simple>
-            <unique_assignment_to_set_tuple_list>
-                <name operator="contains">csp_</name>
-                <values operator="contains">
-                    <value type="str">'unsafe-eval'</value>
-                </values>
-            </unique_assignment_to_set_tuple_list>
-        </pattern_simple>
-    Next example will trigger if MIDDLEWARE collection does not have specific middleware class(probably, disabled Django Clickjacking Protection):
-        <pattern_simple>
-            <unique_assignment_to_set_tuple_list>
-                <name operator="contains">middleware</name>
-                <values operator="missing">
-                    <value type="str">django.middleware.clickjacking.XFrameOptionsMiddleware</value>
-                </values>
-            </unique_assignment_to_set_tuple_list>
-        </pattern_simple>
 
-    For more examples look in kingfisher-main/check folder. Exact <patterns> tag's structure see in kingfisher-main/resources/check_schema.xsd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Tag `<assignment_var>`
+
+Tag `<assignment_var>` is used to find assignment of specific value to a specific variable. It contains only two tags added one by one: `<name>` and `<value>`. Tag `<name>` describes variable name - it works exactly the same like in `<function_call>` tag (see above). Tag <value> has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>` (see details above at `<function_call_with_arg>` tag's description).
+Example below will trigger if there is a variable whose name contains substring "password" (case-insensitive) and it was assigned with empty string:
+```
+<pattern_simple>
+    <assignment_var>
+        <name operator="contains">password</name>
+        <value>
+            <str operator="eq"></str>
+        </value>
+    </assignment_var>
+</pattern_simple>
+```
+
+### Tag `<assignment_in_dict>`
+Tag `<assignment_in_dict>` is used to find assignment of specific value to a specific key of a specific dict. It contains three tags added one by one: `<name>`, `<key>` and `<value>`. 
+Tag `<name>` describes dict name - it works exactly the same like in `<function_call>` tag (see above). Tag `<key>` describes key in dict. It has one required attribute "operator" which works like the same operator for the `<name>` tag.
+Tag `<value>` has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>` (see details above at `<function_call_with_arg>` tag's description).
+Example below will trigger if there is a dict with any name (every name contains "") which has a key whose name contains substring "password" (case-insensitive) and it was assigned with empty string:
+```
+<pattern_simple>
+    <assignment_in_dict>
+        <name operator="contains"></name>
+        <key operator="contains">password</key>
+        <value>
+            <str operator="eq"></str>
+        </value>
+    </assignment_in_dict>
+</pattern_simple>
+```
+
+### Tag `<unique_assignment_to_set_tuple_list>`
+Tag `<unique_assignment_to_set_tuple_list>` is used to check if specific unique string values were assigned/missed in a set, tuple or list. This tag contains only two tags added one by one: `<name>` and `<values>`. Tag `<name>` describes name - it works exactly the same like in `<function_call>` tag (see above). Tag `<values>` has one required attribute "operator", which determines type of search: 
+ - contains (trigger if a set, tuple or list contains specific string values)
+ - missing (trigger if a set, tuple or list missing specific string values)
+
+Tag `<values>` has to contain at least one tag `<value>` with specified attribute "type" which must be equal "str" (for now).
+Example below will trigger if CSP contains "'unsafe-eval'" string (probably misconfigured Django Content Security Policy):
+```
+<pattern_simple>
+    <unique_assignment_to_set_tuple_list>
+        <name operator="contains">csp_</name>
+        <values operator="contains">
+            <value type="str">'unsafe-eval'</value>
+        </values>
+    </unique_assignment_to_set_tuple_list>
+</pattern_simple>
+```
+
+Next example will trigger if MIDDLEWARE collection does not have specific middleware class(probably, disabled Django Clickjacking Protection):
+```
+<pattern_simple>
+    <unique_assignment_to_set_tuple_list>
+        <name operator="contains">middleware</name>
+        <values operator="missing">
+            <value type="str">django.middleware.clickjacking.XFrameOptionsMiddleware</value>
+        </values>
+    </unique_assignment_to_set_tuple_list>
+</pattern_simple>
+```
+
+For more examples look in kingfisher-main/check folder. Exact `<patterns>` tag's structure see in kingfisher-main/resources/check_schema.xsd
