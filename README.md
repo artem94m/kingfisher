@@ -1,4 +1,6 @@
-<logo>
+<p align="center">
+    <img src="https://raw.githubusercontent.com/artem94m/kingfisher/main/resources/kingfisher_logo.png" alt="Kingfisher" title="Kingfisher" width="800"/>
+</p>
 
 ABOUT
     Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python built-in modules "ast" and "tokenize" to parse and process source code.
