@@ -2,66 +2,67 @@
     <img src="https://raw.githubusercontent.com/artem94m/kingfisher/main/resources/kingfisher_logo.png" alt="Kingfisher" title="Kingfisher" width="800"/>
 </p>
 
-ABOUT
-    Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python built-in modules "ast" and "tokenize" to parse and process source code.
+## About
+Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python built-in modules "ast" and "tokenize" to parse and process source code.
 
-REQUIREMENTS
-    1) Windows/Linux OS
-    2) Python 3.8 or newer
-    3) Installed modules:
-        - xmlschema (https://pypi.org/project/xmlschema/)
-        - defusedxml (https://pypi.org/project/defusedxml/)
-        - reportlab (https://pypi.org/project/reportlab/)
+## Requirements
+1. Windows/Linux OS
+2. Python 3.8 or newer
+3. Installed modules:
+    - xmlschema (https://pypi.org/project/xmlschema/)
+    - defusedxml (https://pypi.org/project/defusedxml/)
+    - reportlab (https://pypi.org/project/reportlab/)
 
-INSTALLATION
-    1) Install software and modules described above
-    2) Extract "kingfisher_pca" folder wherever you want
+## Installation
+1. Install software and modules described above
+2. Extract "kingfisher-main" folder wherever you want
 
-USAGE
-    1) Change current directory to "kingfisher_pca"
-    2) Run "python kingfisher.py" to get info about usage. It will print something like this:
+## Usage
+1. Change current directory to "kingfisher-main"
+2. Run "python kingfisher.py" to get info about usage. It will print something like this:
+    <code>
+    usage: kingfisher.py [-h] -scan SCAN_PATH [-report_folder REPORT_PATH] [-project PROJECT_NAME]
 
-        usage: kingfisher.py [-h] -scan SCAN_PATH [-report_folder REPORT_PATH] [-project PROJECT_NAME]
+    Kingfisher - Python 3 Simple Static Code Analyzer
 
-        Kingfisher - Python 3 Simple Static Code Analyzer
+    optional arguments:
+        -h, --help            show this help message and exit
+        -scan SCAN_PATH       the path to a file/folder for scanning
+        -report_folder REPORT_PATH
+                              the path to a reports folder (default: reports)
+        -project PROJECT_NAME
+                              name of the scanned project (default: will be extracted from a file or folder name)
+    </code>
+3. As you can see, there is only one required argument - SCAN_PATH. It can be a relative or an absolute path to a project folder or a project file. 
 
-        optional arguments:
-          -h, --help            show this help message and exit
-          -scan SCAN_PATH       the path to a file/folder for scanning
-          -report_folder REPORT_PATH
-                                the path to a reports folder (default: reports)
-          -project PROJECT_NAME
-                                name of the scanned project (default: will be extracted from a file or folder name)
+You can run test scan (demo files in local folder: kingfisher-main\tests) like this: 
+        
+    python kingfisher.py -scan tests
 
-    3) As you can see, there is only one required argument - SCAN_PATH. It can be a relative or an absolute path to a project folder or a project file. 
-    You can run test scan (demo files in local folder: kingfisher_pca\tests) like this: 
-        python kingfisher.py -scan tests
+If you want to scan just one file:
+    
+    python kingfisher.py -scan C:\tests\example.py
 
-    If you want to scan just one file:
-        python kingfisher.py -scan C:\tests\example.py
+or
 
-        or
+    python kingfisher.py -scan /var/www/example.py
 
-        python kingfisher.py -scan /var/www/example.py
+Or a folder:
+        
+    python kingfisher.py -scan C:\tests\project
 
-    Or a folder:
-        python kingfisher.py -scan C:\tests\project
+or
 
-        or
+    python kingfisher.py -scan /var/www/project
 
-        python kingfisher.py -scan /var/www/project
-
-
-    4) If REPORT_PATH is not specified, the results of the scan will be saved in local report folder: kingfisher_pca\reports. Reports are generated in PDF format. Example of report file with results of scanning of local "tests" folder is placed in kingfisher_pca\reports folder.
-
-    5) If PROJECT_NAME is not specified, the filename of a report will contain name of the scanned folder or file. The filename of a report will also contain a timestamp (YYYY-mm-dd_HH-MM-SS) when the report was generated.
-
-    6) Information about scanning will be printed in the console and also saved in local logs folder (kingfisher_pca\logs). Log files are created for every day separately.
+4. If REPORT_PATH is not specified, the results of the scan will be saved in local report folder: kingfisher-main\reports. Reports are generated in PDF format. Example of report file with results of scanning of local "tests" folder is placed in kingfisher-main\reports folder.
+5. If PROJECT_NAME is not specified, the filename of a report will contain name of the scanned folder or file. The filename of a report will also contain a timestamp (YYYY-mm-dd_HH-MM-SS) when the report was generated.
+6. Information about scanning will be printed in the console and also saved in local logs folder (kingfisher-main\logs). Log files are created for every day separately.
 
 CHECKS
-    All available checks are stored in XML-format in a local folder: kingfisher_pca\checks. Their content partly was taken from the website https://vulncat.fortify.com/en/weakness.
+    All available checks are stored in XML-format in a local folder: kingfisher-main\checks. Their content partly was taken from the website https://vulncat.fortify.com/en/weakness.
 
-    Before every scanning all the checks from the folder go through validation against a schema (kingfisher_pca\resources\check_schema.xsd). If check did not pass the validation process - it will be ignored during scanning.
+    Before every scanning all the checks from the folder go through validation against a schema (kingfisher-main\resources\check_schema.xsd). If check did not pass the validation process - it will be ignored during scanning.
 
     You can add new checks or edit existing ones according to the schema.
 
@@ -319,4 +320,4 @@ PATTERNS
             </unique_assignment_to_set_tuple_list>
         </pattern_simple>
 
-    For more examples look in kingfisher_pca/check folder. Exact <patterns> tag's structure see in kingfisher_pca/resources/check_schema.xsd
+    For more examples look in kingfisher-main/check folder. Exact <patterns> tag's structure see in kingfisher-main/resources/check_schema.xsd
