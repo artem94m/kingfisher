@@ -239,24 +239,13 @@ In next example, name of the argument is not strict, so you have to search absen
 NOTE: scanner does not support (yet) check against usage of `**kwargs` and `*args` as arguments.
 
 
+### Tag `<function_call_with_arg>`
+Tag `<function_call_with_arg>` is used to find call of function WITH specific argument. It contains only two tags added one by one: `<name>` and `<param>`. 
+Tag `<name>` describes function name - it works exactly the same like in `<function_call>` tag (see above). 
+Tag `<param>` has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. Tag `<param>` has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>`.
 
+##### Tag `<str>`
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    Tag <function_call_with_arg> is used to find call of function WITH specific argument. It contains only two tags added one by one: <name> and <param>. Tag <name> describes function name - it works exactly the same like in <function_call> tag (see above). Tag <param> has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as "-1", but the name must be specified. If you know the position but not name - set "-1" as name, but specify the position. 
-    Tag <param> has to contain one of the next tags: <str>, <int>, <bool>, <none>, <attr>, <function_call>, <constant>.
     Tag <str> has one attribute "operator" which can have next values:
      - eq (trigger if param value equals specific string)
      - neq (trigger if param value is not equal specific string)
@@ -378,7 +367,9 @@ NOTE: scanner does not support (yet) check against usage of `**kwargs` and `*arg
 
 ### Tag `<assignment_var>`
 
-Tag `<assignment_var>` is used to find assignment of specific value to a specific variable. It contains only two tags added one by one: `<name>` and `<value>`. Tag `<name>` describes variable name - it works exactly the same like in `<function_call>` tag (see above). Tag <value> has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>` (see details above at `<function_call_with_arg>` tag's description).
+Tag `<assignment_var>` is used to find assignment of specific value to a specific variable. It contains only two tags added one by one: `<name>` and `<value>`. 
+Tag `<name>` describes variable name - it works exactly the same like in `<function_call>` tag (see above). 
+Tag `<value>` has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>` (see details above at `<function_call_with_arg>` tag's description).
 Example below will trigger if there is a variable whose name contains substring "password" (case-insensitive) and it was assigned with empty string:
 ```
 <pattern_simple>
@@ -409,7 +400,9 @@ Example below will trigger if there is a dict with any name (every name contains
 ```
 
 ### Tag `<unique_assignment_to_set_tuple_list>`
-Tag `<unique_assignment_to_set_tuple_list>` is used to check if specific unique string values were assigned/missed in a set, tuple or list. This tag contains only two tags added one by one: `<name>` and `<values>`. Tag `<name>` describes name - it works exactly the same like in `<function_call>` tag (see above). Tag `<values>` has one required attribute "operator", which determines type of search: 
+Tag `<unique_assignment_to_set_tuple_list>` is used to check if specific unique string values were assigned/missed in a set, tuple or list. This tag contains only two tags added one by one: `<name>` and `<values>`. 
+Tag `<name>` describes name - it works exactly the same like in `<function_call>` tag (see above). 
+Tag `<values>` has one required attribute "operator", which determines type of search: 
  - contains (trigger if a set, tuple or list contains specific string values)
  - missing (trigger if a set, tuple or list missing specific string values)
 
