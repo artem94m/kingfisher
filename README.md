@@ -20,7 +20,8 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
 ## Usage
 1. Change current directory to "kingfisher-main"
 2. Run "python kingfisher.py" to get info about usage. It will print something like this:
-    <code>
+    
+    ```
     usage: kingfisher.py [-h] -scan SCAN_PATH [-report_folder REPORT_PATH] [-project PROJECT_NAME]
 
     Kingfisher - Python 3 Simple Static Code Analyzer
@@ -32,31 +33,37 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
                               the path to a reports folder (default: reports)
         -project PROJECT_NAME
                               name of the scanned project (default: will be extracted from a file or folder name)
-    </code>
+    ```
 3. As you can see, there is only one required argument - SCAN_PATH. It can be a relative or an absolute path to a project folder or a project file. 
 
 You can run test scan (demo files in local folder: kingfisher-main\tests) like this: 
-        
-    python kingfisher.py -scan tests
+    
+    ```  
+    python kingfisher.py -scan tests    
+    ```
 
 If you want to scan just one file:
-    
+    ```
     python kingfisher.py -scan C:\tests\example.py
-
+    
+    ```
 or
-
+    ```
     python kingfisher.py -scan /var/www/example.py
-
+    ```
 Or a folder:
-        
+    ```    
     python kingfisher.py -scan C:\tests\project
-
+    ```
 or
-
+    ```
     python kingfisher.py -scan /var/www/project
+    ```
 
 4. If REPORT_PATH is not specified, the results of the scan will be saved in local report folder: kingfisher-main\reports. Reports are generated in PDF format. Example of report file with results of scanning of local "tests" folder is placed in kingfisher-main\reports folder.
+
 5. If PROJECT_NAME is not specified, the filename of a report will contain name of the scanned folder or file. The filename of a report will also contain a timestamp (YYYY-mm-dd_HH-MM-SS) when the report was generated.
+
 6. Information about scanning will be printed in the console and also saved in local logs folder (kingfisher-main\logs). Log files are created for every day separately.
 
 CHECKS
