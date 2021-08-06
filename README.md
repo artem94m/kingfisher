@@ -80,11 +80,11 @@ Before every scanning all the checks from the folder go through validation again
 
 You can add new checks or edit existing ones according to the schema.
 
-Every check contains main tag <check> with an attribute "status". "Status" can have only two values: "enabled" and "disabled". This status enables/disables check for scanning.
+Every check contains main tag `<check>` with an attribute "status". "Status" can have only two values: "enabled" and "disabled". This status enables/disables check for scanning.
 
-In <check> tag there are next tags: <name>, <description>, <explanation>, <severity>, <recommendations>, <links>, <patterns>.
+In `<check>` tag there are next tags: `<name>`, `<description>`, `<explanation>`, `<severity>`, `<recommendations>`, `<links>`, `<patterns>`.
 
-Tag <name> and <description> are self-descriptive and contains just one paragraph of text.
+Tag `<name>` and `<description>` are self-descriptive and contains just one paragraph of text.
 
     Tag <explanation> contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports paragraphs inside <explanation> should be separated by double new line (\n\n):
         Command injection vulnerabilities take two forms:
