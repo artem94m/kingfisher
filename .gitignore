@@ -1,2 +1,4 @@
 /__info/
 /__todo_checks/
+/reports/
+!/reports/report_example.pdf

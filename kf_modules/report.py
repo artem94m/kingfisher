@@ -48,12 +48,14 @@ class KfReport():
             self.add_skipped(content, results["skipped"])
 
         vulnerabilities = []
-        statistics = {
+        severities = {
             "High": 0,
             "Medium": 0,
             "Low": 0,
             "Info": 0
         }
+        statistics = {}
+
         # if there are results
         if (results["vulnerabilities"]):
             # go through all checks
@@ -67,6 +69,8 @@ class KfReport():
                 self.add_check_explanation(vulnerabilities, check_info["explanation"])
                 self.add_check_severity(vulnerabilities, check_info["severity"])
 
+                statistics.setdefault(check_info["name"], 0)
+
                 # go through all vulnerable files, which were found for the check
                 for python_file in sorted(results["vulnerabilities"][check_file].keys()):
                     # extract source code with line number from specific file
@@ -76,7 +80,8 @@ class KfReport():
                         # add all occurrences of the vulnerability to the report
                         self.add_vulnerability(vulnerabilities, python_file, source_code, vuln_coord)
                         # collect the statistics
-                        statistics[check_info["severity"]] += 1
+                        severities[check_info["severity"]] += 1
+                        statistics[check_info["name"]] += 1
 
                 # add recommendations
                 self.add_check_recommendations(vulnerabilities, check_info["recommendations"])
@@ -84,13 +89,13 @@ class KfReport():
                 self.add_check_links(vulnerabilities, check_info["links"])
 
             # add stats about found vulnerabilities
-            self.add_statistics(content, statistics)
+            self.add_statistics(content, severities, statistics)
             # add vulnerabilities to content
             content.extend(vulnerabilities)
         else:
             self.add_no_results(content)
 
-        self.logger.info("Found High: {}, Medium: {}, Low: {}, Info: {}".format(statistics["High"], statistics["Medium"], statistics["Low"], statistics["Info"]))
+        self.logger.info("Found High: {}, Medium: {}, Low: {}, Info: {}".format(severities["High"], severities["Medium"], severities["Low"], severities["Info"]))
         self.logger.info("Creating report...")
         # add content to the report
         report.build(content)
@@ -200,6 +205,8 @@ class KfReport():
         self.styles.add(ParagraphStyle(name="Header", alignment=TA_LEFT, fontName="RobotoBd", fontSize=18, textColor=self.font_color, leading=22, spaceBefore=3 * mm, spaceAfter=2 * mm))
         # add style for paragraph of text
         self.styles.add(ParagraphStyle(name="RegularParagraph", alignment=TA_JUSTIFY, fontName="Roboto", fontSize=12, textColor=self.font_color, leading=17, spaceAfter=2 * mm))
+        # add style for singular line in statistics
+        self.styles.add(ParagraphStyle(name="Statistics", alignment=TA_LEFT, fontName="Roboto", fontSize=12, textColor=self.font_color, leading=17))
         # add style for skipped file
         self.styles.add(ParagraphStyle(name="SkippedFile", alignment=TA_LEFT, fontName="Roboto", fontSize=12, textColor=self.font_color, leading=17))
         # add style for name of check
@@ -287,13 +294,16 @@ class KfReport():
         content.append(Paragraph("Date", self.styles["Header"]))
         content.append(Paragraph(timestamp, self.styles["RegularParagraph"]))
 
-    def add_statistics(self, content, statistics):
+    def add_statistics(self, content, severities, statistics):
         """ add statistics """
-        content.append(Paragraph("Found vulnerabilities", self.styles["Header"]))
-        content.append(Paragraph("<font color='#f90e0e'><strong>High:</strong></font> {}".format(statistics["High"]), self.styles["RegularParagraph"]))
-        content.append(Paragraph("<font color='#f9a00e'><strong>Medium:</strong></font> {}".format(statistics["Medium"]), self.styles["RegularParagraph"]))
-        content.append(Paragraph("<font color='#f9e30e'><strong>Low:</strong></font> {}".format(statistics["Low"]), self.styles["RegularParagraph"]))
-        content.append(Paragraph("<font color='#0e88f9'><strong>Info:</strong></font> {}".format(statistics["Info"]), self.styles["RegularParagraph"]))
+        content.append(Paragraph("Found", self.styles["Header"]))
+        content.append(Paragraph("<font color='#f90e0e'><strong>High:</strong></font> {}".format(severities["High"]), self.styles["RegularParagraph"]))
+        content.append(Paragraph("<font color='#f9a00e'><strong>Medium:</strong></font> {}".format(severities["Medium"]), self.styles["RegularParagraph"]))
+        content.append(Paragraph("<font color='#f9e30e'><strong>Low:</strong></font> {}".format(severities["Low"]), self.styles["RegularParagraph"]))
+        content.append(Paragraph("<font color='#0e88f9'><strong>Info:</strong></font> {}".format(severities["Info"]), self.styles["RegularParagraph"]))
+        content.append(Paragraph("Vulnerabilities", self.styles["Header"]))
+        for check_name in statistics:
+            content.append(Paragraph("{}: <strong>{}</strong>".format(check_name, statistics[check_name]), self.styles["Statistics"]))
 
     def add_skipped(self, content, skipped):
         """ add skipped files """
