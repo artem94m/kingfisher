@@ -86,21 +86,29 @@ In `<check>` tag there are next tags: `<name>`, `<description>`, `<explanation>`
 
 Tag `<name>` and `<description>` are self-descriptive and contains just one paragraph of text.
 
-    Tag <explanation> contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports paragraphs inside <explanation> should be separated by double new line (\n\n):
-        Command injection vulnerabilities take two forms:
+Tag `<explanation>` contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports paragraphs inside `<explanation>` should be separated by double new line (\n\n):
 
-        - An attacker can change the command that the program executes: the attacker explicitly controls what the command is.
+    ```
+    Command injection vulnerabilities take two forms:
 
-        - An attacker can change the environment in which the command executes: the attacker implicitly controls what the command means.
-    Examples of code also should be separated other paragraphs by double new line (\n\n) and prepended by keyword KF_CODE_EXAMPLE:
-        KF_CODE_EXAMPLE
-        ...
-        home = os.getenv('APPHOME')
-        cmd = home.join(INITCMD)
-        os.system(cmd)
-        ...
-        do_something()
-    You can use "..." to fill the gaps in the code.
+    - An attacker can change the command that the program executes: the attacker explicitly controls what the command is.
+
+    - An attacker can change the environment in which the command executes: the attacker implicitly controls what the command means.
+    ```
+
+Examples of code also should be separated other paragraphs by double new line (\n\n) and prepended by keyword KF_CODE_EXAMPLE:
+
+    ```
+    KF_CODE_EXAMPLE
+    ...
+    home = os.getenv('APPHOME')
+    cmd = home.join(INITCMD)
+    os.system(cmd)
+    ...
+    do_something()
+    ```
+
+You can use "..." to fill the gaps in the code.
 
     Tag <severity> is also self-descriptive and can contain only one of four values: High, Medium, Low, Info. This value is set according to CWE (from <links>), if possible.
 
