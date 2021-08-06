@@ -2,3 +2,5 @@
 /__todo_checks/
 /reports/*
 !/reports/report_example.pdf
+/logs/*
+!/logs/log_example.log
