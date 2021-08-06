@@ -88,13 +88,13 @@ Tag `<name>` and `<description>` are self-descriptive and contains just one para
 
 Tag `<explanation>` contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports paragraphs inside `<explanation>` should be separated by double new line (\n\n):
 
-    <code>
+```
     Command injection vulnerabilities take two forms:
 
     - An attacker can change the command that the program executes: the attacker explicitly controls what the command is.
 
     - An attacker can change the environment in which the command executes: the attacker implicitly controls what the command means.
-    </code>
+```
 
 Examples of code also should be separated other paragraphs by double new line (\n\n) and prepended by keyword KF_CODE_EXAMPLE:
 
@@ -118,7 +118,7 @@ Tag `<links>` contains links to the different standarts. Links should be separat
 
 Tag `<patterns>` contains patterns for recognition of the vulnerability. More details about this tag are placed below.
 
-PATTERNS
+## Patterns
     Tag <patterns> is the most interesting one. It supports only one tag <pattern_simple> (yet) and must contain at least one. This tag is used for description of simple checks.
 
     Tag <pattern_simple> must contain only one of next tags: <comment>, <string>, <block>, <attribute>, <function_call>, <function_call_without_arg>, <function_call_with_arg>, <assignment_var>, <assignment_in_dict>, <unique_assignment_to_set_tuple_list>.
