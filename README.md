@@ -292,6 +292,7 @@ Example:
 Tag `<bool>` has one attribute "operator" which can have next values:
  - eq (trigger if param value equals specific boolean (can be only True or False))
  - neq (trigger if param value is not equal specific boolean)
+
 Example:
 ```
 <pattern_simple>
@@ -308,6 +309,7 @@ Example:
 Tag `<none>` (must be empty) has one attribute "operator" which can have next values:
  - is (trigger if param value equals None)
  - not (trigger if param value is not equal None)
+
 Example:
 ```
 <pattern_simple>
@@ -324,6 +326,7 @@ Example:
 Tag `<attr>` (you should specify full path to the attribute of the module - with module name and sub-packets) has one attribute "operator" which can have next values:
  - eq (trigger if param value equals specific attribute of the module or variable name)
  - neq (trigger if param value is not equal attribute of the module or variable name)
+
 Example:
 ```
 <pattern_simple>
@@ -338,6 +341,7 @@ Example:
 
 #### Tag `<function_call>`
 Tag `<function_call>` has no attributes but must contain non-empty string which describes name of called function (you should specify full path to the function - with module name and sub-packets)
+
 Example:
 ```
 <pattern_simple>
@@ -354,7 +358,9 @@ Example:
 Tag `<constant>` (must be empty) has one attribute "operator" which can have next values:
  - is (trigger if param value is a constant)
  - not (trigger if param value is NOT a constant)
+
 Constant can be simple types such as a number, string or None, but also immutable container types (tuples and frozensets) if all of their elements are constant.
+
 Example:
 ```
 <pattern_simple>
@@ -368,12 +374,14 @@ Example:
 ```
 
 **NOTE**: scanner does not support (yet) check against usage of chain of assignment.
-This code will NOT trigger first pattern:
+
+This code will **NOT** trigger first pattern:
 ```
 var = "'unsafe-eval'"
 CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", var, 'cdn.example.net')
 ``` 
-This code WILL trigger first pattern:
+
+This code **WILL** trigger first pattern:
 ```
 CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'cdn.example.net')
 ```
@@ -397,8 +405,11 @@ Example below will trigger if there is a variable whose name contains substring 
 
 ### Tag `<assignment_in_dict>`
 Tag `<assignment_in_dict>` is used to find assignment of specific value to a specific key of a specific dict. It contains three tags added one by one: `<name>`, `<key>` and `<value>`. 
+
 Tag `<name>` describes dict name - it works exactly the same like in `<function_call>` tag (see above). Tag `<key>` describes key in dict. It has one required attribute "operator" which works like the same operator for the `<name>` tag.
+
 Tag `<value>` has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>` (see details above at `<function_call_with_arg>` tag's description).
+
 Example below will trigger if there is a dict with any name (every name contains "") which has a key whose name contains substring "password" (case-insensitive) and it was assigned with empty string:
 ```
 <pattern_simple>
@@ -414,12 +425,15 @@ Example below will trigger if there is a dict with any name (every name contains
 
 ### Tag `<unique_assignment_to_set_tuple_list>`
 Tag `<unique_assignment_to_set_tuple_list>` is used to check if specific unique string values were assigned/missed in a set, tuple or list. This tag contains only two tags added one by one: `<name>` and `<values>`. 
+
 Tag `<name>` describes name - it works exactly the same like in `<function_call>` tag (see above). 
+
 Tag `<values>` has one required attribute "operator", which determines type of search: 
  - contains (trigger if a set, tuple or list contains specific string values)
  - missing (trigger if a set, tuple or list missing specific string values)
 
 Tag `<values>` has to contain at least one tag `<value>` with specified attribute "type" which must be equal "str" (for now).
+    
 Example below will trigger if CSP contains "'unsafe-eval'" string (probably misconfigured Django Content Security Policy):
 ```
 <pattern_simple>
