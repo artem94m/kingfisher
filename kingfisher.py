@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-
-from kf_modules.log import PreparedLog
 from kf_modules.argparse import KfArgparse
 from kf_modules.core import KfCore
+from kf_modules.log import PreparedLog
 from kf_modules.report import KfReport
 
 
@@ -38,14 +37,14 @@ class Kingfisher():
 
             self.logger.info("Start scanning...")
             # get files from scan_path
-            for file in scan_core.get_files_for_scan(self.args.scan_path):
+            for filepath in scan_core.get_files_for_scan(self.args.scan_path):
                 # extract required data from the file
-                scan_core.extract_data_from_file(file)
+                scan_core.extract_data_from_file(filepath)
 
                 # check if tree successfully extracted
                 if (scan_core.data["tree"] is None):
                     # add file to skipped list for later processing
-                    self.results["skipped"].append(file)
+                    self.results["skipped"].append(filepath)
                 else:
                     # for the later check of found files
                     files_found = True
@@ -54,11 +53,12 @@ class Kingfisher():
                     for check in scan_core.get_checks():
                         result = scan_core.apply_check(check)
 
-                        # the result (tuple of tuples with positions of vulnerabilities in source code) is not None - add it to the results
+                        # the result (tuple of tuples with positions of vulnerabilities in source code) is not None -
+                        # add it to the results
                         # result structure: check_name -> filename -> ((row, column), (row, column))
                         if (result is not None):
                             self.results["vulnerabilities"].setdefault(check, {})
-                            self.results["vulnerabilities"][check][file] = result
+                            self.results["vulnerabilities"][check][filepath] = result
 
             # if generator scan_core.get_files_for_scan() returned no files
             if (not files_found):
