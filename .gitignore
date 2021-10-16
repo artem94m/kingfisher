@@ -1,5 +1,5 @@
-/__info/
-/__todo_checks/
+.vscode/*
+**/__pycache__
 /reports/*
 !/reports/report_example.pdf
 /logs/*
