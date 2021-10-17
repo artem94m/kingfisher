@@ -14,7 +14,7 @@ class Kingfisher():
         self.args = KfArgparse(self.logger)
 
         # start processing if arguments are OK
-        if ((self.args.scan_path is not None) and (self.args.report_path is not None)):
+        if (self.args.are_ok()):
             self.process()
 
     def process(self):
