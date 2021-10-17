@@ -1,7 +1,7 @@
-import logging
-import os
-from inspect import getframeinfo, stack
 from datetime import datetime
+from inspect import getframeinfo, stack
+from logging import DEBUG, FileHandler, Formatter, INFO, StreamHandler, getLogger, shutdown
+from os import makedirs, path
 
 
 class PreparedLog():
@@ -9,71 +9,82 @@ class PreparedLog():
         """ create prepared logger """
 
         # create logger
-        self.logger = logging.getLogger(logger_name)
-        self.logger.setLevel(logging.DEBUG)
+        self.logger = getLogger(logger_name)
+        self.logger.setLevel(INFO)
 
         # create handler for console output
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.INFO)
-
-        # create and set output format
-        ch.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
-
-        # add the handlers to the log
-        self.logger.addHandler(ch)
+        console_handler = StreamHandler()
+        console_handler.setFormatter(Formatter("%(asctime)s [%(levelname)s] %(message)s"))
+        self.logger.addHandler(console_handler)
 
         try:
             # create log directory for files if it does not exist
-            if not os.path.exists("logs"):
-                os.makedirs("logs")
+            if not path.exists("logs"):
+                makedirs("logs")
 
             # create output filename
-            filename = "{}_{}.log".format(logger_name, datetime.today().strftime("%Y-%m-%d"))
+            current_date = datetime.today().strftime("%Y-%m-%d")
+            filename = f"{logger_name}_{current_date}.log"
 
             # create handler for file output
-            fh = logging.FileHandler(os.path.join("logs", filename))
-            fh.setLevel(logging.DEBUG)
-
-            # set output format
-            fh.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(real_filename)s, %(real_funcname)s(), line:%(real_lineno)d - %(message)s"))
-
-            # add the handlers to the log
-            self.logger.addHandler(fh)
+            file_handler = FileHandler(path.join("logs", filename))
+            file_handler.setFormatter(Formatter("%(asctime)s [%(levelname)s] %(real_filename)s,"
+                                                "%(real_funcname)s(), line:%(real_lineno)d - %(message)s"))
+            self.logger.addHandler(file_handler)
         except Exception as error:
-            self.logger.warning("Error during creation of log file: {}".format(str(error)))
+            self.logger.warning(f"Error during creation of log file: {error}")
 
     def info(self, msg):
-        # get file name, line number, function name
+        """ print INFO message """
+        # get real file name, line number, function name
         caller = getframeinfo(stack()[1][0])
         extra = {
-            "real_filename": os.path.relpath(caller.filename),
+            "real_filename": path.relpath(caller.filename),
             "real_lineno": caller.lineno,
-            "real_funcname": caller.function
+            "real_funcname": caller.function,
         }
 
         self.logger.info(msg, extra=extra)
 
     def warning(self, msg):
-        # get file name, line number, function name
+        """ print WARNING message """
+        # get real file name, line number, function name
         caller = getframeinfo(stack()[1][0])
         extra = {
-            "real_filename": os.path.relpath(caller.filename),
+            "real_filename": path.relpath(caller.filename),
             "real_lineno": caller.lineno,
-            "real_funcname": caller.function
+            "real_funcname": caller.function,
         }
 
         self.logger.warning(msg, extra=extra)
 
     def error(self, msg):
-        # get file name, line number, function name
+        """ print ERROR message """
+        # get real file name, line number, function name
         caller = getframeinfo(stack()[1][0])
         extra = {
-            "real_filename": os.path.relpath(caller.filename),
+            "real_filename": path.relpath(caller.filename),
             "real_lineno": caller.lineno,
-            "real_funcname": caller.function
+            "real_funcname": caller.function,
         }
 
         self.logger.error(msg, extra=extra)
+
+    def debug(self, msg):
+        """ print DEBUG message """
+        # get real file name, line number, function name
+        caller = getframeinfo(stack()[1][0])
+        extra = {
+            "real_filename": path.relpath(caller.filename),
+            "real_lineno": caller.lineno,
+            "real_funcname": caller.function,
+        }
+
+        self.logger.debug(msg, extra=extra)
+
+    def set_verbose(self):
+        """ activate verbose log by changing level of logger """
+        self.logger.setLevel(DEBUG)
 
     def __del__(self):
         """ remove and close all handlers """
@@ -84,6 +95,5 @@ class PreparedLog():
                 handler.flush()
                 handler.close()
                 self.logger.removeHandler(handler)
-
         # and the control shot
-        logging.shutdown()
+        shutdown()
