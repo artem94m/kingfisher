@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/artem94m/kingfisher/main/resources/kingfisher_logo.png" alt="Kingfisher" title="Kingfisher" width="800"/>
+    <img src="https://raw.githubusercontent.com/artem94m/kingfisher/main/static/images/kingfisher_logo.png" alt="Kingfisher" title="Kingfisher" width="800"/>
 </p>
 
 ## About
@@ -37,7 +37,7 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
 
 3. As you can see, there is only one required argument - SCAN_PATH. It can be a relative or an absolute path to a project folder or a project file. 
 
-   You can run test scan (demo files in local folder: kingfisher-main\tests) like this: 
+   You can run test scan (demo files in local folder: kingfisher-main\data\tests) like this: 
 
     ```
     python kingfisher.py -scan tests
@@ -76,7 +76,7 @@ Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python 
 ## Checks
 All available checks are stored in XML-format in a local folder: kingfisher-main\checks. Their content partly was taken from the website https://vulncat.fortify.com/en/weakness.
 
-Before every scanning all the checks from the folder go through validation against a schema (kingfisher-main\resources\check_schema.xsd). If check did not pass the validation process - it will be ignored during scanning.
+Before every scanning all the checks from the folder go through validation against a schema (kingfisher-main\data\check_schema.xsd). If check did not pass the validation process - it will be ignored during scanning.
 
 You can add new checks or edit existing ones according to the schema.
 
@@ -458,4 +458,4 @@ Next example will trigger if MIDDLEWARE collection does not have specific middle
 </pattern_simple>
 ```
 
-For more examples look in kingfisher-main/check folder. Exact `<patterns>` tag's structure see in kingfisher-main/resources/check_schema.xsd
+For more examples look in kingfisher-main/check folder. Exact `<patterns>` tag's structure see in kingfisher-main/data/check_schema.xsd

@@ -30,7 +30,7 @@ class KfReport():
         self.init_styles()
 
         # create logo image if it does not exist
-        logo_path = os.path.join("resources", "kingfisher_logo.png")
+        logo_path = os.path.join("static", "images", "kingfisher_logo.png")
         if (not os.path.exists(logo_path)):
             self.create_logo(logo_path)
 
@@ -144,7 +144,7 @@ class KfReport():
     def init_fonts(self):
         """ register fonts for text and code """
         # Roboto (for text)
-        roboto_folder = os.path.join("resources", "Roboto")
+        roboto_folder = os.path.join("static", "fonts", "Roboto")
         pdfmetrics.registerFont(TTFont("Roboto", os.path.join(roboto_folder, "Roboto-Regular.ttf")))
         pdfmetrics.registerFont(TTFont("RobotoBd", os.path.join(roboto_folder, "Roboto-Bold.ttf")))
         pdfmetrics.registerFont(TTFont("RobotoIt", os.path.join(roboto_folder, "Roboto-Italic.ttf")))
@@ -154,7 +154,7 @@ class KfReport():
         addMapping("Roboto", 0, 1, "RobotoIt")
         addMapping("Roboto", 1, 1, "RobotoBI")
         # Roboto Mono (for code)
-        roboto_mono_folder = os.path.join("resources", "RobotoMono")
+        roboto_mono_folder = os.path.join("static", "fonts", "RobotoMono")
         pdfmetrics.registerFont(TTFont("RobotoMono", os.path.join(roboto_mono_folder, "RobotoMono-Regular.ttf")))
         pdfmetrics.registerFont(TTFont("RobotoMonoBd", os.path.join(roboto_mono_folder, "RobotoMono-Bold.ttf")))
         pdfmetrics.registerFont(TTFont("RobotoMonoIt", os.path.join(roboto_mono_folder, "RobotoMono-Italic.ttf")))

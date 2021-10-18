@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from kf_modules.argparse import KfArgparse
-from kf_modules.core import KfCore
-from kf_modules.log import PreparedLog
-from kf_modules.report import KfReport
+from kf_modules.main.argparse import KfArgparse
+from kf_modules.main.core import KfCore
+from kf_modules.main.log import PreparedLog
+from kf_modules.main.report import KfReport
 
 
 class Kingfisher():
