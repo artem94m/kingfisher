@@ -7,4 +7,3 @@ venv/
 /reports/*
 !/reports/report_example.pdf
 /logs/*
-!/logs/log_example.log
