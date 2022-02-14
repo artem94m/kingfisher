@@ -6,4 +6,3 @@
 3. Add init actions:
     * "check" checks: if they were OK - use hash to check if they are still the same
 4. Add multiprocessing to the kingfisher.py for scanning different files in parallel
-
