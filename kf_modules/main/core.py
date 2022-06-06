@@ -27,7 +27,7 @@ class KfCore():
         """ append available checks to self.checks list """
         self.checks = []
         checks_path = os.path.join("data", "checks")
-        check_schema_path = os.path.join("data", "check_schema.xsd")
+        check_schema_path = os.path.join("data", "valid_check_schema.xsd")
 
         self.logger.info("Collecting checks...")
 
