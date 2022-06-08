@@ -30,7 +30,7 @@ class KfArgparse():
         self.parser.add_argument("-project", metavar="PROJECT_NAME", dest="project_name",
                                  help=project_name_help)
         # verbose mode - for printing DEBUG messages
-        self.parser.add_argument("-v", dest="verbose_mode", action="store_true")
+        self.parser.add_argument("-v", dest="verbose_mode", action="store_true", help="verbose mode")
 
         self.parse()
 

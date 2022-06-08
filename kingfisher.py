@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from kf_modules.main.argparse import KfArgparse
+from kf_modules.main.args_parser import KfArgparse
 from kf_modules.main.core import KfCore
 from kf_modules.main.log import PreparedLog
 from kf_modules.main.report import KfReport
