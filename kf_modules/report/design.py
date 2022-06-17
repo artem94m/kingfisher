@@ -1,4 +1,4 @@
-from os import path
+from os import getcwd, path
 
 from reportlab.lib.colors import HexColor
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_RIGHT
@@ -17,7 +17,7 @@ class ReportDesign():
     def init_fonts(self):
         """ register fonts for text and code """
         # Roboto (for text)
-        roboto_folder = path.join("static", "fonts", "Roboto")
+        roboto_folder = path.join(getcwd(), "static", "fonts", "Roboto")
         pdfmetrics.registerFont(TTFont("Roboto", path.join(roboto_folder, "Roboto-Regular.ttf")))
         pdfmetrics.registerFont(TTFont("RobotoBd", path.join(roboto_folder, "Roboto-Bold.ttf")))
         pdfmetrics.registerFont(TTFont("RobotoIt", path.join(roboto_folder, "Roboto-Italic.ttf")))
@@ -28,7 +28,7 @@ class ReportDesign():
         addMapping("Roboto", 1, 1, "RobotoBI")
 
         # Roboto Mono (for code)
-        roboto_mono_folder = path.join("static", "fonts", "RobotoMono")
+        roboto_mono_folder = path.join(getcwd(), "static", "fonts", "RobotoMono")
         pdfmetrics.registerFont(TTFont("RobotoMono", path.join(roboto_mono_folder, "RobotoMono-Regular.ttf")))
         pdfmetrics.registerFont(TTFont("RobotoMonoBd", path.join(roboto_mono_folder, "RobotoMono-Bold.ttf")))
         pdfmetrics.registerFont(TTFont("RobotoMonoIt", path.join(roboto_mono_folder, "RobotoMono-Italic.ttf")))
@@ -70,9 +70,17 @@ class ReportDesign():
         self.styles.add(ParagraphStyle(name="PageNumber", alignment=TA_LEFT, fontName="RobotoBd",
                                        fontSize=10, textColor=self.font_color, backColor=self.page_number_bg_color,
                                        borderPadding=2 * mm, leading=12))
-        # add style for header
-        self.styles.add(ParagraphStyle(name="Header", alignment=TA_LEFT, fontName="RobotoBd",
+        # add style for H1
+        self.styles.add(ParagraphStyle(name="H1", alignment=TA_LEFT, fontName="RobotoBd",
                                        fontSize=18, textColor=self.font_color, leading=22,
+                                       spaceBefore=3 * mm, spaceAfter=2 * mm))
+        # add style for H2
+        self.styles.add(ParagraphStyle(name="H2", alignment=TA_LEFT, fontName="RobotoBd",
+                                       fontSize=16, textColor=self.font_color, leading=22,
+                                       spaceBefore=3 * mm, spaceAfter=2 * mm))
+        # add style for H3
+        self.styles.add(ParagraphStyle(name="H3", alignment=TA_LEFT, fontName="RobotoBd",
+                                       fontSize=14, textColor=self.font_color, leading=22,
                                        spaceBefore=3 * mm, spaceAfter=2 * mm))
         # add style for paragraph of text
         self.styles.add(ParagraphStyle(name="RegularParagraph", alignment=TA_JUSTIFY, fontName="Roboto",

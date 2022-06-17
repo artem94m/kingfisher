@@ -1,235 +1,186 @@
 from xml.sax.saxutils import escape
 
-from defusedxml.ElementTree import parse
-
-from kf_modules.report.design import ReportDesign
+import global_storage
 
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, Preformatted, Table, XPreformatted
+from reportlab.platypus import PageBreak, Paragraph, Preformatted, Table, XPreformatted
 
 
 class ReportVulnerabilities():
-    def __init__(self, results, logger):
-        # get logger from the main module
-        self.logger = logger
-        # get results from the main module
-        self.results = results
-        # get design of the report
-        self.design = ReportDesign()
+    """Creates content for the results of the applied checks
+    """
+    def __init__(self, scan_results):
+        self.data = []
 
-    def get(self):
-        """ returns content of the pages with vulnerabilities page """
-        content = []
+        # add page title
+        self.data.append(Paragraph("Issues", global_storage.design.styles["H1"]))
 
-        if (self.results["vulnerabilities"]):
-            # go through all checks
-            for check_file in sorted(self.results["vulnerabilities"]):
-                # extract data from the check
-                check_info = self.extract_data_from_check(check_file)
-
-                # add check info to the report
-                content += self.add_check_name(check_info["name"])
-                content += self.add_check_description(check_info["description"])
-                content += self.add_check_explanation(check_info["explanation"])
-                content += self.add_check_severity(check_info["severity"])
-
-                content.append(Paragraph("Vulnerabilities", self.design.styles["Header"]))
-
-                # go through all vulnerable files, which were found for the check
-                for python_file in sorted(self.results["vulnerabilities"][check_file]):
-                    # extract source code with line number from specific file
-                    source_code = self.extract_source_from_file(python_file)
-                    # go through all coords of vulnerability
-                    for vuln_coord in sorted(list(self.results["vulnerabilities"][check_file][python_file])):
-                        # add all occurrences of the vulnerability to the report
-                        content += self.add_vulnerability(python_file, source_code, vuln_coord)
-
-                content += self.add_check_recommendations(check_info["recommendations"])
-                content += self.add_check_links(check_info["links"])
+        # check if any vulnerabilities were found
+        if (scan_results.issues_by_check):
+            for check_result in scan_results.applied_checks:
+                # get the original check info
+                original_check = global_storage.checks.get(check_result.check_name)
+                # if there is a correspondent check and any vulnerable files were found by check
+                if (original_check and check_result.files_with_issues):
+                    # add check info
+                    self.data += self.add_check_name(original_check.name)
+                    self.data += self.add_check_description(original_check.description)
+                    self.data += self.add_check_explanation(original_check.explanation)
+                    self.data += self.add_check_severity(original_check.severity)
+                    self.data += self.add_issues(check_result.files_with_issues)
+                    self.data += self.add_check_recommendations(original_check.recommendations)
+                    self.data += self.add_check_links(original_check.links)
+                    # break the page
+                    self.data.append(PageBreak())
         else:
-            content.append(Paragraph("No vulnerabilities were found", self.design.styles["Header"]))
-
-        return content
+            self.data.append(Paragraph("No vulnerabilities were found",
+                                       global_storage.design.styles["RegularParagraph"]))
 
     def add_check_name(self, name):
-        """ add name of check """
         result = []
-        result.append(Paragraph(escape(name), self.design.styles["CheckName"]))
+
+        result.append(Paragraph(escape(name), global_storage.design.styles["CheckName"]))
 
         return result
 
     def add_check_description(self, description):
-        """ add short description of the check """
         result = []
-        result.append(Paragraph("Description", self.design.styles["Header"]))
-        result.append(Paragraph(escape(description), self.design.styles["RegularParagraph"]))
+
+        result.append(Paragraph("Description", global_storage.design.styles["H3"]))
+        result.append(Paragraph(escape(description), global_storage.design.styles["RegularParagraph"]))
 
         return result
 
     def add_check_explanation(self, explanation):
-        """ add explanation """
         result = []
-        result.append(Paragraph("Explanation", self.design.styles["Header"]))
 
-        # split explanation by double "\n" - we get list of fragments
-        fragments = [fragment.lstrip("\r\n") for fragment in explanation.split("\n\n") if fragment != ""]
+        result.append(Paragraph("Explanation", global_storage.design.styles["H3"]))
+
+        # split explanation by "\n\n" - we get list of paragraphs
+        fragments = [fragment.strip() for fragment in explanation.strip().split("\n\n") if fragment.strip()]
         for fragment in fragments:
             # if fragment starts from KF_CODE_EXAMPLE keyword - print it as a preformatted text (like <pre> tag)
             if (fragment.startswith("KF_CODE_EXAMPLE")):
-                fragment = fragment.replace("KF_CODE_EXAMPLE", "", 1)
+                # extract code example (remove "KF_CODE_EXAMPLE" from the beginning of the fragment)
+                _, code_fragment = fragment.split("KF_CODE_EXAMPLE", 1)
 
-                # add line break for very long lines
+                # add line break for very long lines (>80)
                 # for some reason XPreformatted cannot do this
-                # get lines from the fragment
-                lines = fragment.split("\n")
-                for number, line in enumerate(lines):
-                    # transform line of code into the list of symbols
-                    symbols = list(line)
-                    # set size for chunks of line
-                    chunk_size = 80
-                    # add "\n" before every end-of-the-chunk symbol
-                    for end_of_chunk in range(0, len(line), chunk_size):
-                        if (end_of_chunk != 0):
-                            symbols[end_of_chunk] = "\n" + symbols[end_of_chunk]
-                    # join symbols back to the line - now there are "\n" before every eightieth symbol
-                    lines[number] = "".join(symbols)
-                # restore fragment variable
-                fragment = "\n".join(lines)
+                max_line_length = 80
+                code_fragment_lines = []
+                for line in code_fragment.splitlines():
+                    # split long lines by chunks of length max_line_length
+                    if (len(line) > max_line_length):
+                        for start in range(0, len(line), max_line_length):
+                            code_fragment_lines.append(line[start:start + max_line_length])
+                    else:
+                        code_fragment_lines.append(line)
 
-                result.append(XPreformatted(escape(fragment), self.design.styles["CodeExample"]))
+                code_fragment = "\n".join(code_fragment_lines)
+
+                result.append(XPreformatted(escape(code_fragment), global_storage.design.styles["CodeExample"]))
             # else print it as a regular paragraph
             else:
-                result.append(Paragraph(escape(fragment), self.design.styles["RegularParagraph"]))
+                result.append(Paragraph(escape(fragment), global_storage.design.styles["RegularParagraph"]))
 
         return result
 
     def add_check_severity(self, severity):
-        """ add severity """
         result = []
-        result.append(Paragraph("Severity", self.design.styles["Header"]))
 
-        # set style for severity
-        style = "SeverityInfo"
+        severity_to_style = {
+            "High": "SeverityHigh",
+            "Medium": "SeverityMedium",
+            "Low": "SeverityLow",
+            "Info": "SeverityInfo",
+        }
 
-        if (severity == "High"):
-            style = "SeverityHigh"
-        elif (severity == "Medium"):
-            style = "SeverityMedium"
-        elif (severity == "Low"):
-            style = "SeverityLow"
-        elif (severity == "Info"):
-            style = "SeverityInfo"
+        if (severity in severity_to_style):
+            style = severity_to_style[severity]
 
-        result.append(Paragraph(severity, self.design.styles[style]))
+            result.append(Paragraph("Severity", global_storage.design.styles["H3"]))
+            result.append(Paragraph(severity, global_storage.design.styles[style]))
 
         return result
 
-    def add_vulnerability(self, python_file, source_code, vuln_coord):
-        """ add code of the vulnerability """
+    def add_issues(self, files_with_issues):
         result = []
-        # get coords of the vulnerability (line number and position)
-        line_number, pos = vuln_coord
 
-        # add vulnerability header
-        vulnerability_header = f"File {python_file}, Line {line_number}, Pos {pos}"
-        result.append(Paragraph(vulnerability_header, self.design.styles["VulnerableCodeHeader"]))
+        # sort by file_path
+        files_with_issues.sort(key=lambda item: item.file_path)
 
-        # transform line of code into the list of symbols
-        symbols = list(source_code[line_number])
-        # set size for chunks of line
-        chunk_size = 75
-        # add "\n" before every end-of-the-chunk symbol
-        for end_of_chunk in range(0, len(source_code[line_number]), chunk_size):
-            symbols[end_of_chunk] = "\n" + symbols[end_of_chunk]
-        # join symbols back to the line - now there are "\n" before every eightieth symbol
-        line_new = "".join(symbols)
-        # and now we get chunks (80 symbols long, except, sometimes, last one) from the line
-        chunks = [chunk for chunk in line_new.split("\n") if chunk != ""]
+        for vuln_file in files_with_issues:
+            # add file path
+            vulnerability_header = f"File {vuln_file.file_path}"
+            result.append(Paragraph(vulnerability_header, global_storage.design.styles["VulnerableCodeHeader"]))
 
-        # first line of table with the source code contains line number and first eighty symbols
-        line_no = Paragraph(str(line_number), self.design.styles["VulnerableCodeLineNo"])
-        line_content = Preformatted(chunks.pop(0), self.design.styles["VulnerableCodeLine"])
-        data = [[line_no, line_content]]
-
-        # if the line is longer than 80 symbols - add other chunks without line number but with ">" symbol
-        for chunk in chunks:
-            data.append(["", Preformatted(">" + chunk, self.design.styles["VulnerableCodeLine"])])
-
-        # create Table element
-        table = Table(data, style=self.design.VulnerableCodeTable, rowHeights=5 * mm)
-        # set the column of line numbers width to match the length of the line number value
-        size_of_line_no_column = (len(str(line_number)) * 3 + 2) * mm
-        # set first column width
-        table._argW[0] = size_of_line_no_column
-
-        result.append(table)
+            for issue_location in vuln_file.issues:
+                # add issue location
+                line_no, pos = issue_location
+                issue_location = f"Line {line_no}, Position {pos}"
+                result.append(Paragraph(issue_location, global_storage.design.styles["RegularParagraph"]))
+                # add code listing
+                result.append(self.get_code_listing(line_no, vuln_file.lines_with_issues[line_no]))
 
         return result
+
+    def get_code_listing(self, line_no, line_content):
+        # split long line into chunks of length max_line_length
+        max_line_length = 75
+        listing_lines = []
+        if (len(line_content) > max_line_length):
+            for start in range(0, len(line_content), max_line_length):
+                listing_lines.append(line_content[start:start + max_line_length])
+        else:
+            listing_lines.append(line_content)
+
+        # prepare cells of the table (listing)
+        cells = []
+        is_line_no_processed = False
+        for line in listing_lines:
+            # first line of table with the source code (listing) contains
+            # line_no and first max_line_length symbols
+            # of the original line_content
+            if (not is_line_no_processed):
+                cells.append([Paragraph(str(line_no), global_storage.design.styles["VulnerableCodeLineNo"]),
+                              Preformatted(line, global_storage.design.styles["VulnerableCodeLine"])])
+                is_line_no_processed = True
+            # other symbols of line_content are also splitted into max_line_length chunks
+            # and added without line_no, but starts with ">" symbol
+            else:
+                cells.append(["", Preformatted(">" + line, global_storage.design.styles["VulnerableCodeLine"])])
+
+        # create listing (it is actually Table)
+        listing = Table(cells, style=global_storage.design.VulnerableCodeTable, rowHeights=5 * mm)
+        # set width of the column with line numbers according to the length of the line_no value (3mm per digit + 2mm)
+        listing._argW[0] = (len(str(line_no)) * 3 + 2) * mm
+
+        return listing
 
     def add_check_recommendations(self, recommendations):
-        """ add recommendations to the report """
         result = []
-        # encode entities
-        recommendations = escape(recommendations)
 
-        result.append(Paragraph("Recommendations", self.design.styles["Header"]))
-        # split all the recommendations by "\n"
-        fragments = [recomm for recomm in recommendations.split("\n") if recomm not in ["", "\n"]]
-        for fragment in fragments:
-            # add every recommendation with - mark
-            result.append(Paragraph(fragment, self.design.styles["Recommendation"], bulletText="-"))
+        # encode entities
+        recommendations = escape(recommendations.strip())
+
+        result.append(Paragraph("Recommendations", global_storage.design.styles["H3"]))
+
+        individual_recommendations = [recom for recom in recommendations.split("\n") if recom]
+        for recommendation in individual_recommendations:
+            result.append(Paragraph(recommendation, global_storage.design.styles["Recommendation"], bulletText="-"))
 
         return result
 
     def add_check_links(self, links):
-        """ add links to the report """
         result = []
-        result.append(Paragraph("Links", self.design.styles["Header"]))
-        # split all the links by "\n"
-        fragments = [link for link in links.split("\n") if link not in ["", "\n"]]
-        for fragment in fragments:
-            result.append(Paragraph(fragment, self.design.styles["Link"]))
+
+        # encode entities
+        links = escape(links.strip())
+
+        result.append(Paragraph("Links", global_storage.design.styles["H3"]))
+
+        individual_links = [link for link in links.split("\n") if link]
+        for link in individual_links:
+            result.append(Paragraph(link, global_storage.design.styles["Link"]))
 
         return result
-
-    # SUPPORT FUNCTIONS #############################################################
-    def extract_data_from_check(self, check):
-        """ parse check for functions to call """
-        data = {}
-
-        try:
-            # try to parse xml safely
-            xml_file = parse(check, forbid_dtd=True, forbid_entities=True, forbid_external=True)
-        except Exception as error:
-            self.logger.error(f"Cannot parse check: {error}")
-        else:
-            # get <check> tag
-            root = xml_file.getroot()
-
-            for element in list(root):
-                # extract all the necessary data
-                if (element.tag in ["name", "description", "explanation", "severity", "recommendations", "links"]):
-                    data[element.tag] = element.text.strip()
-
-        return data
-
-    def extract_source_from_file(self, filepath):
-        """ get source code with line numbers """
-        plain = ""
-        source_code = []
-
-        # get plain text of the file
-        try:
-            with open(filepath, encoding="utf-8") as f:
-                plain = f.read()
-        except Exception as error:
-            self.logger.warning(f"Cannot read file {filepath}. Error: {error}")
-
-        # file is not empty
-        if (plain != ""):
-            # fill the zero position - code in a file starts from first line
-            source_code.append(None)
-            # extend current list with lines of code
-            source_code.extend([line.strip("\r") for line in plain.split("\n")])
-
-        return source_code if len(source_code) != 0 else None

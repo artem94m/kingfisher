@@ -1,2 +1,2 @@
 # number of days to keep log files
-store_logs_for = 7
+store_logs_for = 14

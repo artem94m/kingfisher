@@ -4,6 +4,8 @@
 env/
 venv/
 **/__pycache__
+/checks/default_cache
+/checks/custom_cache
 /reports/*
 !/reports/report_example.pdf
 /logs/*

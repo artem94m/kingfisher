@@ -86,6 +86,8 @@ In `<check>` tag there are next tags: `<name>`, `<description>`, `<explanation>`
 
 Tag `<name>` and `<description>` are self-descriptive and contains just one paragraph of text.
 
+> **_NOTE:_**  The `<name>` tag must be unique for every check!
+
 Tag `<explanation>` contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports paragraphs inside `<explanation>` should be separated by double new line (\n\n):
 
 ```
@@ -406,7 +408,9 @@ Example below will trigger if there is a variable whose name contains substring 
 ### Tag `<assignment_in_dict>`
 Tag `<assignment_in_dict>` is used to find assignment of specific value to a specific key of a specific dict. It contains three tags added one by one: `<name>`, `<key>` and `<value>`. 
 
-Tag `<name>` describes dict name - it works exactly the same like in `<function_call>` tag (see above). Tag `<key>` describes key in dict. It has one required attribute "operator" which works like the same operator for the `<name>` tag.
+Tag `<name>` describes dict name - it works exactly the same like in `<function_call>` tag (see above). 
+
+Tag `<key>` describes key in dict. It has one required attribute "operator" which works like the same operator for the `<name>` tag. In source code key must be a string.
 
 Tag `<value>` has to contain one of the next tags: `<str>`, `<int>`, `<bool>`, `<none>`, `<attr>`, `<function_call>`, `<constant>` (see details above at `<function_call_with_arg>` tag's description).
 
