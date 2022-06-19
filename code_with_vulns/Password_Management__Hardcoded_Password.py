@@ -1,5 +1,5 @@
-PassWORd = ""
+PassWORd = "yep"
 
-something["my_password"] = ""
+something["my_password"] = "whatever"
 
-more = {"passWord": ""}
+more = {"passWord": "tst"}

@@ -3,7 +3,7 @@ from xml.sax.saxutils import escape
 import global_storage
 
 from reportlab.lib.units import mm
-from reportlab.platypus import PageBreak, Paragraph, Preformatted, Table, XPreformatted
+from reportlab.platypus import PageBreak, Paragraph, Preformatted, Spacer, Table, XPreformatted
 
 
 class ReportVulnerabilities():
@@ -13,7 +13,7 @@ class ReportVulnerabilities():
         self.data = []
 
         # add page title
-        self.data.append(Paragraph("Issues", global_storage.design.styles["H1"]))
+        self.data.append(Paragraph("Found issues", global_storage.design.styles["H1"]))
 
         # check if any vulnerabilities were found
         if (scan_results.issues_by_check):
@@ -22,8 +22,10 @@ class ReportVulnerabilities():
                 original_check = global_storage.checks.get(check_result.check_name)
                 # if there is a correspondent check and any vulnerable files were found by check
                 if (original_check and check_result.files_with_issues):
+                    # get number of found issues for the check
+                    number_of_issues = scan_results.issues_by_check[check_result.check_name]
                     # add check info
-                    self.data += self.add_check_name(original_check.name)
+                    self.data += self.add_check_name(original_check.name, number_of_issues)
                     self.data += self.add_check_description(original_check.description)
                     self.data += self.add_check_explanation(original_check.explanation)
                     self.data += self.add_check_severity(original_check.severity)
@@ -33,13 +35,12 @@ class ReportVulnerabilities():
                     # break the page
                     self.data.append(PageBreak())
         else:
-            self.data.append(Paragraph("No vulnerabilities were found",
-                                       global_storage.design.styles["RegularParagraph"]))
+            self.data.append(Paragraph("No issues were found", global_storage.design.styles["RegularParagraph"]))
 
-    def add_check_name(self, name):
+    def add_check_name(self, name, number_of_issues):
         result = []
 
-        result.append(Paragraph(escape(name), global_storage.design.styles["CheckName"]))
+        result.append(Paragraph(f"{escape(name)} ({number_of_issues} issues)", global_storage.design.styles["H2"]))
 
         return result
 
@@ -78,7 +79,7 @@ class ReportVulnerabilities():
 
                 code_fragment = "\n".join(code_fragment_lines)
 
-                result.append(XPreformatted(escape(code_fragment), global_storage.design.styles["CodeExample"]))
+                result.append(XPreformatted(escape(code_fragment), global_storage.design.styles["IssuesCodeExample"]))
             # else print it as a regular paragraph
             else:
                 result.append(Paragraph(escape(fragment), global_storage.design.styles["RegularParagraph"]))
@@ -89,10 +90,10 @@ class ReportVulnerabilities():
         result = []
 
         severity_to_style = {
-            "High": "SeverityHigh",
-            "Medium": "SeverityMedium",
-            "Low": "SeverityLow",
-            "Info": "SeverityInfo",
+            "High": "IssuesSeverityHigh",
+            "Medium": "IssuesSeverityMedium",
+            "Low": "IssuesSeverityLow",
+            "Info": "IssuesSeverityInfo",
         }
 
         if (severity in severity_to_style):
@@ -111,16 +112,18 @@ class ReportVulnerabilities():
 
         for vuln_file in files_with_issues:
             # add file path
-            vulnerability_header = f"File {vuln_file.file_path}"
-            result.append(Paragraph(vulnerability_header, global_storage.design.styles["VulnerableCodeHeader"]))
+            vulnerable_file = f"File {vuln_file.file_path}"
+            result.append(Paragraph(vulnerable_file, global_storage.design.styles["IssuesVulnerableFile"]))
 
             for issue_location in vuln_file.issues:
                 # add issue location
                 line_no, pos = issue_location
                 issue_location = f"Line {line_no}, Position {pos}"
-                result.append(Paragraph(issue_location, global_storage.design.styles["RegularParagraph"]))
+                result.append(Paragraph(issue_location, global_storage.design.styles["IssuesVulnerableCodeLocation"]))
                 # add code listing
                 result.append(self.get_code_listing(line_no, vuln_file.lines_with_issues[line_no]))
+                # add free space
+                result.append(Spacer(1, 2 * mm))
 
         return result
 
@@ -151,7 +154,7 @@ class ReportVulnerabilities():
                 cells.append(["", Preformatted(">" + line, global_storage.design.styles["VulnerableCodeLine"])])
 
         # create listing (it is actually Table)
-        listing = Table(cells, style=global_storage.design.VulnerableCodeTable, rowHeights=5 * mm)
+        listing = Table(cells, style=global_storage.design.vulnerable_code_listing, rowHeights=5 * mm)
         # set width of the column with line numbers according to the length of the line_no value (3mm per digit + 2mm)
         listing._argW[0] = (len(str(line_no)) * 3 + 2) * mm
 
@@ -167,7 +170,8 @@ class ReportVulnerabilities():
 
         individual_recommendations = [recom for recom in recommendations.split("\n") if recom]
         for recommendation in individual_recommendations:
-            result.append(Paragraph(recommendation, global_storage.design.styles["Recommendation"], bulletText="-"))
+            result.append(Paragraph(recommendation, global_storage.design.styles["IssuesRecommendation"],
+                                    bulletText="-"))
 
         return result
 
@@ -181,6 +185,6 @@ class ReportVulnerabilities():
 
         individual_links = [link for link in links.split("\n") if link]
         for link in individual_links:
-            result.append(Paragraph(link, global_storage.design.styles["Link"]))
+            result.append(Paragraph(link, global_storage.design.styles["IssuesLink"]))
 
         return result

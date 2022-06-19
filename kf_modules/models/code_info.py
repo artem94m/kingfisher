@@ -43,8 +43,8 @@ class CodeInfoExtractor():
             with open(py_file, "r", encoding="utf-8") as fd:
                 source_code = {line_no: text.rstrip() for line_no, text in enumerate(fd.readlines(), start=1)}
         except Exception as error:
-            self.failure_reason = f"Cannot extract source code from file {py_file}: {error}"
-            global_storage.logger.warning(self.failure_reason)
+            self.failure_reason = error
+            global_storage.logger.warning(f"Cannot extract source code from file {py_file}: {error}")
 
         return source_code
 
@@ -58,14 +58,14 @@ class CodeInfoExtractor():
             with open(py_file, "rb") as fd:
                 source_code = fd.read()
         except Exception as error:
-            self.failure_reason = f"Cannot read file {py_file}: {error}"
-            global_storage.logger.warning(self.failure_reason)
+            self.failure_reason = error
+            global_storage.logger.warning(f"Cannot read file {py_file}: {error}")
         else:
             try:
                 tree = ast_parse(source_code, feature_version=(3, 9))
             except Exception as error:
-                self.failure_reason = f"Cannot get AST from file {py_file}: {error}. Skipping..."
-                global_storage.logger.warning(self.failure_reason)
+                self.failure_reason = error
+                global_storage.logger.warning(f"Cannot get AST from file {py_file}: {error}. Skipping...")
 
         return tree
 
@@ -114,8 +114,8 @@ class CodeInfoExtractor():
                                 is_first_line_processed = True
                                 comments.append(Comment(location, line_text))
         except Exception as error:
-            self.failure_reason = f"Cannot extract comments from file {py_file}: {error}"
-            global_storage.logger.warning(self.failure_reason)
+            self.failure_reason = error
+            global_storage.logger.warning(f"Cannot extract comments from file {py_file}: {error}")
 
         return comments
 

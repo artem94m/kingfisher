@@ -29,7 +29,7 @@ class ScanResults():
         """
         if (self.duration is None):
             self.duration = str(datetime.now() - self.start_scan_timestamp)
-            global_storage.logger.debug(f"Scan took: {self.duration}")
+            global_storage.logger.info(f"Scan took: {self.duration}")
 
     def calc_statistics(self):
         """Calcs statistics for found vulnerabilities
@@ -63,12 +63,9 @@ class ScanResults():
                 # and update it
                 setattr(self, severity_attr, updated_number_of_issues)
 
-        message = f"Found issues:\n"\
-                  f"High: {self.high_issues}\n"\
-                  f"Medium: {self.medium_issues}\n"\
-                  f"Low: {self.low_issues}\n"\
-                  f"Info: {self.info_issues}\n"
-        global_storage.logger.debug(message)
+        message = f"Found issues: High: {self.high_issues}, Medium: {self.medium_issues}, "\
+                  f"Low: {self.low_issues}, Info: {self.info_issues}"
+        global_storage.logger.info(message)
 
 
 class CheckResults(list):
