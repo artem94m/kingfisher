@@ -59,7 +59,10 @@ Information about the scanning process will be printed into the console output a
 ## Adding/editing checks
 You also can add new or edit existing checks. The default checks are placed in **kingfisher-main/checks/default** folder, custom ones should be placed in **kingfisher-main/checks/custom** folder.
 
-The check is an .xml-file which is valid against the **kingfisher-main/checks/valid_check_schema.xsd** schema and whose name starts with the `check_` substring. 
+The **kingfisher-main/checks/default** folder contains checks, which are partly based on the checks for Python from the website [Fortify Taxonomy](https://vulncat.fortify.com/en/weakness).
+
+Every check is an .xml-file which is valid according to the **kingfisher-main/checks/valid_check_schema.xsd** schema and it's name starts with the `check_` substring. 
+If any check did not pass the validation process - it will be ignored during the scanning.
 
 During the first scan, checks from the both folder will be cached (**kingfisher-main/checks/default_cache** and **kingfisher-main/checks/custom_cache** folders) for better performance during next scans.
 

@@ -9,3 +9,6 @@ venv/
 /reports/*
 !/reports/report_example.pdf
 /logs/*
+/docs/_sources
+/docs/.doctrees
+/docs/.buildinfo

@@ -128,7 +128,9 @@ optional arguments:
 <section id="adding-editing-checks">
 <h2>Adding/editing checks<a class="headerlink" href="#adding-editing-checks" title="Permalink to this headline"></a></h2>
 <p>You also can add new or edit existing checks. The default checks are placed in <strong>kingfisher-main/checks/default</strong> folder, custom ones should be placed in <strong>kingfisher-main/checks/custom</strong> folder.</p>
-<p>The check is an .xml-file which is valid against the <strong>kingfisher-main/checks/valid_check_schema.xsd</strong> schema and whose name starts with the <code class="docutils literal notranslate"><span class="pre">check_</span></code> substring.</p>
+<p>The <strong>kingfisher-main/checks/default</strong> folder contains checks, which are partly based on the checks for Python from the website <a class="reference external" href="https://vulncat.fortify.com/en/weakness">Fortify Taxonomy</a>.</p>
+<p>Every check is an .xml-file which is valid according to the <strong>kingfisher-main/checks/valid_check_schema.xsd</strong> schema and it’s name starts with the <code class="docutils literal notranslate"><span class="pre">check_</span></code> substring.
+If any check did not pass the validation process - it will be ignored during the scanning.</p>
 <p>During the first scan, checks from the both folder will be cached (<strong>kingfisher-main/checks/default_cache</strong> and <strong>kingfisher-main/checks/custom_cache</strong> folders) for better performance during next scans.</p>
 <p>Syntax of checks is described <a class="reference internal" href="checks.html"><span class="doc std std-doc">here</span></a>.</p>
 </section>

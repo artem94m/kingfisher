@@ -1,23 +1,17 @@
 # Checks syntax
 
-## Checks
-All available checks are stored in XML-format in a local folder: kingfisher-main\checks. Their content partly was taken from the website https://vulncat.fortify.com/en/weakness.
+## Tag `<check>`
+Every check contains main tag `<check>` with an attribute `status`. The `status` attribute can have only one of two values: `enabled` and `disabled`. This status enables/disables check for the scanning.
 
-Before every scanning all the checks from the folder go through validation against a schema (kingfisher-main\data\check_schema.xsd). If check did not pass the validation process - it will be ignored during scanning.
+Inner tags of the `<check>` tag: `<name>`, `<description>`, `<explanation>`, `<severity>`, `<recommendations>`, `<links>`, `<patterns>`.
 
-You can add new checks or edit existing ones according to the schema.
+Tag `<name>` and `<description>` are self-descriptive and contain just one paragraph of text.
 
-Every check contains main tag `<check>` with an attribute "status". "Status" can have only two values: "enabled" and "disabled". This status enables/disables check for scanning.
+> **_NOTE:_**  The value of the `<name>` tag must be unique for every check! If two checks have the same name, the later will be discarded.
 
-In `<check>` tag there are next tags: `<name>`, `<description>`, `<explanation>`, `<severity>`, `<recommendations>`, `<links>`, `<patterns>`.
+Tag `<explanation>` contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports, paragraphs inside `<explanation>` tag should be separated by double new line (`\n\n`):
 
-Tag `<name>` and `<description>` are self-descriptive and contains just one paragraph of text.
-
-> **_NOTE:_**  The `<name>` tag must be unique for every check!
-
-Tag `<explanation>` contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports paragraphs inside `<explanation>` should be separated by double new line (\n\n):
-
-```
+```text
 Command injection vulnerabilities take two forms:
 
 - An attacker can change the command that the program executes: the attacker explicitly controls what the command is.
@@ -25,9 +19,9 @@ Command injection vulnerabilities take two forms:
 - An attacker can change the environment in which the command executes: the attacker implicitly controls what the command means.
 ```
 
-Examples of code also should be separated other paragraphs by double new line (\n\n) and prepended by keyword KF_CODE_EXAMPLE:
+Examples of code also should be separated from other paragraphs and code examples by double new line (`\n\n`) and prepended by the keyword `KF_CODE_EXAMPLE`:
 
-```
+```python
 KF_CODE_EXAMPLE
 ...
 home = os.getenv('APPHOME')
@@ -37,22 +31,22 @@ os.system(cmd)
 do_something()
 ```
 
-You can use "..." to fill the gaps in the code.
+You can use `...` to fill the gaps in the code examples.
 
-Tag `<severity>` is also self-descriptive and can contain only one of four values: High, Medium, Low, Info. This value is set according to CWE (from `<links>`), if possible.
+Tag `<severity>` is also self-descriptive and can contain only one of the four values: `High`, `Medium`, `Low`, `Info`. In default checks this value is set according to CWEs, mentioned in the `<links>` tag.
 
-Tag `<recommendations>` is also self-descriptive and for correct generation of report recommendations in it should be separated by one new line (\n).
+Tag `<recommendations>` is also self-descriptive. For correct generation of report every recommendation in it should be separated from others by one new line (`\n`).
 
-Tag `<links>` contains links to the different standarts. Links should be separated by one new line (\n).
+Tag `<links>` contains links to the different sources, which proves the severity of the check. Every link also should be separated from others by one new line (`\n`).
 
 Tag `<patterns>` contains patterns for recognition of the vulnerability. More details about this tag are placed below.
 
-## Patterns
-Tag `<patterns>` is the most interesting one. It supports only one tag `<pattern_simple>` and must contain at least one. This tag is used for description of simple checks.
+## Tag `<patterns>`
+Tag `<patterns>` is the most interesting one. It supports only one inner tag `<pattern_simple>` and must contain at least one. This tag is used for description of the vulnerable code.
 
-Tag `<pattern_simple>` must contain only one of next tags: `<comment>`, `<string>`, `<block>`, `<attribute>`, `<function_call>`, `<function_call_without_arg>`, `<function_call_with_arg>`, `<assignment_var>`, `<assignment_in_dict>`, `<unique_assignment_to_set_tuple_list>`.
+Tag `<pattern_simple>` must contain only one of next pattern tags: `<comment>`, `<string>`, `<block>`, `<attribute>`, `<function_call>`, `<function_call_without_arg>`, `<function_call_with_arg>`, `<assignment_var>`, `<assignment_in_dict>`, `<unique_assignment_to_set_tuple_list>`.
 
-### Tag `<comment>`
+### Pattern tag `<comment>`
 Tag `<comment>` is used to find specific text (case-insensitive) in the comments. The tag must contain non empty string. Pattern below will trigger if there is "password" phrase (case-insensitive) in the comments in source code (probably password in comments):
 
 ```
@@ -61,7 +55,7 @@ Tag `<comment>` is used to find specific text (case-insensitive) in the comments
 </pattern_simple>
 ```
 
-### Tag `<string>`
+### Pattern tag `<string>`
     
 Tag `<string>` is used to find specific text in string literals in the code. It also has one required attribute "operator" which determines type of search: 
  - eq (trigger if a string literal equals to specific text)
@@ -89,7 +83,7 @@ Pattern below will trigger if in code there is string literal which contains "pw
 </pattern_simple>
 ```
 
-### Tag `<block>`
+### Pattern tag `<block>`
 
 Tag `<block>` is used to find specific block in the source code. It has one required attribute "operator" which must be equal "empty". This tag must contain non-empty string which is a name of the block. It supports only two values: except and def. Example below will trigger if there is an empty except block in the source code (definitely empty except block):
 ```
@@ -98,7 +92,7 @@ Tag `<block>` is used to find specific block in the source code. It has one requ
 </pattern_simple>
 ```
 
-### Tag `<attribute>`
+### Pattern tag `<attribute>`
 Tag `<attribute>` is used to find usage of specific attribute of the module, not the attribute of just created object. You should specify full path to the attribute - with module name and sub-packets. Example below will trigger if Crypto.Cipher.AES.MODE_ECB is used in the code (definitely not safe mode of encryption):
 ```
 <pattern_simple>
@@ -106,7 +100,7 @@ Tag `<attribute>` is used to find usage of specific attribute of the module, not
 </pattern_simple>
 ```
 
-### Tag `<function_call>`
+### Pattern tag `<function_call>`
 
 Tag `<function_call>` is used to find call of specific function. Is has to contain only one `<name>` tag which has one required attribute "operator" which determines type of search: 
  - eq (trigger if a function name equals to specific text)
@@ -131,7 +125,7 @@ Operator "contains" allows to find not complete match, like call of method of ob
 </pattern_simple>
 ```
 
-### Tag `<function_call_without_arg>`
+### Pattern tag `<function_call_without_arg>`
 
 Tag `<function_call_without_arg>` is used to find call of function WITHOUT specific argument. It contains only two tags added one by one: `<name>` and `<param>`. 
 
@@ -172,7 +166,7 @@ In next example, name of the argument is not strict, so you have to search absen
 **NOTE**: scanner does not support check against usage of `**kwargs` and `*args` as arguments.
 
 
-### Tag `<function_call_with_arg>`
+### Pattern tag `<function_call_with_arg>`
 Tag `<function_call_with_arg>` is used to find call of function WITH specific argument. It contains only two tags added one by one: `<name>` and `<param>`. 
 
 Tag `<name>` describes function name - it works exactly the same like in `<function_call>` tag (see above). 
@@ -315,7 +309,7 @@ This code **WILL** trigger first pattern:
 CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", 'cdn.example.net')
 ```
 
-### Tag `<assignment_var>`
+### Pattern tag `<assignment_var>`
 
 Tag `<assignment_var>` is used to find assignment of specific value to a specific variable. It contains only two tags added one by one: `<name>` and `<value>`. 
 Tag `<name>` describes variable name - it works exactly the same like in `<function_call>` tag (see above). 
@@ -332,7 +326,7 @@ Example below will trigger if there is a variable whose name contains substring 
 </pattern_simple>
 ```
 
-### Tag `<assignment_in_dict>`
+### Pattern tag `<assignment_in_dict>`
 Tag `<assignment_in_dict>` is used to find assignment of specific value to a specific key of a specific dict. It contains three tags added one by one: `<name>`, `<key>` and `<value>`. 
 
 Tag `<name>` describes dict name - it works exactly the same like in `<function_call>` tag (see above). 
@@ -354,7 +348,7 @@ Example below will trigger if there is a dict with any name (every name contains
 </pattern_simple>
 ```
 
-### Tag `<unique_assignment_to_set_tuple_list>`
+### Pattern tag `<unique_assignment_to_set_tuple_list>`
 Tag `<unique_assignment_to_set_tuple_list>` is used to check if specific unique string values were assigned/missed in a set, tuple or list. This tag contains only two tags added one by one: `<name>` and `<values>`. 
 
 Tag `<name>` describes name - it works exactly the same like in `<function_call>` tag (see above). 
