@@ -3,7 +3,7 @@
 
 ```{toctree}
 :caption: 'Contents:'
-:maxdepth: 2
+:maxdepth: 3
 
 pages/install
 pages/usage

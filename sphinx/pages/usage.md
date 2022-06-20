@@ -49,7 +49,7 @@
     python kingfisher.py -scan_path /var/www/project
     ```
 
-4. If `REPORTS_PATH` is not specified, by default, the results of the scan will be saved in PDF-file in the local folder: **kingfisher-main/reports**. Example of the report file with the results of scanning of the local **code_with_vulns** folder is placed in the folder.
+4. If `REPORTS_PATH` is not specified, by default, the results of the scan will be saved in PDF-file in the local folder: **kingfisher-main/reports**. [Example of the report file](https://github.com/artem94m/kingfisher/raw/main/reports/report_example.pdf) with the results of scanning of the local **code_with_vulns** folder is placed in the folder.
 
 5. If `PROJECT` is not specified, the name of the project will be extracted from `SCAN_PATH` (name of the file or folder). The filename of a report will also contain a timestamp (YYYY-mm-dd_HH-MM-SS) when the scan has started.
 

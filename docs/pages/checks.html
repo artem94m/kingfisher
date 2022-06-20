@@ -45,26 +45,27 @@
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Checks syntax</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#tag-check">Tag <code class="docutils literal notranslate"><span class="pre">&lt;check&gt;</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#tag-patterns">Tag <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#inner-tag-patterns">Inner tag <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pattern-tag-comment">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;comment&gt;</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pattern-tag-string">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pattern-tag-block">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;block&gt;</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pattern-tag-attribute">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;attribute&gt;</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pattern-tag-function-call">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pattern-tag-function-call-without-arg">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call_without_arg&gt;</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pattern-tag-function-call-with-arg">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call_with_arg&gt;</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#tag-str">Tag <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tag-int">Tag <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tag-bool">Tag <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tag-none">Tag <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tag-attr">Tag <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tag-function-call">Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tag-constant">Tag <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#pattern-tag-function-call-with-arg">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call_with_arg&gt;</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pattern-tag-assignment-var">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;assignment_var&gt;</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pattern-tag-assignment-in-dict">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;assignment_in_dict&gt;</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pattern-tag-unique-assignment-to-set-tuple-list">Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;unique_assignment_to_set_tuple_list&gt;</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#value-tags">Value tags</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#value-tag-str">Value tag <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#value-tag-int">Value tag <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#value-tag-bool">Value tag <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#value-tag-none">Value tag <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#value-tag-attr">Value tag <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#value-tag-function-call">Value tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#value-tag-constant">Value tag <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -101,9 +102,7 @@
 <p>Every check contains main tag <code class="docutils literal notranslate"><span class="pre">&lt;check&gt;</span></code> with an attribute <code class="docutils literal notranslate"><span class="pre">status</span></code>. The <code class="docutils literal notranslate"><span class="pre">status</span></code> attribute can have only one of two values: <code class="docutils literal notranslate"><span class="pre">enabled</span></code> and <code class="docutils literal notranslate"><span class="pre">disabled</span></code>. This status enables/disables check for the scanning.</p>
 <p>Inner tags of the <code class="docutils literal notranslate"><span class="pre">&lt;check&gt;</span></code> tag: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;description&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;explanation&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;severity&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;recommendations&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;links&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code>.</p>
 <p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;description&gt;</span></code> are self-descriptive and contain just one paragraph of text.</p>
-<blockquote>
-<div><p><strong><em>NOTE:</em></strong>  The value of the <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> tag must be unique for every check! If two checks have the same name, the later will be discarded.</p>
-</div></blockquote>
+<p><strong>NOTE:</strong>  The value of the <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> tag must be unique for every check! If two checks have the same name, the later will be discarded.</p>
 <p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;explanation&gt;</span></code> contains more detailed description of the vulnerability, sometimes with examples of vulnerable code. For correct generation of reports, paragraphs inside <code class="docutils literal notranslate"><span class="pre">&lt;explanation&gt;</span></code> tag should be separated by double new line (<code class="docutils literal notranslate"><span class="pre">\n\n</span></code>):</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Command injection vulnerabilities take two forms:
 
@@ -128,343 +127,355 @@
 <p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;links&gt;</span></code> contains links to the different sources, which proves the severity of the check. Every link also should be separated from others by one new line (<code class="docutils literal notranslate"><span class="pre">\n</span></code>).</p>
 <p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code> contains patterns for recognition of the vulnerability. More details about this tag are placed below.</p>
 </section>
-<section id="tag-patterns">
-<h2>Tag <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code><a class="headerlink" href="#tag-patterns" title="Permalink to this headline"></a></h2>
+<section id="inner-tag-patterns">
+<h2>Inner tag <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code><a class="headerlink" href="#inner-tag-patterns" title="Permalink to this headline"></a></h2>
 <p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code> is the most interesting one. It supports only one inner tag <code class="docutils literal notranslate"><span class="pre">&lt;pattern_simple&gt;</span></code> and must contain at least one. This tag is used for description of the vulnerable code.</p>
 <p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;pattern_simple&gt;</span></code> must contain only one of next pattern tags: <code class="docutils literal notranslate"><span class="pre">&lt;comment&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;block&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;attribute&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;function_call_without_arg&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;function_call_with_arg&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;assignment_var&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;assignment_in_dict&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;unique_assignment_to_set_tuple_list&gt;</span></code>.</p>
 <section id="pattern-tag-comment">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;comment&gt;</span></code><a class="headerlink" href="#pattern-tag-comment" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;comment&gt;</span></code> is used to find specific text (case-insensitive) in the comments. The tag must contain non empty string. Pattern below will trigger if there is “password” phrase (case-insensitive) in the comments in source code (probably password in comments):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">comment</span><span class="o">&gt;</span><span class="n">password</span><span class="o">&lt;/</span><span class="n">comment</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;comment&gt;</span></code> is used to find the specific text (case-insensitive) in the comments. The tag must contain non-empty string.</p>
+<p>Pattern below will trigger if there is “password” phrase (case-insensitive) in the comments in source code:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;comment&gt;</span>password<span class="nt">&lt;/comment&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="pattern-tag-string">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code><a class="headerlink" href="#pattern-tag-string" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code> is used to find specific text in string literals in the code. It also has one required attribute “operator” which determines type of search:</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code> is used to find the specific text in string literals in the code. It has one required attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which determines type of search:</p>
 <ul class="simple">
-<li><p>eq (trigger if a string literal equals to specific text)</p></li>
-<li><p>contains (trigger if a string literal contains specific text)</p></li>
-<li><p>starts (trigger if a string literal starts from specific text)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eq</span></code> (trigger if a string literal equals to the specific text)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contains</span></code> (trigger if a string literal contains the specific text)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">starts</span></code> (trigger if a string literal starts from the specific text)</p></li>
 </ul>
-<p>Pattern below will trigger if in code there is string literal which is equal to “&quot; (probably hardcoded file separator):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">string</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span>\<span class="o">&lt;/</span><span class="n">string</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Pattern below will trigger if in code there is a string literal which is equal to <code class="docutils literal notranslate"><span class="pre">\</span></code> (hardcoded file separator):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>\<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
-<p>Pattern below will trigger if in code there is string literal which starts from “http://” (probably unencrypted connection):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">string</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;starts&quot;</span><span class="o">&gt;</span><span class="n">http</span><span class="p">:</span><span class="o">//&lt;/</span><span class="n">string</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Pattern below will trigger if in code there is a string literal which starts from <code class="docutils literal notranslate"><span class="pre">http://</span></code> (unencrypted connection):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">operator=</span><span class="s">&quot;starts&quot;</span><span class="nt">&gt;</span>http://<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
-<p>Pattern below will trigger if in code there is string literal which contains “pwd=” (probably hardcoded password):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">string</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;contains&quot;</span><span class="o">&gt;</span><span class="n">pwd</span><span class="o">=&lt;/</span><span class="n">string</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Pattern below will trigger if in code there is string a literal which contains <code class="docutils literal notranslate"><span class="pre">pwd=</span></code> (hardcoded password):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">operator=</span><span class="s">&quot;contains&quot;</span><span class="nt">&gt;</span>pwd=<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="pattern-tag-block">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;block&gt;</span></code><a class="headerlink" href="#pattern-tag-block" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;block&gt;</span></code> is used to find specific block in the source code. It has one required attribute “operator” which must be equal “empty”. This tag must contain non-empty string which is a name of the block. It supports only two values: except and def. Example below will trigger if there is an empty except block in the source code (definitely empty except block):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">block</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;empty&quot;</span><span class="o">&gt;</span><span class="k">except</span><span class="o">&lt;/</span><span class="n">block</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;block&gt;</span></code> is used to find the specific block in the source code. It has one required attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which must be equal <code class="docutils literal notranslate"><span class="pre">empty</span></code> (checks if the block is empty). This tag must contain a non-empty string which is a name of the block. It supports only two values: <code class="docutils literal notranslate"><span class="pre">except</span></code>(exception block) and <code class="docutils literal notranslate"><span class="pre">def</span></code>(declaration of a function).</p>
+<p>Example below will trigger if there is an empty except block in the source code (empty except block):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;block</span> <span class="na">operator=</span><span class="s">&quot;empty&quot;</span><span class="nt">&gt;</span>except<span class="nt">&lt;/block&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="pattern-tag-attribute">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;attribute&gt;</span></code><a class="headerlink" href="#pattern-tag-attribute" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;attribute&gt;</span></code> is used to find usage of specific attribute of the module, not the attribute of just created object. You should specify full path to the attribute - with module name and sub-packets. Example below will trigger if Crypto.Cipher.AES.MODE_ECB is used in the code (definitely not safe mode of encryption):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">attribute</span><span class="o">&gt;</span><span class="n">Crypto</span><span class="o">.</span><span class="n">Cipher</span><span class="o">.</span><span class="n">AES</span><span class="o">.</span><span class="n">MODE_ECB</span><span class="o">&lt;/</span><span class="n">attribute</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;attribute&gt;</span></code> is used to find usage of the specific attribute of the module. You should specify full path to the attribute (non-empty string) - with module name and sub-packets.</p>
+<p>Example below will trigger if <code class="docutils literal notranslate"><span class="pre">Crypto.Cipher.AES.MODE_ECB</span></code> is used in the code (not safe mode of encryption):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;attribute&gt;</span>Crypto.Cipher.AES.MODE_ECB<span class="nt">&lt;/attribute&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="pattern-tag-function-call">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code><a class="headerlink" href="#pattern-tag-function-call" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> is used to find call of specific function. Is has to contain only one <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> tag which has one required attribute “operator” which determines type of search:</p>
+<p id="function-call-name">Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> is used to find the call of the specific function. Is has to contain only one <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> tag which has one required attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which determines type of search:</p>
 <ul class="simple">
-<li><p>eq (trigger if a function name equals to specific text)</p></li>
-<li><p>contains (trigger if a function name contains specific text)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eq</span></code> (trigger if a function name equals to the specific text)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contains</span></code> (trigger if a function name contains the specific text)</p></li>
 </ul>
-<p><strong>NOTE</strong>: You should specify full path to the function - with module name and sub-packets.</p>
-<p>Example below trigger if os.system function is used in the code (probably command injection):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p><strong>NOTE:</strong> You should specify full path to the function - with module name and sub-packets.</p>
+<p>Example below trigger if <code class="docutils literal notranslate"><span class="pre">os.system</span></code> function is used in the code (command injection):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>os.system<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;/function_call&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
-<p>Operator “contains” allows to find not complete match, like call of method of object. Example below will trigger if function name contains “unsafe” substring (probably usage of unsafe method):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;contains&quot;</span><span class="o">&gt;</span><span class="n">unsafe</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Operator <code class="docutils literal notranslate"><span class="pre">contains</span></code> allows to find not complete match, like call of method of object. Example below will trigger if the function name contains “unsafe” substring (probably usage of unsafe method):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;contains&quot;</span><span class="nt">&gt;</span>unsafe<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;/function_call&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="pattern-tag-function-call-without-arg">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call_without_arg&gt;</span></code><a class="headerlink" href="#pattern-tag-function-call-without-arg" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call_without_arg&gt;</span></code> is used to find call of function WITHOUT specific argument. It contains only two tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code>.</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes function name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (see above).</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code> has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as “-1”, but the name must be specified. If you know the position but not name - set “-1” as name, but specify the position.</p>
-<p>Example below will trigger if method “set_cookie” was called without “httponly” argument (see https://docs.djangoproject.com/en/3.2/ref/request-response/#django.http.HttpResponse.set_cookie):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_without_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;contains&quot;</span><span class="o">&gt;.</span><span class="n">set_cookie</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;httponly&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;8&quot;</span><span class="o">/&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_without_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call_without_arg&gt;</span></code> is used to find the call of function <strong>WITHOUT</strong> the specific argument. It contains only two tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code>.</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes function name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (<a class="reference internal" href="#function-call-name"><span class="std std-ref">see above</span></a>).</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code> has two required attributes: <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">pos</span></code> (position, starting from 1). They are self-descriptive.</p>
+<p>If the position of an argument can be any - set is as <code class="docutils literal notranslate"><span class="pre">-1</span></code>, but the <code class="docutils literal notranslate"><span class="pre">name</span></code> must be specified then.</p>
+<p>If you know the position of the argument, but not the name - use <code class="docutils literal notranslate"><span class="pre">-1</span></code> as name, but specify the <code class="docutils literal notranslate"><span class="pre">pos</span></code> then.</p>
+<p>Example below will trigger if the method <a class="reference external" href="https://docs.djangoproject.com/en/3.2/ref/request-response/#django.http.HttpResponse.set_cookie"><code class="docutils literal notranslate"><span class="pre">set_cookie</span></code></a> was called without the <code class="docutils literal notranslate"><span class="pre">httponly</span></code> argument:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_without_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;contains&quot;</span><span class="nt">&gt;</span>.set_cookie<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;httponly&quot;</span> <span class="na">pos=</span><span class="s">&quot;8&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/function_call_without_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
-<p>In next example, position of the argument is not strict, so you have to search absence of an argument by its name:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_without_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">some_function</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;paramname&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;-1&quot;</span><span class="o">/&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_without_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>In the next example, the position of the argument is not strict, so you have to search absence of an argument by it’s name:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_without_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>some_function<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;paramname&quot;</span> <span class="na">pos=</span><span class="s">&quot;-1&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/function_call_without_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
-<p>In next example, name of the argument is not strict, so you have to search absence of an argument by its position:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_without_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">some_function</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;-1&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="o">/&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_without_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>In the next example, the name of the argument is not strict, so you have to search absence of an argument by it’s position:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_without_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>some_function<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;-1&quot;</span> <span class="na">pos=</span><span class="s">&quot;2&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/function_call_without_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
-<p><strong>NOTE</strong>: scanner does not support check against usage of <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> and <code class="docutils literal notranslate"><span class="pre">*args</span></code> as arguments.</p>
+<p><strong>NOTE:</strong> scanner does not support check against usage of <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> and <code class="docutils literal notranslate"><span class="pre">*args</span></code> as arguments.</p>
 </section>
 <section id="pattern-tag-function-call-with-arg">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call_with_arg&gt;</span></code><a class="headerlink" href="#pattern-tag-function-call-with-arg" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call_with_arg&gt;</span></code> is used to find call of function WITH specific argument. It contains only two tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code>.</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes function name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (see above).</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code> has two required attributes: name and pos (position, starting from 1). They are self-descriptive. If position of an argument can be any set is as “-1”, but the name must be specified. If you know the position but not name - set “-1” as name, but specify the position.</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code> has to contain one of the next tags: <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code>.</p>
-<section id="tag-str">
-<h4>Tag <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#tag-str" title="Permalink to this headline"></a></h4>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code> has one attribute “operator” which can have next values:</p>
-<ul class="simple">
-<li><p>eq (trigger if param value equals specific string)</p></li>
-<li><p>neq (trigger if param value is not equal specific string)</p></li>
-<li><p>contains (trigger if param value contains specific string)</p></li>
-<li><p>starts (trigger if param value start from specific string)
-Example:</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">some_func</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;param1&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nb">str</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">test</span><span class="o">&lt;/</span><span class="nb">str</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">param</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</section>
-<section id="tag-int">
-<h4>Tag <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#tag-int" title="Permalink to this headline"></a></h4>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code> has one attribute “operator” which can have next values:</p>
-<ul class="simple">
-<li><p>eq (trigger if param value equals specific integer)</p></li>
-<li><p>neq (trigger if param value is not equal specific integer)</p></li>
-<li><p>gt (trigger if param value greater than specific integer)</p></li>
-<li><p>lt (trigger if param value less than specific integer)
-Example:</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">some_func</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;param1&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nb">int</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;gt&quot;</span><span class="o">&gt;</span><span class="mi">123</span><span class="o">&lt;/</span><span class="nb">int</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">param</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</section>
-<section id="tag-bool">
-<h4>Tag <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code><a class="headerlink" href="#tag-bool" title="Permalink to this headline"></a></h4>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code> has one attribute “operator” which can have next values:</p>
-<ul class="simple">
-<li><p>eq (trigger if param value equals specific boolean (can be only True or False))</p></li>
-<li><p>neq (trigger if param value is not equal specific boolean)</p></li>
-</ul>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">some_func</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;param1&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nb">bool</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="kc">False</span><span class="o">&lt;/</span><span class="nb">bool</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">param</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</section>
-<section id="tag-none">
-<h4>Tag <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code><a class="headerlink" href="#tag-none" title="Permalink to this headline"></a></h4>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code> (must be empty) has one attribute “operator” which can have next values:</p>
-<ul class="simple">
-<li><p>is (trigger if param value equals None)</p></li>
-<li><p>not (trigger if param value is not equal None)</p></li>
-</ul>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">some_func</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;param1&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">none</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;is&quot;</span><span class="o">/&gt;</span>
-        <span class="o">&lt;/</span><span class="n">param</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</section>
-<section id="tag-attr">
-<h4>Tag <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code><a class="headerlink" href="#tag-attr" title="Permalink to this headline"></a></h4>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code> (you should specify full path to the attribute of the module - with module name and sub-packets) has one attribute “operator” which can have next values:</p>
-<ul class="simple">
-<li><p>eq (trigger if param value equals specific attribute of the module or variable name)</p></li>
-<li><p>neq (trigger if param value is not equal attribute of the module or variable name)</p></li>
-</ul>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">some_func</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;param1&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">attr</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">module</span><span class="o">.</span><span class="n">attr</span><span class="o">&lt;/</span><span class="n">attr</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">param</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</section>
-<section id="tag-function-call">
-<h4>Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code><a class="headerlink" href="#tag-function-call" title="Permalink to this headline"></a></h4>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> has no attributes but must contain non-empty string which describes name of called function (you should specify full path to the function - with module name and sub-packets)</p>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">some_func</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;param1&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">function_call</span><span class="o">&gt;</span><span class="nb">eval</span><span class="o">&lt;/</span><span class="n">function_call</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">param</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</section>
-<section id="tag-constant">
-<h4>Tag <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code><a class="headerlink" href="#tag-constant" title="Permalink to this headline"></a></h4>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code> (must be empty) has one attribute “operator” which can have next values:</p>
-<ul class="simple">
-<li><p>is (trigger if param value is a constant)</p></li>
-<li><p>not (trigger if param value is NOT a constant)</p></li>
-</ul>
-<p>Constant can be simple types such as a number, string or None, but also immutable container types (tuples and frozensets) if all of their elements are constant.</p>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;</span><span class="n">some_func</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">param</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;param1&quot;</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">constant</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;is&quot;</span><span class="o">/&gt;</span>
-        <span class="o">&lt;/</span><span class="n">param</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">function_call_with_arg</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-<p><strong>NOTE</strong>: scanner does not support check against usage of chain of assignment.</p>
-<p>This code will <strong>NOT</strong> trigger first pattern:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="s2">&quot;&#39;unsafe-eval&#39;&quot;</span>
-<span class="n">CSP_DEFAULT_SRC</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&#39;self&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;unsafe-inline&#39;&quot;</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="s1">&#39;cdn.example.net&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This code <strong>WILL</strong> trigger first pattern:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CSP_DEFAULT_SRC</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&#39;self&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;unsafe-inline&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;unsafe-eval&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;cdn.example.net&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call_with_arg&gt;</span></code> is used to find the call of the function <code class="docutils literal notranslate"><span class="pre">WITH</span></code> the specific argument. It contains only two tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code>.</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes the function name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (<a class="reference internal" href="#function-call-name"><span class="std std-ref">see above</span></a>).</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code> has two required attributes: <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">pos</span></code> (position, starting from 1). They are self-descriptive.</p>
+<p>If the position of an argument can be any - set is as <code class="docutils literal notranslate"><span class="pre">-1</span></code>, but the <code class="docutils literal notranslate"><span class="pre">name</span></code> must be specified then.</p>
+<p>If you know the position of the argument, but not the name - use <code class="docutils literal notranslate"><span class="pre">-1</span></code> as name, but specify the <code class="docutils literal notranslate"><span class="pre">pos</span></code> then.</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;param&gt;</span></code> has to contain one of the <a class="reference internal" href="#value-tags"><span class="std std-ref">value tags</span></a>.</p>
 </section>
 <section id="pattern-tag-assignment-var">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;assignment_var&gt;</span></code><a class="headerlink" href="#pattern-tag-assignment-var" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;assignment_var&gt;</span></code> is used to find assignment of specific value to a specific variable. It contains only two tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>.
-Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes variable name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (see above).
-Tag <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code> has to contain one of the next tags: <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code> (see details above at <code class="docutils literal notranslate"><span class="pre">&lt;function_call_with_arg&gt;</span></code> tag’s description).
-Example below will trigger if there is a variable whose name contains substring “password” (case-insensitive) and it was assigned with empty string:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">assignment_var</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;contains&quot;</span><span class="o">&gt;</span><span class="n">password</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nb">str</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;&lt;/</span><span class="nb">str</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">value</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">assignment_var</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;assignment_var&gt;</span></code> is used to find the assignment of the specific value to the specific variable. It contains only two tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>.</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes variable name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (<a class="reference internal" href="#function-call-name"><span class="std std-ref">see above</span></a>).</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code> has to contain one of the <a class="reference internal" href="#value-tags"><span class="std std-ref">value tags</span></a>.</p>
+<p>Example below will trigger if there is a variable whose name contains substring <code class="docutils literal notranslate"><span class="pre">password</span></code> (case-insensitive) and it was assigned with empty string (empty password):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;assignment_var&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;contains&quot;</span><span class="nt">&gt;</span>password<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;value&gt;</span>
+            <span class="nt">&lt;str</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;&lt;/str&gt;</span>
+        <span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/assignment_var&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="pattern-tag-assignment-in-dict">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;assignment_in_dict&gt;</span></code><a class="headerlink" href="#pattern-tag-assignment-in-dict" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;assignment_in_dict&gt;</span></code> is used to find assignment of specific value to a specific key of a specific dict. It contains three tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>.</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes dict name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (see above).</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> describes key in dict. It has one required attribute “operator” which works like the same operator for the <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> tag. In source code key must be a string.</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code> has to contain one of the next tags: <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code> (see details above at <code class="docutils literal notranslate"><span class="pre">&lt;function_call_with_arg&gt;</span></code> tag’s description).</p>
-<p>Example below will trigger if there is a dict with any name (every name contains “”) which has a key whose name contains substring “password” (case-insensitive) and it was assigned with empty string:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">assignment_in_dict</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;contains&quot;</span><span class="o">&gt;&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">key</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;contains&quot;</span><span class="o">&gt;</span><span class="n">password</span><span class="o">&lt;/</span><span class="n">key</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nb">str</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;eq&quot;</span><span class="o">&gt;&lt;/</span><span class="nb">str</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">value</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">assignment_in_dict</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;assignment_in_dict&gt;</span></code> is used to find the assignment of the specific value to a specific key of a specific dict. It contains three tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>.</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes dict name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (<a class="reference internal" href="#function-call-name"><span class="std std-ref">see above</span></a>).</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> describes key in dict. It has one required attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which works like the same operator for the <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> tag(<a class="reference internal" href="#function-call-name"><span class="std std-ref">see above</span></a>). In source code key must be a string.</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code> has to contain one of the <a class="reference internal" href="#value-tags"><span class="std std-ref">value tags</span></a>.</p>
+<p>Example below will trigger if there is a dict with any name (every name contains empty string <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>) which has a key whose name contains substring <code class="docutils literal notranslate"><span class="pre">password</span></code> (case-insensitive) and it was assigned with an empty string:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;assignment_in_dict&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;contains&quot;</span><span class="nt">&gt;&lt;/name&gt;</span>
+        <span class="nt">&lt;key</span> <span class="na">operator=</span><span class="s">&quot;contains&quot;</span><span class="nt">&gt;</span>password<span class="nt">&lt;/key&gt;</span>
+        <span class="nt">&lt;value&gt;</span>
+            <span class="nt">&lt;str</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;&lt;/str&gt;</span>
+        <span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/assignment_in_dict&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="pattern-tag-unique-assignment-to-set-tuple-list">
 <h3>Pattern tag <code class="docutils literal notranslate"><span class="pre">&lt;unique_assignment_to_set_tuple_list&gt;</span></code><a class="headerlink" href="#pattern-tag-unique-assignment-to-set-tuple-list" title="Permalink to this headline"></a></h3>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;unique_assignment_to_set_tuple_list&gt;</span></code> is used to check if specific unique string values were assigned/missed in a set, tuple or list. This tag contains only two tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;values&gt;</span></code>.</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (see above).</p>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;values&gt;</span></code> has one required attribute “operator”, which determines type of search:</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;unique_assignment_to_set_tuple_list&gt;</span></code> is used to check if the specific unique string values were assigned/missed in a set, tuple or list. This tag contains only two tags added one by one: <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;values&gt;</span></code>.</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> describes name - it works exactly the same like in <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> tag (<a class="reference internal" href="#function-call-name"><span class="std std-ref">see above</span></a>).</p>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;values&gt;</span></code> has one required attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code>, which determines type of search:</p>
 <ul class="simple">
-<li><p>contains (trigger if a set, tuple or list contains specific string values)</p></li>
-<li><p>missing (trigger if a set, tuple or list missing specific string values)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contains</span></code> (trigger if a set, tuple or list contains the specific string values)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">missing</span></code> (trigger if a set, tuple or list missing the specific string values)</p></li>
 </ul>
-<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;values&gt;</span></code> has to contain at least one tag <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code> with specified attribute “type” which must be equal “str”.</p>
-<p>Example below will trigger if CSP contains “‘unsafe-eval’” string (probably misconfigured Django Content Security Policy):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">unique_assignment_to_set_tuple_list</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;contains&quot;</span><span class="o">&gt;</span><span class="n">csp_</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">values</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;contains&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">value</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;str&quot;</span><span class="o">&gt;</span><span class="s1">&#39;unsafe-eval&#39;</span><span class="o">&lt;/</span><span class="n">value</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">values</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">unique_assignment_to_set_tuple_list</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;values&gt;</span></code> has to contain at least one tag <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code> with specified attribute <code class="docutils literal notranslate"><span class="pre">type</span></code> which must be equal <code class="docutils literal notranslate"><span class="pre">str</span></code>.</p>
+<p>Example below will trigger if <code class="docutils literal notranslate"><span class="pre">CSP</span></code> contains <code class="docutils literal notranslate"><span class="pre">'unsafe-eval'</span></code> string (probably misconfigured Django Content Security Policy):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;unique_assignment_to_set_tuple_list&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;contains&quot;</span><span class="nt">&gt;</span>csp_<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;values</span> <span class="na">operator=</span><span class="s">&quot;contains&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;value</span> <span class="na">type=</span><span class="s">&quot;str&quot;</span><span class="nt">&gt;</span>&#39;unsafe-eval&#39;<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/values&gt;</span>
+    <span class="nt">&lt;/unique_assignment_to_set_tuple_list&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
 </pre></div>
 </div>
-<p>Next example will trigger if MIDDLEWARE collection does not have specific middleware class(probably, disabled Django Clickjacking Protection):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">unique_assignment_to_set_tuple_list</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">name</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;contains&quot;</span><span class="o">&gt;</span><span class="n">middleware</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">values</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;missing&quot;</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">value</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;str&quot;</span><span class="o">&gt;</span><span class="n">django</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">clickjacking</span><span class="o">.</span><span class="n">XFrameOptionsMiddleware</span><span class="o">&lt;/</span><span class="n">value</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">values</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">unique_assignment_to_set_tuple_list</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">pattern_simple</span><span class="o">&gt;</span>
+<p><strong>NOTE:</strong> scanner does not support check against usage of chain of assignment.</p>
+<p>This code will <strong>NOT</strong> trigger the pattern:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="s2">&quot;&#39;unsafe-eval&#39;&quot;</span>
+<span class="n">CSP_DEFAULT_SRC</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&#39;self&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;unsafe-inline&#39;&quot;</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="s1">&#39;cdn.example.net&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>For more examples look in kingfisher-main/check folder. Exact <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code> tag’s structure see in kingfisher-main/data/check_schema.xsd</p>
+<p>This code <strong>WILL</strong> trigger the pattern:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">CSP_DEFAULT_SRC</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&#39;self&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;unsafe-inline&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;unsafe-eval&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;cdn.example.net&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The next example will trigger if <code class="docutils literal notranslate"><span class="pre">MIDDLEWARE</span></code> collection does not have the specific middleware class(probably disabled Django Clickjacking Protection):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;unique_assignment_to_set_tuple_list&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;contains&quot;</span><span class="nt">&gt;</span>middleware<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;values</span> <span class="na">operator=</span><span class="s">&quot;missing&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;value</span> <span class="na">type=</span><span class="s">&quot;str&quot;</span><span class="nt">&gt;</span>django.middleware.clickjacking.XFrameOptionsMiddleware<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/values&gt;</span>
+    <span class="nt">&lt;/unique_assignment_to_set_tuple_list&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
+</pre></div>
+</div>
+<p>For more examples look in <strong>kingfisher-main/checks/default</strong> folder.</p>
+<p>The exact <code class="docutils literal notranslate"><span class="pre">&lt;check&gt;</span></code> tag’s structure see in <strong>kingfisher-main/checks/valid_check_schema.xsd</strong>.</p>
+</section>
+</section>
+<section id="value-tags">
+<span id="id1"></span><h2>Value tags<a class="headerlink" href="#value-tags" title="Permalink to this headline"></a></h2>
+<p>The value tags are : <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code>.</p>
+<section id="value-tag-str">
+<h3>Value tag <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#value-tag-str" title="Permalink to this headline"></a></h3>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;str&gt;</span></code> has one attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which can have the next values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eq</span></code> (trigger if the param value equals the specific string)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">neq</span></code> (trigger if the param value is not equal the specific string)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contains</span></code> (trigger if the param value contains the specific string)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">starts</span></code> (trigger if the param value start from the specific string)</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_with_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>some_func<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">pos=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;str</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>test<span class="nt">&lt;/str&gt;</span>
+        <span class="nt">&lt;/param&gt;</span>
+    <span class="nt">&lt;/function_call_with_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="value-tag-int">
+<h3>Value tag <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#value-tag-int" title="Permalink to this headline"></a></h3>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;int&gt;</span></code> has one attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which can have the next values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eq</span></code> (trigger if the param value equals the specific integer)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">neq</span></code> (trigger if the param value is not equal the specific integer)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gt</span></code> (trigger if the param value greater than the specific integer)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lt</span></code> (trigger if the param value less than the specific integer)</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_with_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>some_func<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">pos=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;int</span> <span class="na">operator=</span><span class="s">&quot;gt&quot;</span><span class="nt">&gt;</span>123<span class="nt">&lt;/int&gt;</span>
+        <span class="nt">&lt;/param&gt;</span>
+    <span class="nt">&lt;/function_call_with_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="value-tag-bool">
+<h3>Value tag <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code><a class="headerlink" href="#value-tag-bool" title="Permalink to this headline"></a></h3>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;bool&gt;</span></code> has one attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which can have the next values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eq</span></code> (trigger if the param value equals the specific boolean (can be only <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>))</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">neq</span></code> (trigger if the param value is not equal the specific boolean)</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_with_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>some_func<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">pos=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;bool</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>False<span class="nt">&lt;/bool&gt;</span>
+        <span class="nt">&lt;/param&gt;</span>
+    <span class="nt">&lt;/function_call_with_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="value-tag-none">
+<h3>Value tag <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code><a class="headerlink" href="#value-tag-none" title="Permalink to this headline"></a></h3>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;none&gt;</span></code> (must be empty) has one attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which can have the next values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">is</span></code> (trigger if the param value equals <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">not</span></code> (trigger if the param value is not equal <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_with_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>some_func<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">pos=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;none</span> <span class="na">operator=</span><span class="s">&quot;is&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/param&gt;</span>
+    <span class="nt">&lt;/function_call_with_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="value-tag-attr">
+<h3>Value tag <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code><a class="headerlink" href="#value-tag-attr" title="Permalink to this headline"></a></h3>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;attr&gt;</span></code> (you should specify full path to the attribute of the module - with module name and sub-packets) has one attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which can have the next values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eq</span></code> (trigger if the param value equals the specific attribute of the module or variable name)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">neq</span></code> (trigger if the param value is not equal the specific attribute of the module or variable name)</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_with_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>some_func<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">pos=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;attr</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>module.attr<span class="nt">&lt;/attr&gt;</span>
+        <span class="nt">&lt;/param&gt;</span>
+    <span class="nt">&lt;/function_call_with_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="value-tag-function-call">
+<h3>Value tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code><a class="headerlink" href="#value-tag-function-call" title="Permalink to this headline"></a></h3>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;function_call&gt;</span></code> has no attributes, but must contain non-empty string which describes the name of the called function (you should specify full path to the function - with module name and sub-packets).</p>
+<p>Example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_with_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>some_func<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">pos=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;function_call&gt;</span>eval<span class="nt">&lt;/function_call&gt;</span>
+        <span class="nt">&lt;/param&gt;</span>
+    <span class="nt">&lt;/function_call_with_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="value-tag-constant">
+<h3>Value tag <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code><a class="headerlink" href="#value-tag-constant" title="Permalink to this headline"></a></h3>
+<p>Tag <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code> (must be empty) has one attribute <code class="docutils literal notranslate"><span class="pre">operator</span></code> which can have the next values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">is</span></code> (trigger if the param value is a constant)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">not</span></code> (trigger if the param value is <strong>NOT</strong> a constant)</p></li>
+</ul>
+<p>Constant can contain simple types (<code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">bool</span></code> and also immutable container types (<code class="docutils literal notranslate"><span class="pre">tuple</span></code> and <code class="docutils literal notranslate"><span class="pre">frozenset</span></code>) if all of their elements are constants.</p>
+<p>Example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;pattern_simple&gt;</span>
+    <span class="nt">&lt;function_call_with_arg&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">operator=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>some_func<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">pos=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;constant</span> <span class="na">operator=</span><span class="s">&quot;is&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/param&gt;</span>
+    <span class="nt">&lt;/function_call_with_arg&gt;</span>
+<span class="nt">&lt;/pattern_simple&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 </section>
