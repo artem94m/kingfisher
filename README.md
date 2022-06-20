@@ -5,4 +5,4 @@ It uses Python built-in modules `ast` and `tokenize` to parse and process the so
 
 The analyzer is able to scan source code written in Python 3.4-3.9, but it requires Python 3.9 to work.
 
-The full documentation for KingFisher is awailable at [GitHub Pages](https://artem94m.github.io/kingfisher/).
+The full documentation for KingFisher is available at [GitHub Pages](https://artem94m.github.io/kingfisher/).
