@@ -5,7 +5,7 @@ from kf_modules.analyzer._common import process_attributes_chain
 
 
 def analyze_attribute(py_file_info, attribute_name):
-    """Searches for usage of the specific attribute
+    """Searches for usage of the specific attribute in code
 
     Returns set with locations of the issues
     """

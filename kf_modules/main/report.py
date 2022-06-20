@@ -15,8 +15,10 @@ from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate, Paragraph
 
 
 class KingFisherDocTemplate(BaseDocTemplate):
+    """A custon DotTemplate to create Table Of Content
+    """
     def afterFlowable(self, flowable):
-        """Detect Level 1 and 2 headings for creation of Table Of Content with anchors
+        """Overwritten method: detects Level 1 and 2 headings for creation of Table Of Content with anchors
         """
         if isinstance(flowable, Paragraph):
             text = flowable.getPlainText()
@@ -53,25 +55,28 @@ class ReportGenerator():
         content += ReportSummary(scan_results).data
         content += ReportVulnerabilities(scan_results).data
 
+        # render a report
         report.multiBuild(content)
 
         global_storage.logger.info(f"Report saved at {report_path}")
 
     def init_report(self, report_path):
-        """Init report document
+        """Inits the report object
         """
         def footer_template(canvas, doc):
-            """Add page number to the footer starting from the second page
+            """Adds footer for the page
             """
             canvas.saveState()
 
             # add some design at the bottom of the title page
             if (canvas.getPageNumber() == 1):
                 title_page_decor = Drawing(600, 900)
+                # add blue area
                 title_page_decor.add(Polygon(points=[0, 0, 0, 150, 600, 400, 600, 0],
                                              strokeWidth=1,
                                              strokeColor=global_storage.design.logo_blue,
                                              fillColor=global_storage.design.logo_blue))
+                # add orange area
                 title_page_decor.add(Polygon(points=[0, 0, 0, 200, 600, 0],
                                              strokeWidth=1,
                                              strokeColor=global_storage.design.logo_orange,
@@ -90,14 +95,15 @@ class ReportGenerator():
 
             canvas.restoreState()
 
-        # init report file
+        # init the report file
         report = KingFisherDocTemplate(report_path, pagesize=portrait(A4),
                                        rightMargin=global_storage.design.page_margin,
                                        leftMargin=global_storage.design.page_margin,
                                        topMargin=global_storage.design.page_margin,
                                        bottomMargin=global_storage.design.page_margin,
                                        author="Kingfisher", title="Kingfisher")
-        # add footer template (page number)
+
+        # add footer template
         frame_footer = Frame(report.leftMargin, report.bottomMargin, report.width, report.height, id="normal")
         template = PageTemplate(id="footer", frames=frame_footer, onPageEnd=footer_template)
         report.addPageTemplates([template])

@@ -4,7 +4,7 @@ from kf_modules.analyzer._common import is_obj_fit_target, process_attributes_ch
 
 
 def analyze_function_call(py_file_info, function_name, operator):
-    """Searches for usage of the specific function
+    """Searches for usage of the specific function in code
 
     Returns set with locations of the issues
     """

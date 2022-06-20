@@ -4,7 +4,7 @@ from kf_modules.analyzer._common import is_obj_fit_target, process_attributes_ch
 
 
 def analyze_function_call_without_arg(py_file_info, function_name, function_name_operator, param_name, param_pos):
-    """Searches for usage of the specific function without a specific argument
+    """Searches for usage of the specific function without a specific argument in code
 
     Returns set with locations of the issues
     """

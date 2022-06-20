@@ -324,7 +324,7 @@ class Pattern():
             # so here we are creating ast.Attribute with a "converted" value (are not recreating Name(...))
             value = Attribute(value=extracted_value)
         elif (value_type.tag == "function_call"):
-            # support only "eq" operator for now
+            # support only "eq" operator
             operator = "eq"
             extracted_value = clean(value_type.text)
             # we convert function name in ast.Call nodes in analyzer.py into string like in example above

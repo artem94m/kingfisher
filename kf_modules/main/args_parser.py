@@ -9,7 +9,7 @@ import global_storage
 
 class ArgsParser():
     def __init__(self):
-        """Parse args from the console
+        """Parses args from the console
         """
         self.scan_path = None
         self.reports_path = None
@@ -28,7 +28,7 @@ class ArgsParser():
 
         self.parser.add_argument("-project", metavar="PROJECT", dest="project",
                                  default=None,
-                                 help="project name must comply next regex: r'[a-zA-Z0-9_.-]{1,30}' "
+                                 help="project name must comply next regex: r'[a-zA-Z0-9_.-]{1,50}' "
                                  "(default: will be extracted from SCAN_PATH)")
 
         self.parser.add_argument("-v", dest="verbose", action="store_true",
@@ -53,7 +53,7 @@ class ArgsParser():
                 self.parse_verbose(parsed.verbose)
 
     def parse_scan_path(self, scan_path):
-        """Parse and process -scan_path param
+        """Parses and processes -scan_path param
         """
         absolute_scan_path = path.abspath(scan_path)
 
@@ -81,7 +81,7 @@ class ArgsParser():
             global_storage.logger.error(f"Path {absolute_scan_path} does not exist.")
 
     def parse_reports_path(self, reports_path):
-        """Parse and process -reports_path param
+        """Parses and processes -reports_path param
         """
         absolute_reports_path = path.abspath(reports_path)
 
@@ -102,21 +102,21 @@ class ArgsParser():
                 self.reports_path = absolute_reports_path
 
     def parse_project(self, project):
-        """Parse and process -project param
+        """Parses and processes -project param
         """
-        # if project was set in command line and it matches
-        if (project and match(r"[a-zA-Z0-9_.-]{1,30}", project)):
+        # if project was set in command line and it matches REGEX
+        if (project and match(r"[a-zA-Z0-9_.-]{1,50}", project)):
             self.project = project
         # if no - extract project name from the scan_path
-        elif (self.scan_path and match(r"[a-zA-Z0-9_.-]{1,30}", path.basename(self.scan_path))):
-            global_storage.logger.debug("Get project name from -scan_path argument.")
+        elif (self.scan_path and match(r"[a-zA-Z0-9_.-]{1,50}", path.basename(self.scan_path))):
+            global_storage.logger.debug("Extracting project name from -scan_path argument.")
             self.project = path.basename(self.scan_path)
 
         if (self.project is None):
             global_storage.logger.error("Value for -project argument is not correct!")
 
     def parse_verbose(self, verbose):
-        """Parse and process -v param
+        """Parses and processes -v param
         """
         self.verbose = verbose
 

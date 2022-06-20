@@ -12,14 +12,18 @@ class Kingfisher():
     def __init__(self):
         InitActions()
 
-        parsed_args = ArgsParser()
+        if (global_storage.python_version == "3.9"):
+            parsed_args = ArgsParser()
 
-        if (parsed_args.are_correct):
-            global_storage.checks = ChecksParser().get_checks()
+            if (parsed_args.are_correct):
+                global_storage.checks = ChecksParser().get_checks()
 
-            if (global_storage.checks):
-                scan_results = Analyzer(parsed_args).results
-                ReportGenerator(parsed_args.reports_path, scan_results)
+                if (global_storage.checks):
+                    scan_results = Analyzer(parsed_args).results
+                    ReportGenerator(parsed_args.reports_path, scan_results)
+        else:
+            global_storage.logger.error(f"Analyzer requires Python 3.9. "
+                                        f"Current version of Python is {global_storage.python_version}")
 
 
 if (__name__ == "__main__"):

@@ -4,7 +4,7 @@ from kf_modules.analyzer._common import IsObjValueMeetConditions, is_obj_fit_tar
 
 
 def analyze_assignment_var(py_file_info, name, name_operator, value, value_operator):
-    """Searches for the assignment of specified simple value to the specified variable.
+    """Searches for the assignment of specific value to the specific variable in code
 
     Returns set with locations of the issues
     """
@@ -26,7 +26,7 @@ def analyze_assignment_var(py_file_info, name, name_operator, value, value_opera
             if (isinstance(node.targets[0], (Attribute, Name))):
                 targets.append(node.targets[0])
                 values.append(node.value)
-            # if it is a simple multiple assignment: a, a.d.c = 3, "password"
+            # if it is a multiple assignment: a, a.d.c = 3, "password"
             elif (isinstance(node.targets[0], Tuple) and isinstance(node.value, Tuple)):
                 targets = node.targets[0].elts
                 values = node.value.elts

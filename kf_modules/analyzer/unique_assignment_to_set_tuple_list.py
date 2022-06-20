@@ -4,7 +4,8 @@ from kf_modules.analyzer._common import is_obj_fit_target, process_attributes_ch
 
 
 def analyze_unique_assignment_to_set_tuple_list(py_file_info, name, name_operator, values, values_operator):
-    """Searches for the assignment where specific unique string values were assigned/missed in a set, tuple or list.
+    """Searches for the assignment where the specific unique string values
+    were assigned/missed in a set, tuple or list.
 
     Returns set with locations of the issues
     """
@@ -25,9 +26,9 @@ def analyze_unique_assignment_to_set_tuple_list(py_file_info, name, name_operato
                 # convert search values to a set
                 search_values = set(values)
 
-                # if all the search values are present in assigned values and operator is "contains"
+                # if all the search values are present in the assigned values and operator is "contains"
                 if ((values_operator == "contains" and search_values.issubset(assigned_values)) or
-                        # if none of the search values are present in the assigned value
+                        # if none of the search values are present in the assigned values
                         (values_operator == "missing" and len(search_values.intersection(assigned_values)) == 0)):
                     issue_location = (node.lineno, node.col_offset + 1)
                     issues.add(issue_location)

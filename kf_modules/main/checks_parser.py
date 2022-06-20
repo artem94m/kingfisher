@@ -13,7 +13,7 @@ from xmlschema import XMLSchema
 
 class ChecksParser():
     def __init__(self):
-        """Parse checks
+        """Parses checks
         """
         global_storage.logger.info("Collecting checks...")
 
@@ -108,7 +108,7 @@ class ChecksParser():
         if (path.exists(check_path) and path.exists(cached_check_path)):
             cached_check = self.load_from_cache(cached_check_path)
 
-            if (self.hash_of_file(check_path) == cached_check.xml_hash):
+            if (isinstance(cached_check, Check) and self.hash_of_file(check_path) == cached_check.xml_hash):
                 result = True
 
         return result

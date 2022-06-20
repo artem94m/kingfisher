@@ -5,7 +5,7 @@ from reportlab.platypus.tableofcontents import TableOfContents
 
 
 class ReportTableOfContent():
-    """Creates content for the table of content page
+    """Creates content for the Table Of Content page
     """
     def __init__(self):
         self.data = []

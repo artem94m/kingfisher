@@ -5,7 +5,7 @@ from kf_modules.analyzer._common import IsObjValueMeetConditions, is_obj_fit_tar
 
 def analyze_function_call_with_arg(py_file_info, function_name, function_name_operator,
                                    param_name, param_pos, param_operator, param_value):
-    """Searches for usage of the specific function with a specific argument
+    """Searches for usage of the specific function with a specific argument in code
 
     Returns set with locations of the issues
     """

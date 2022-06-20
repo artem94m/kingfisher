@@ -28,6 +28,7 @@ class ReportSummary():
         self.data.append(Paragraph("Number of applied checks", global_storage.design.styles["H3"]))
         self.data.append(Paragraph(f"{len(scan_results.applied_checks)}",
                                    global_storage.design.styles["RegularParagraph"]))
+
         # add statistics by severity
         self.data.append(Paragraph("Vulnerabilities by severity", global_storage.design.styles["H3"]))
         self.data.append(Paragraph(f"<font color='{global_storage.design.red}'>High:</font> "

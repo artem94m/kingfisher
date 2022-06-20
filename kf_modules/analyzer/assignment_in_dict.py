@@ -4,7 +4,7 @@ from kf_modules.analyzer._common import IsObjValueMeetConditions, is_obj_fit_tar
 
 
 def analyze_assignment_in_dict(py_file_info, name, name_operator, key, key_operator, value, value_operator):
-    """Searches for the assignment of the specific value to the specific key of the specific dict variable.
+    """Searches for the assignment of the specific value to the specific key of the specific dict variable
 
     Returns set with locations of the issues
     """

@@ -24,7 +24,7 @@ def analyze_string(py_file_info, text, operator):
             elif (operator == "contains"):
                 for found in finditer(text_to_search, node_value):
                     # found substring is placed at:
-                    # node's position + position in string + 1 (in tree lines start from 0)
+                    # node's position + position in string + 1 (in node coords of lines start from 0)
                     pos = node.col_offset + found.start() + 1
 
                     issue_location = (node.lineno, pos)

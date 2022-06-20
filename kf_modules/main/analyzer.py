@@ -18,11 +18,12 @@ from kf_modules.models.scan_results import FileWithIssues, ScanResults, SkippedF
 
 class Analyzer():
     def __init__(self, parsed_args):
-        """Apply checks against the files
+        """Applies checks against the .py-files
         """
-        self.results = ScanResults(parsed_args, global_storage.checks)
-
         global_storage.logger.info(f"Starting scan of {parsed_args.project}...")
+
+        # init result of scan with parsed checks' info
+        self.results = ScanResults(parsed_args, global_storage.checks)
 
         for py_file_path in self.get_py_files(parsed_args.scan_path):
             py_file_info = CodeInfoExtractor(py_file_path)
@@ -53,6 +54,7 @@ class Analyzer():
     def apply_check_to_file(self, check, py_file_info):
         """Applies the check to the file
         """
+        # functions to process nodes of AST
         name_to_func = {
             "analyze_assignment_in_dict": analyze_assignment_in_dict,
             "analyze_assignment_var": analyze_assignment_var,
@@ -66,12 +68,13 @@ class Analyzer():
             "analyze_unique_assignment_to_set_tuple_list": analyze_unique_assignment_to_set_tuple_list,
         }
 
-        # set to collect locations (tuple with line_no and pos) of issues
+        # a set to collect locations (tuple with line_no and pos) of issues
         issues_location = set()
 
         for pattern in check.patterns:
-            # if function is known
+            # if function is a known pattern
             if (pattern.func_to_call in name_to_func):
+                # get function to use
                 analyze = name_to_func[pattern.func_to_call]
 
                 found_issues = analyze(py_file_info, **pattern.params)
@@ -80,8 +83,7 @@ class Analyzer():
         if (issues_location):
             # get the CheckResult for the applied Check
             check_result = self.results.applied_checks.get(check.name)
-
-            # get info about the vulnerable file
+            # get only necessary info about the vulnerable file
             file_with_issues = FileWithIssues(py_file_info, issues_location)
             # and add it to the CheckResult
             check_result.files_with_issues.append(file_with_issues)

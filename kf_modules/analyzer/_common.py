@@ -5,8 +5,8 @@ def process_attributes_chain(node):
     """Goes recursively through a nested Attribute node (a.b.c.d.e.f)
 
         Supports only Attribute and Name nested nodes.
-        If a different type of node found - returns None
-        Otherwise returns one string: "a.b.c.d.e.f"
+        If a different type of node found - returns None.
+        Otherwise returns one string: "a.b.c.d.e.f".
     """
     full_attr = None
     parts_of_chain = []
@@ -24,7 +24,7 @@ def process_attributes_chain(node):
             # ast.Name is the last in the chain and contains only id
             if (isinstance(node, Name)):
                 parts_of_chain.append(node.id)
-            # found something unusual - node is not a chain of Attribute - clear collected parts
+            # found something unusual - node is not a chain of Attribute instances - clear collected parts
             else:
                 parts_of_chain.clear()
             # stop the processing
@@ -49,7 +49,7 @@ def is_obj_equal_target(obj, target, aliases):
             ...
         Vulnerable attribute:
             Crypto.Cipher.AES.MODE_ECB
-        Solutiom:
+        Solution:
             Compare obj and target
 
     The 2nd scenario: if exactly the same object was used by it's alias
@@ -129,7 +129,7 @@ def is_obj_fit_target(obj, operator, target, aliases):
 
 
 class IsObjValueMeetConditions():
-    """Class to if the obj value fit the expected object:
+    """Class to check if the obj value fits the expected object:
             obj <operator> exp_value == True
     """
     def __init__(self, obj, operator, expected_obj, aliases):

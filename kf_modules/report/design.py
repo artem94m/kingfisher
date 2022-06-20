@@ -15,7 +15,8 @@ class ReportDesign():
         self.init_styles()
 
     def init_fonts(self):
-        """ register fonts for text and code """
+        """Registers fonts for text and code
+        """
         # Roboto (for text)
         roboto_folder = path.join(getcwd(), "static", "fonts", "Roboto")
         pdfmetrics.registerFont(TTFont("Roboto", path.join(roboto_folder, "Roboto-Regular.ttf")))
@@ -39,7 +40,8 @@ class ReportDesign():
         addMapping("RobotoMono", 1, 1, "RobotoMonoBI")
 
     def init_styles(self):
-        """ init styles for a report file """
+        """Init styles for a report file
+        """
         self.page_margin = 10 * mm
 
         # colors

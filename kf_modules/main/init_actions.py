@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from logging import FileHandler, Formatter, INFO, StreamHandler, getLogger
 from os import chdir, getcwd, makedirs, path, remove, scandir, sep
+from sys import version_info
 
 import config
 
@@ -9,14 +10,15 @@ import global_storage
 
 class InitActions():
     def __init__(self):
-        """Perform some init actions before starting a scan
+        """Executes some init actions before starting a scan
         """
         self.set_cwd()
         self.init_logger()
         self.clear_old_logs()
+        self.get_python_version()
 
     def set_cwd(self):
-        """Set kingfisher root folder as cwd
+        """Sets kingfisher's root folder as cwd
         """
         # get current script's (init_actions.py) full filepath
         file_path = path.realpath(__file__)
@@ -62,7 +64,7 @@ class InitActions():
         global_storage.logger = logger
 
     def clear_old_logs(self):
-        """Delete old logs, which are existing longer than config.store_logs_for
+        """Deletes old logs, which are existing longer than config.store_logs_for
         """
         logs_path = path.join(getcwd(), "logs")
 
@@ -77,3 +79,8 @@ class InitActions():
 
                     if (file_was_stored_for > time_to_store):
                         remove(entry.path)
+
+    def get_python_version(self):
+        """Stores python version in global_storage for later check
+        """
+        global_storage.python_version = f"{version_info.major}.{version_info.minor}"

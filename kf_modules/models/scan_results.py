@@ -42,14 +42,14 @@ class ScanResults():
             "Info": "info_issues",
         }
 
-        # go through the applied check
+        # go through all the applied check
         for check_result in self.applied_checks:
             # collect number of issues per check
             number_of_issues = 0
             for file_with_issues in check_result.files_with_issues:
                 number_of_issues += len(file_with_issues.issues)
 
-            # collect only info about check with found issues
+            # collect only info about number of issues per check
             if (number_of_issues):
                 self.issues_by_check[check_result.check_name] = number_of_issues
 
@@ -58,7 +58,7 @@ class ScanResults():
             if (original_check and original_check.severity in severity_to_attr):
                 # get attribute name to edit
                 severity_attr = severity_to_attr[original_check.severity]
-                # get updated number of issues for the category
+                # get updated number of issues for the severity
                 updated_number_of_issues = getattr(self, severity_attr) + number_of_issues
                 # and update it
                 setattr(self, severity_attr, updated_number_of_issues)
@@ -91,12 +91,16 @@ class CheckResults(list):
 
 
 class CheckResult():
+    """Class to store one check result
+    """
     def __init__(self, check_name):
         self.check_name = check_name
         self.files_with_issues = []
 
 
 class FileWithIssues():
+    """Class info about found issues in one file
+    """
     def __init__(self, py_file_info, issues_location):
         self.file_path = py_file_info.file_path
         self.issues = sorted(list(issues_location))
@@ -117,7 +121,7 @@ class FileWithIssues():
 
 
 class SkippedFile():
-    """Class to store info about files, excluded from the scan
+    """Class to store info about files, which were skipped during the scan
     """
     def __init__(self, py_file_info):
         self.file_path = py_file_info.file_path

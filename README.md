@@ -3,7 +3,7 @@
 </p>
 
 ## About
-Kingfisher v0.1 is a simple (yet) Python 3 static code analyzer. It uses Python built-in modules "ast" and "tokenize" to parse and process source code.
+Kingfisher is a simple Python 3 static code analyzer. It uses Python built-in modules "ast" and "tokenize" to parse and process source code.
 
 ## Requirements
 1. Windows/Linux OS
@@ -121,7 +121,7 @@ Tag `<links>` contains links to the different standarts. Links should be separat
 Tag `<patterns>` contains patterns for recognition of the vulnerability. More details about this tag are placed below.
 
 ## Patterns
-Tag `<patterns>` is the most interesting one. It supports only one tag `<pattern_simple>` (yet) and must contain at least one. This tag is used for description of simple checks.
+Tag `<patterns>` is the most interesting one. It supports only one tag `<pattern_simple>` and must contain at least one. This tag is used for description of simple checks.
 
 Tag `<pattern_simple>` must contain only one of next tags: `<comment>`, `<string>`, `<block>`, `<attribute>`, `<function_call>`, `<function_call_without_arg>`, `<function_call_with_arg>`, `<assignment_var>`, `<assignment_in_dict>`, `<unique_assignment_to_set_tuple_list>`.
 
@@ -164,7 +164,7 @@ Pattern below will trigger if in code there is string literal which contains "pw
 
 ### Tag `<block>`
 
-Tag `<block>` is used to find specific block in the source code. It has one required attribute "operator" which must be equal "empty" (for now). This tag must contain non-empty string which is a name of the block. For now, it supports only two values: except and def. Example below will trigger if there is an empty except block in the source code (definitely empty except block):
+Tag `<block>` is used to find specific block in the source code. It has one required attribute "operator" which must be equal "empty". This tag must contain non-empty string which is a name of the block. It supports only two values: except and def. Example below will trigger if there is an empty except block in the source code (definitely empty except block):
 ```
 <pattern_simple>
     <block operator="empty">except</block>
@@ -242,7 +242,7 @@ In next example, name of the argument is not strict, so you have to search absen
 </pattern_simple>
 ```
 
-**NOTE**: scanner does not support (yet) check against usage of `**kwargs` and `*args` as arguments.
+**NOTE**: scanner does not support check against usage of `**kwargs` and `*args` as arguments.
 
 
 ### Tag `<function_call_with_arg>`
@@ -350,7 +350,7 @@ Example:
     <function_call_with_arg>
         <name operator="eq">some_func</name>
         <param name="param1" pos="1">
-            <function_call>eval</function>
+            <function_call>eval</function_call>
         </param>
     </function_call_with_arg>
 </pattern_simple>
@@ -375,7 +375,7 @@ Example:
 </pattern_simple>
 ```
 
-**NOTE**: scanner does not support (yet) check against usage of chain of assignment.
+**NOTE**: scanner does not support check against usage of chain of assignment.
 
 This code will **NOT** trigger first pattern:
 ```
@@ -436,7 +436,7 @@ Tag `<values>` has one required attribute "operator", which determines type of s
  - contains (trigger if a set, tuple or list contains specific string values)
  - missing (trigger if a set, tuple or list missing specific string values)
 
-Tag `<values>` has to contain at least one tag `<value>` with specified attribute "type" which must be equal "str" (for now).
+Tag `<values>` has to contain at least one tag `<value>` with specified attribute "type" which must be equal "str".
     
 Example below will trigger if CSP contains "'unsafe-eval'" string (probably misconfigured Django Content Security Policy):
 ```

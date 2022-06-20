@@ -5,20 +5,27 @@ import global_storage
 
 
 class Comment():
+    """Class to store comment info
+    """
     def __init__(self, location, text):
         # extract line and position
         line_no, pos = location
 
+        # number line in source code
         self.line_no = line_no
-        # adjust position value, because it starts from 0
+        # adjust position in line value, because it starts from 0
         self.pos = pos + 1
-
+        # text of the comment
         self.text = text.rstrip()
 
 
 class CodeInfoExtractor():
+    """Class to extract all the required info from the .py-file
+    """
     def __init__(self, py_file):
+        # marker if info was extracted successfully
         self.extracted_successful = False
+        # failure reason if not
         self.failure_reason = ""
 
         self.file_path = py_file
@@ -85,7 +92,7 @@ class CodeInfoExtractor():
                 next_token = None
 
                 for token in tokenize(fd.readline):
-                    # we need prev, current and next tokens to parse multiline comments correctly
+                    # we need the prev, current and next tokens to parse multiline comments correctly
                     prev_token = cur_token
                     cur_token = next_token
                     next_token = token
@@ -105,7 +112,7 @@ class CodeInfoExtractor():
 
                             # get line_no of the first line of the comment
                             init_line_no = cur_token.start[0]
-                            # split multiline comments by \+n
+                            # split multiline comments by \n
                             comment_lines = cur_token.string.split("\n")
                             # marker to check if the first line of the comment was processed
                             is_first_line_processed = False
@@ -123,9 +130,9 @@ class CodeInfoExtractor():
         """Gets dict of aliases for imported objects
 
             Examples:
-            from hashlib import md5 as my_hash => my_hash: hashlib.md5
-            import token as t => t: token
-            from os import path => path: os.path
+            from hashlib import md5 as my_hash => "my_hash": "hashlib.md5"
+            import token as t => "t": "token"
+            from os import path => "path": "os.path"
         """
         aliases = {}
 
@@ -143,7 +150,7 @@ class CodeInfoExtractor():
                     # add alias if it is specified
                     if (alias.asname):
                         node_aliases[alias.asname] = f"{from_value}{alias.name}"
-                    # otherwise - add the original name only if "from" was specified
+                    # otherwise - add the full path to the original name only if "from" was specified
                     elif (from_value):
                         node_aliases[alias.name] = f"{from_value}{alias.name}"
 

@@ -49,10 +49,10 @@ class ReportTitle():
         """
         # create canvas
         logo_obj = Drawing(900, 200)
-        # add orange background
+        # add orange area
         logo_obj.add(Rect(0, 0, 200, 200, fillColor=global_storage.design.logo_orange, strokeWidth=1,
                           strokeColor=global_storage.design.logo_orange))
-        # add blue wing
+        # add blue area
         logo_obj.add(Ellipse(0, 290, 184, 268, fillColor=global_storage.design.logo_blue, strokeWidth=1,
                              strokeColor=global_storage.design.logo_blue))
         # add grey border

@@ -2,7 +2,7 @@ from re import IGNORECASE, finditer
 
 
 def analyze_comment(py_file_info, text):
-    """Searches for the specific text in comments
+    """Searches for the specific text in comments (case-insensitive)
 
     Returns set with locations of the issues
     """

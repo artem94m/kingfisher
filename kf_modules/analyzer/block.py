@@ -18,7 +18,7 @@ def analyze_block(py_file_info, block_name, operator):
 
         for node in ast_walk(py_file_info.tree):
             if (isinstance(node, type_of_node)):
-                # extract from body of the node unique node classes
+                # extract from the body of the node unique types of nodes
                 body_unique_nodes = {type(expr) for expr in node.body}
 
                 # if body_unique_nodes contains only Pass nodes - node is empty

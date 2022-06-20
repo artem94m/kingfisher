@@ -62,7 +62,7 @@ class ReportVulnerabilities():
         for fragment in fragments:
             # if fragment starts from KF_CODE_EXAMPLE keyword - print it as a preformatted text (like <pre> tag)
             if (fragment.startswith("KF_CODE_EXAMPLE")):
-                # extract code example (remove "KF_CODE_EXAMPLE" from the beginning of the fragment)
+                # extract code example itself (remove "KF_CODE_EXAMPLE" from the beginning of the fragment)
                 _, code_fragment = fragment.split("KF_CODE_EXAMPLE", 1)
 
                 # add line break for very long lines (>80)
@@ -97,10 +97,10 @@ class ReportVulnerabilities():
         }
 
         if (severity in severity_to_style):
-            style = severity_to_style[severity]
+            severity_style = severity_to_style[severity]
 
             result.append(Paragraph("Severity", global_storage.design.styles["H3"]))
-            result.append(Paragraph(severity, global_storage.design.styles[style]))
+            result.append(Paragraph(escape(severity), global_storage.design.styles[severity_style]))
 
         return result
 
@@ -113,13 +113,14 @@ class ReportVulnerabilities():
         for vuln_file in files_with_issues:
             # add file path
             vulnerable_file = f"File {vuln_file.file_path}"
-            result.append(Paragraph(vulnerable_file, global_storage.design.styles["IssuesVulnerableFile"]))
+            result.append(Paragraph(escape(vulnerable_file), global_storage.design.styles["IssuesVulnerableFile"]))
 
             for issue_location in vuln_file.issues:
                 # add issue location
                 line_no, pos = issue_location
-                issue_location = f"Line {line_no}, Position {pos}"
-                result.append(Paragraph(issue_location, global_storage.design.styles["IssuesVulnerableCodeLocation"]))
+                issue_location_text = f"Line {line_no}, Position {pos}"
+                result.append(Paragraph(issue_location_text,
+                                        global_storage.design.styles["IssuesVulnerableCodeLocation"]))
                 # add code listing
                 result.append(self.get_code_listing(line_no, vuln_file.lines_with_issues[line_no]))
                 # add free space
@@ -139,23 +140,23 @@ class ReportVulnerabilities():
 
         # prepare cells of the table (listing)
         cells = []
-        is_line_no_processed = False
+        is_line_no_row_processed = False
         for line in listing_lines:
             # first line of table with the source code (listing) contains
             # line_no and first max_line_length symbols
             # of the original line_content
-            if (not is_line_no_processed):
+            if (not is_line_no_row_processed):
                 cells.append([Paragraph(str(line_no), global_storage.design.styles["VulnerableCodeLineNo"]),
                               Preformatted(line, global_storage.design.styles["VulnerableCodeLine"])])
-                is_line_no_processed = True
+                is_line_no_row_processed = True
             # other symbols of line_content are also splitted into max_line_length chunks
-            # and added without line_no, but starts with ">" symbol
+            # and added without line_no
             else:
-                cells.append(["", Preformatted(">" + line, global_storage.design.styles["VulnerableCodeLine"])])
+                cells.append(["", Preformatted(line, global_storage.design.styles["VulnerableCodeLine"])])
 
-        # create listing (it is actually Table)
+        # create listing (it is actually a Table)
         listing = Table(cells, style=global_storage.design.vulnerable_code_listing, rowHeights=5 * mm)
-        # set width of the column with line numbers according to the length of the line_no value (3mm per digit + 2mm)
+        # set width of the column with line_no according to the length of the line_no value (3mm per digit + 2mm)
         listing._argW[0] = (len(str(line_no)) * 3 + 2) * mm
 
         return listing
