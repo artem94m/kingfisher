@@ -2,6 +2,10 @@
     max-width: 100%;
 }
 
+.wy-nav-top {
+    background-color: #107f84 !important;
+}
+
 .wy-side-nav-search {
     border-right: 1px solid #e1e4e5;
 }
